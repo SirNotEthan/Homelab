@@ -1,0 +1,23 @@
+# Architecture decision records
+
+Architecture decision records (ADRs) preserve why a significant choice was made,
+including its trade-offs.
+
+## Index
+
+| ADR | Decision | Status |
+|---|---|---|
+| [0001](0001-k3s.md) | Use k3s as the Kubernetes distribution | Accepted |
+| [0002](0002-tailscale.md) | Use Tailscale for remote administration | Accepted |
+| [0003](0003-homepage.md) | Use Homepage as the service dashboard | Accepted |
+| [0004](0004-gitops.md) | Adopt GitOps with Argo CD | Accepted |
+
+## Lifecycle
+
+New ADRs use the next four-digit sequence number. A decision begins as
+`Proposed`, then becomes `Accepted`, `Rejected`, `Deprecated`, or `Superseded`.
+Do not rewrite an accepted decision to hide its original context; create a new
+ADR and link both records.
+
+Each ADR should contain status, context, decision, consequences, and alternatives
+considered.

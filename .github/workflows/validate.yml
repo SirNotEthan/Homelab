@@ -1,0 +1,32 @@
+name: Validate repository
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  foundation:
+    name: Foundation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Validate repository foundation
+        run: make validate
+
+      - name: Reject common secret file types
+        shell: bash
+        run: |
+          if find . -path ./.git -prune -o \
+            \( -name '*.key' -o -name '*.pem' -o -name '*.p12' \
+            -o -name '*.pfx' -o -name '*.kubeconfig' -o -name '.env' \) \
+            -print -quit | grep -q .; then
+            echo 'A file matching a forbidden secret pattern is tracked.'
+            exit 1
+          fi
