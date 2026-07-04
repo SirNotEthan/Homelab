@@ -16,6 +16,8 @@ follow [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- Rebuilt and verified `m910q-01` using the automated Ubuntu and Tailscale
+  baseline, including current firmware, UEFI Secure Boot, and full-disk LVM.
 - Rebuilt `m700-03` with Ubuntu Server 26.04 LTS, current Lenovo firmware,
   Ethernet-only networking, and a static LAN address.
 

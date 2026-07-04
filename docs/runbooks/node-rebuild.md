@@ -17,13 +17,19 @@ should replace repeatable steps without removing the recovery documentation.
 
 ## Install Ubuntu
 
-1. Boot the Ubuntu installer in UEFI mode.
-2. Set the planned hostname.
-3. Use DHCP during installation; apply the static address only after SSH works.
-4. Use the entire intended system disk and confirm the destructive selection.
-5. Create the administrative user and enable OpenSSH Server.
-6. Do not install optional featured snaps.
-7. Reboot, remove the installation media, and confirm local login.
+1. Start the recovery timer immediately before powering on the target. Record
+   both start and finish timestamps; terminal timestamps are not a substitute.
+2. Set UEFI-only boot, disable CSM, enable Secure Boot, and boot the installer
+   entry explicitly labelled UEFI.
+3. Set the planned hostname.
+4. Keep Ethernet connected and confirm the installer enables IPv4 DHCP.
+5. Use DHCP during installation; apply the static address only after SSH works.
+6. Use the entire intended system disk and confirm the destructive selection.
+7. Create the administrative user and enable OpenSSH Server.
+8. Do not install optional featured snaps.
+9. Reboot, remove the installation media, and confirm local login.
+10. Before continuing, verify that `/sys/firmware/efi` exists, Secure Boot is
+    enabled, and `/boot/efi` is mounted.
 
 ## Verify the initial system
 
@@ -126,6 +132,20 @@ down. Record firmware, OS, address, storage, and validation date in
 | Date | Host | Result | Duration |
 |---|---|---|---|
 | 2026-07-04 | `m700-03` | Successful manual rebuild | Not timed |
+| 2026-07-04 | `m910q-01` | Successful automated baseline and Tailscale recovery | Not captured; at least two hours observed |
 
-The next exercise must use the automated baseline and record elapsed recovery
-time plus every manual intervention.
+The `m910q-01` exercise required a reinstall after the first installation was
+found to use Legacy BIOS mode. IPv4 DHCP was also absent from the initial
+Netplan configuration, the installer-created LVM volume required expansion,
+and current Lenovo firmware required a manually prepared DOS USB. The USB had
+to contain both the FreeDOS boot files and every file from Lenovo's firmware
+package; it was removed immediately after flashing to prevent an update loop.
+UEFI-only boot and Secure Boot were restored and verified afterwards.
+
+The Ansible baseline and Tailscale roles completed successfully and were
+idempotent. LAN and Tailscale SSH, time synchronisation, service health, DNS,
+storage capacity, and NVMe SMART health were verified.
+
+Because no start timestamp or timer was captured, this does not satisfy the
+timed-recovery roadmap item. The next exercise must record start and finish
+timestamps plus every manual intervention.
