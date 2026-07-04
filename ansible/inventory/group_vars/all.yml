@@ -1,0 +1,22 @@
+---
+# Ubuntu 26.04 defaults to sudo-rs, whose prompt is not yet reliably
+# recognised by Ansible's sudo become plugin. Ubuntu retains sudo.ws as its
+# compatibility implementation, so use it for automated privilege escalation.
+ansible_become_exe: /usr/bin/sudo.ws
+
+homelab_timezone: Europe/London
+
+homelab_common_packages:
+  - ca-certificates
+  - chrony
+  - curl
+  - git
+  - gnupg
+  - jq
+  - smartmontools
+  - unattended-upgrades
+  - vim
+
+homelab_apply_full_upgrade: false
+homelab_manage_ssh: true
+homelab_unattended_upgrades: true

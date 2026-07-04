@@ -1,0 +1,6 @@
+---
+homelab_timezone: Etc/UTC
+homelab_common_packages: []
+homelab_apply_full_upgrade: false
+homelab_manage_ssh: true
+homelab_unattended_upgrades: true

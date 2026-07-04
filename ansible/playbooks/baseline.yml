@@ -1,0 +1,9 @@
+---
+- name: Apply the Ubuntu host baseline
+  hosts: homelab
+  become: true
+  gather_facts: true
+  serial: 1
+
+  roles:
+    - role: common

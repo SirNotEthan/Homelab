@@ -30,3 +30,11 @@ jobs:
             echo 'A file matching a forbidden secret pattern is tracked.'
             exit 1
           fi
+
+      - name: Reject literal LAN addresses
+        shell: bash
+        run: |
+          if git grep -nE '192\.168\.'; then
+            echo 'Literal LAN addresses must be kept in the ignored private inventory.'
+            exit 1
+          fi

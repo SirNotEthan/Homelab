@@ -8,6 +8,7 @@ follow [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Initial Ansible controller configuration and Ubuntu common role.
 - Verified IPv4 address plan and single-router network topology.
 - Initial M700 node rebuild runbook.
 - ADR-0005 documenting the LAN topology and address allocation.

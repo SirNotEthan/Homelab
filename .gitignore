@@ -13,6 +13,11 @@
 secrets/
 credentials/
 
+# Private Ansible controller data
+ansible/inventory/hosts.yml
+ansible/*.retry
+ansible/.vault-password
+
 *.log
 
 node_modules/
