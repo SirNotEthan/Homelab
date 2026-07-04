@@ -1,0 +1,47 @@
+---
+- name: Verify the managed operating system
+  ansible.builtin.assert:
+    that:
+      - ansible_facts.distribution == "Ubuntu"
+      - ansible_facts.distribution_release | length > 0
+    fail_msg: The Tailscale role currently supports Ubuntu only.
+
+- name: Create the APT keyring directory
+  ansible.builtin.file:
+    path: "{{ tailscale_keyring_path | dirname }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Install the Tailscale repository signing key
+  ansible.builtin.get_url:
+    url: >-
+      https://pkgs.tailscale.com/{{ tailscale_package_track }}/ubuntu/
+      {{- ansible_facts.distribution_release }}.noarmor.gpg
+    dest: "{{ tailscale_keyring_path }}"
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Install the official Tailscale repository definition
+  ansible.builtin.get_url:
+    url: >-
+      https://pkgs.tailscale.com/{{ tailscale_package_track }}/ubuntu/
+      {{- ansible_facts.distribution_release }}.tailscale-keyring.list
+    dest: "{{ tailscale_repository_path }}"
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Install Tailscale
+  ansible.builtin.apt:
+    name: tailscale
+    state: present
+    update_cache: true
+
+- name: Enable the Tailscale daemon
+  ansible.builtin.systemd_service:
+    name: tailscaled.service
+    enabled: true
+    state: started

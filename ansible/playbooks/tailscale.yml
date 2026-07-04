@@ -1,0 +1,9 @@
+---
+- name: Install Tailscale on Ubuntu hosts
+  hosts: homelab
+  become: true
+  gather_facts: true
+  serial: 1
+
+  roles:
+    - role: tailscale

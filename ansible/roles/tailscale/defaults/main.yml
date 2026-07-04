@@ -1,0 +1,4 @@
+---
+tailscale_package_track: stable
+tailscale_keyring_path: /usr/share/keyrings/tailscale-archive-keyring.gpg
+tailscale_repository_path: /etc/apt/sources.list.d/tailscale.list

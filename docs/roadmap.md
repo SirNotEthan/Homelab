@@ -15,8 +15,8 @@ complete only when its documentation and recovery path match the implementation.
 
 - [x] Remove double NAT and establish the LAN addressing plan
 - [ ] Decide DNS and certificate approach
-- [ ] Define and automate the Ubuntu host baseline
-- [ ] Automate Tailscale and host configuration
+- [x] Define and automate the Ubuntu host baseline
+- [x] Automate Tailscale and host configuration
 - [x] Rebuild one pilot node from a clean installation
 - [ ] Record a timed node-rebuild exercise
 

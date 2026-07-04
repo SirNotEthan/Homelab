@@ -8,6 +8,7 @@ follow [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Automated installation of Tailscale from its official Ubuntu repository.
 - Initial Ansible controller configuration and Ubuntu common role.
 - Verified IPv4 address plan and single-router network topology.
 - Initial M700 node rebuild runbook.
