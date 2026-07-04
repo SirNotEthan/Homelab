@@ -11,6 +11,7 @@ including its trade-offs.
 | [0002](0002-tailscale.md) | Use Tailscale for remote administration | Accepted |
 | [0003](0003-homepage.md) | Use Homepage as the service dashboard | Accepted |
 | [0004](0004-gitops.md) | Adopt GitOps with Argo CD | Accepted |
+| [0005](0005-network-baseline.md) | Use the EE hub as the single LAN router | Accepted |
 
 ## Lifecycle
 

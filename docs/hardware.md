@@ -8,13 +8,24 @@ disk health, and actual installed memory before automation depends on them.
 | m910q-01 | Lenovo ThinkCentre M910q | i5-6500T | 16GB | 256GB SSD | k3s control plane |
 | m700-01 | Lenovo ThinkCentre M700 | i3-6100 | 8GB | 120GB SSD | k3s worker |
 | m700-02 | Lenovo ThinkCentre M700 | i3-6100 | 8GB | 120GB SSD | k3s worker |
-| m700-03 | Lenovo ThinkCentre M700 | i3-6100 | 8GB | 120GB SSD | k3s worker/lab |
+| m700-03 | Lenovo ThinkCentre M700 Tiny | i3-6100 | 8GB | 120GB SSD | k3s worker/lab |
 | hp-utility-01 | HP Pavilion qa111na | AMD A10-8700P | 8GB | 2TB HDD | backup/utility |
 
-## Host baseline
+## Verified node baseline
 
-- Ubuntu Server LTS version: TBD
-- Firmware and BIOS configuration: TBD
+| Host | OS | Firmware | Network | Root filesystem | Verified |
+|---|---|---|---|---|---|
+| `m700-03` | Ubuntu Server 26.04 LTS | `FWKTBFA` | Static Ethernet | 106.7 GB | 2026-07-04 |
+
+The `m700-03` installation verified UEFI boot, Secure Boot, wired networking,
+DNS resolution, SSH access, and use of the full LVM volume. Wi-Fi is disabled.
+It is the pilot node for the repeatable host baseline.
+
+## Target host baseline
+
+- Ubuntu Server 26.04 LTS
+- Current vendor firmware applied before cluster installation
+- UEFI boot with Secure Boot enabled and Legacy/CSM disabled
 - SSH access: key-based
 - Remote administration: Tailscale
 - Time synchronization: distribution default, to be verified
@@ -28,7 +39,7 @@ disk health, and actual installed memory before automation depends on them.
   Kubernetes control-plane failure domain.
 - Stateful workload placement must account for actual disk capacity and health.
 
-## To record before bootstrap
+## To verify on remaining hosts
 
 - System serial numbers in a private inventory, if required for warranty use
 - BIOS versions and important settings

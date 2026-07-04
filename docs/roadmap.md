@@ -13,10 +13,11 @@ complete only when its documentation and recovery path match the implementation.
 
 ## v0.2 - Host and network baseline
 
-- [ ] Decide LAN addressing, DNS, and certificate approach
-- [ ] Define and test the Ubuntu host baseline
+- [x] Remove double NAT and establish the LAN addressing plan
+- [ ] Decide DNS and certificate approach
+- [ ] Define and automate the Ubuntu host baseline
 - [ ] Automate Tailscale and host configuration
-- [ ] Bootstrap one node from a clean installation
+- [x] Rebuild one pilot node from a clean installation
 - [ ] Record a timed node-rebuild exercise
 
 ## v0.3 - k3s foundation

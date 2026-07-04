@@ -75,6 +75,7 @@ documentation and configuration only.
 - [Storage](docs/storage.md)
 - [Backups](docs/backups.md)
 - [Disaster recovery](docs/disaster-recovery.md)
+- [Node rebuild runbook](docs/runbooks/node-rebuild.md)
 - [Project standards](docs/standards.md)
 - [Roadmap](docs/roadmap.md)
 - [Architecture decisions](docs/decisions/README.md)
