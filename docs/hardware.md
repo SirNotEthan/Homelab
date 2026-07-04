@@ -17,6 +17,7 @@ disk health, and actual installed memory before automation depends on them.
 |---|---|---|---|---|---|
 | `m910q-01` | Ubuntu Server 26.04 LTS | `M1AKT5AA` | Static Ethernet | 232 GB | 2026-07-04 |
 | `m700-01` | Ubuntu Server 26.04 LTS | `FWKTBFA` | Static Ethernet | 115 GB | 2026-07-04 |
+| `m700-02` | Ubuntu Server 26.04 LTS | `FWKTBFA` | Static Ethernet | 115 GB | 2026-07-04 |
 | `m700-03` | Ubuntu Server 26.04 LTS | `FWKTBFA` | Static Ethernet | 106.7 GB | 2026-07-04 |
 
 The verified installations use UEFI boot, Secure Boot, wired networking,

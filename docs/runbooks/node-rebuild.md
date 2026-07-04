@@ -108,6 +108,11 @@ support transcript.
 6. Remove update media after successful completion to avoid a boot loop.
 7. Restore UEFI-only boot and Secure Boot if the update process changed them.
 
+Do not prepare or boot update media until the installed version has been
+compared with the verified package version. Label firmware media with its exact
+model family and version; never assume media prepared for another node is
+compatible.
+
 For the ThinkCentre M700 Tiny pilot, firmware `FWKTBFA` was installed using
 Lenovo's USB drive package.
 
@@ -124,8 +129,9 @@ df -h /
 ```
 
 Also verify SSH from an administrative workstation and confirm that Wi-Fi is
-down. Record firmware, OS, address, storage, and validation date in
-`docs/hardware.md`.
+down. Test both the human workstation key and the dedicated Ansible key before
+password authentication is disabled. Record firmware, OS, address, storage,
+and validation date in `docs/hardware.md`.
 
 ## Pilot record
 
@@ -134,6 +140,7 @@ down. Record firmware, OS, address, storage, and validation date in
 | 2026-07-04 | `m700-03` | Successful manual rebuild | Not timed |
 | 2026-07-04 | `m910q-01` | Successful automated baseline and Tailscale recovery | Not captured; at least two hours observed |
 | 2026-07-04 | `m700-01` | Successful automated baseline and Tailscale recovery | 29 minutes 40 seconds |
+| 2026-07-04 | `m700-02` | Successful recovery with two corrected interventions | 51 minutes 22 seconds |
 
 The `m910q-01` exercise required a reinstall after the first installation was
 found to use Legacy BIOS mode. IPv4 DHCP was also absent from the initial
@@ -152,3 +159,8 @@ timed-recovery roadmap item. The later `m700-01` exercise recorded exact start
 and finish timestamps and satisfied that requirement without an unplanned
 intervention. Its detailed evidence is in
 [`2026-07-04-m700-01.md`](../recovery-exercises/2026-07-04-m700-01.md).
+
+The `m700-02` exercise confirmed that firmware version must be checked before
+attempting to boot update media and that both administrative keys must be
+tested before applying key-only SSH policy. Its evidence is in
+[`2026-07-04-m700-02.md`](../recovery-exercises/2026-07-04-m700-02.md).

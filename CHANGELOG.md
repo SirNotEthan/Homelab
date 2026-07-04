@@ -18,6 +18,8 @@ follow [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- Rebuilt and verified `m700-02` in 51 minutes 22 seconds, recording firmware
+  media and SSH-key recovery improvements in the node runbook.
 - Completed the first timed node recovery on `m700-01` in 29 minutes 40
   seconds, including the automated baseline, Tailscale, and final validation.
 - Rebuilt and verified `m910q-01` using the automated Ubuntu and Tailscale
