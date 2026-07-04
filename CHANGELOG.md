@@ -16,6 +16,8 @@ follow [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- Completed the first timed node recovery on `m700-01` in 29 minutes 40
+  seconds, including the automated baseline, Tailscale, and final validation.
 - Rebuilt and verified `m910q-01` using the automated Ubuntu and Tailscale
   baseline, including current firmware, UEFI Secure Boot, and full-disk LVM.
 - Rebuilt `m700-03` with Ubuntu Server 26.04 LTS, current Lenovo firmware,

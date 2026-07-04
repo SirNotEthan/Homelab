@@ -16,12 +16,14 @@ disk health, and actual installed memory before automation depends on them.
 | Host | OS | Firmware | Network | Root filesystem | Verified |
 |---|---|---|---|---|---|
 | `m910q-01` | Ubuntu Server 26.04 LTS | `M1AKT5AA` | Static Ethernet | 232 GB | 2026-07-04 |
+| `m700-01` | Ubuntu Server 26.04 LTS | `FWKTBFA` | Static Ethernet | 115 GB | 2026-07-04 |
 | `m700-03` | Ubuntu Server 26.04 LTS | `FWKTBFA` | Static Ethernet | 106.7 GB | 2026-07-04 |
 
-Both verified installations use UEFI boot, Secure Boot, wired networking,
+The verified installations use UEFI boot, Secure Boot, wired networking,
 key-only SSH, Tailscale, and the full intended LVM volume. NVMe SMART health
 passed on `m910q-01`. The `m700-03` is the manual pilot and `m910q-01` is the
-first node recovered with the automated host baseline.
+first node recovered with the automated host baseline. The `m700-01` recovery
+provided the first complete timing measurement.
 
 ## Target host baseline
 

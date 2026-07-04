@@ -133,6 +133,7 @@ down. Record firmware, OS, address, storage, and validation date in
 |---|---|---|---|
 | 2026-07-04 | `m700-03` | Successful manual rebuild | Not timed |
 | 2026-07-04 | `m910q-01` | Successful automated baseline and Tailscale recovery | Not captured; at least two hours observed |
+| 2026-07-04 | `m700-01` | Successful automated baseline and Tailscale recovery | 29 minutes 40 seconds |
 
 The `m910q-01` exercise required a reinstall after the first installation was
 found to use Legacy BIOS mode. IPv4 DHCP was also absent from the initial
@@ -147,5 +148,7 @@ idempotent. LAN and Tailscale SSH, time synchronisation, service health, DNS,
 storage capacity, and NVMe SMART health were verified.
 
 Because no start timestamp or timer was captured, this does not satisfy the
-timed-recovery roadmap item. The next exercise must record start and finish
-timestamps plus every manual intervention.
+timed-recovery roadmap item. The later `m700-01` exercise recorded exact start
+and finish timestamps and satisfied that requirement without an unplanned
+intervention. Its detailed evidence is in
+[`2026-07-04-m700-01.md`](../recovery-exercises/2026-07-04-m700-01.md).

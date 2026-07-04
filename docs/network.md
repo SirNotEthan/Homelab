@@ -35,7 +35,7 @@ conflicts before assignment and configured declaratively on each host.
 |---|---|---|
 | Static infrastructure block | Network infrastructure | Reserved |
 | Static host address | `m910q-01` | Active |
-| Static host address | `m700-01` | Planned |
+| Static host address | `m700-01` | Active |
 | Static host address | `m700-02` | Planned |
 | Static host address | `m700-03` | Active |
 | Static host address | `hp-utility-01` | Planned |
@@ -51,7 +51,7 @@ will be selected and documented during the k3s milestone.
 | Host | Intended role | LAN assignment | Tailscale address |
 |---|---|---|---|
 | `m910q-01` | k3s control plane | Static, active | Active |
-| `m700-01` | k3s worker | Static, private inventory | Planned |
+| `m700-01` | k3s worker | Static, active | Active |
 | `m700-02` | k3s worker | Static, private inventory | Planned |
 | `m700-03` | k3s worker/lab | Static, active | Active |
 | `hp-utility-01` | Backup/utility | Static, private inventory | Planned |

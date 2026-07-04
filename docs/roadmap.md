@@ -18,7 +18,7 @@ complete only when its documentation and recovery path match the implementation.
 - [x] Define and automate the Ubuntu host baseline
 - [x] Automate Tailscale and host configuration
 - [x] Rebuild one pilot node from a clean installation
-- [ ] Record a timed node-rebuild exercise
+- [x] Record a timed node-rebuild exercise
 
 ## v0.3 - k3s foundation
 
