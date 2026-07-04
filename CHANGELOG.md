@@ -8,6 +8,8 @@ follow [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- ADR-0006 selecting split DNS under `lab.sirnotethan.uk` and Let's Encrypt
+  certificates issued through Cloudflare DNS-01.
 - Automated installation of Tailscale from its official Ubuntu repository.
 - Initial Ansible controller configuration and Ubuntu common role.
 - Verified IPv4 address plan and single-router network topology.

@@ -73,10 +73,16 @@ IPv6 addressing and firewall policy has been documented and tested.
 
 ## DNS and ingress
 
-No domain is currently owned. `home.arpa` is the candidate private namespace,
-but the internal resolver and certificate strategy remain undecided. Publicly
-trusted certificates, a private certificate authority, and Tailscale-provided
-names will be evaluated before ingress is considered stable.
+The registered domain is `sirnotethan.uk`. Private applications use the split
+DNS namespace `lab.sirnotethan.uk`; host administration continues to use
+Tailscale MagicDNS.
+
+Cloudflare is authoritative publicly but does not publish private application
+addresses. An Ansible-managed resolver on `hp-utility-01` will answer the
+private application zone for approved LAN and Tailscale clients. cert-manager
+will obtain Let's Encrypt certificates through Cloudflare DNS-01 challenges,
+so no inbound router ports are required. See
+[ADR-0006](decisions/0006-dns-certificates.md).
 
 ## Planned segmentation
 
@@ -86,8 +92,6 @@ documented as allowed flows rather than broad trust between zones.
 
 ## Open decisions
 
-- Internal DNS resolver and domain strategy
-- Certificate issuer and trust distribution
 - Kubernetes Service and Pod CIDRs
 - Load-balancer implementation
 - IPv6 addressing and firewall policy

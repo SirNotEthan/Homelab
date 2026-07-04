@@ -14,7 +14,7 @@ complete only when its documentation and recovery path match the implementation.
 ## v0.2 - Host and network baseline
 
 - [x] Remove double NAT and establish the LAN addressing plan
-- [ ] Decide DNS and certificate approach
+- [x] Decide DNS and certificate approach
 - [x] Define and automate the Ubuntu host baseline
 - [x] Automate Tailscale and host configuration
 - [x] Rebuild one pilot node from a clean installation

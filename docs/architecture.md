@@ -64,8 +64,8 @@ external API; it is not required merely for consistency.
 - Longhorn replication cannot replace an independent backup.
 - Tailscale availability is required for the planned remote administration path.
 - A single physical site remains vulnerable until off-site backups are active.
-- DNS, address allocation, certificate issuer, and storage sizing are still to
-  be decided and are tracked in the roadmap.
+- Address allocation and the DNS/certificate approach are documented; storage
+  sizing and later network segmentation remain roadmap work.
 
 ## Related documents
 

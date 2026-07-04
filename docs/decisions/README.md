@@ -12,6 +12,7 @@ including its trade-offs.
 | [0003](0003-homepage.md) | Use Homepage as the service dashboard | Accepted |
 | [0004](0004-gitops.md) | Adopt GitOps with Argo CD | Accepted |
 | [0005](0005-network-baseline.md) | Use the EE hub as the single LAN router | Accepted |
+| [0006](0006-dns-certificates.md) | Use split DNS and public certificates for private services | Accepted |
 
 ## Lifecycle
 

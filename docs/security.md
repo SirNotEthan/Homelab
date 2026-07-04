@@ -28,6 +28,11 @@ periodically.
 Human and automation identities should be separate. Long-lived automation
 tokens are rotated and granted only the scope required for their workload.
 
+The cert-manager Cloudflare token is restricted to DNS editing and zone reads
+for `sirnotethan.uk`. The global Cloudflare API key must not be used. Public DNS
+does not contain private service addresses, and certificate issuance does not
+authorise public network exposure.
+
 ## Secrets management
 
 The secrets implementation is an open architecture decision. Until one is
