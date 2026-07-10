@@ -91,9 +91,10 @@ resolver on `hp-utility-01`. The resolver is reachable over both LAN and
 Tailscale for approved clients. Exact resolver and service addresses are kept
 in the private inventory.
 
-When the cluster ingress address exists, split DNS will resolve
-`apps.lab.sirnotethan.uk` and `*.apps.lab.sirnotethan.uk` to that private
-MetalLB address.
+Split DNS resolves `apps.lab.sirnotethan.uk` and
+`*.apps.lab.sirnotethan.uk` to the private MetalLB ingress address when clients
+query the homelab resolver. Client-wide or Tailscale split DNS configuration is
+tracked separately from resolver deployment.
 
 ## Planned segmentation
 

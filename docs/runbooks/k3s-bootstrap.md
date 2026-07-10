@@ -82,9 +82,30 @@ workers:
 - Traefik and ServiceLB were intentionally disabled for later managed ingress
   and MetalLB installation.
 
+## MetalLB installation
+
+MetalLB was installed in native mode after the cluster nodes were ready. The
+address pool and advertisement were applied from private manifests because the
+exact service range is private inventory data.
+
+Validation evidence:
+
+- The MetalLB controller and one speaker per Kubernetes node reported
+  `Running`.
+- The configured address pool matched the private service block.
+- A temporary nginx `LoadBalancer` service received the reserved private
+  ingress address.
+- A Windows client successfully opened TCP port 80 on that address.
+- Split DNS resolved both `apps.lab.sirnotethan.uk` and a wildcard child name
+  to the same reserved ingress address when queried through the private
+  resolver.
+
+Windows name resolution without an explicit DNS server still uses the client
+default resolver. Client-wide or split DNS configuration is a separate step;
+until then, use the private resolver explicitly when testing names.
+
 ## Follow-up
 
 - Automate the k3s installation once the manual bootstrap is stable.
-- Install MetalLB and bind the reserved private ingress address.
 - Install the chosen ingress controller and cert-manager.
 - Document datastore backup and restore before treating the cluster as durable.
