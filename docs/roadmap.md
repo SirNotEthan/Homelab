@@ -24,6 +24,8 @@ complete only when its documentation and recovery path match the implementation.
 
 - [x] Bootstrap the control plane and workers
 - [ ] Configure ingress and certificate management
+  - [x] Install and validate Traefik ingress
+  - [ ] Install cert-manager and issue the wildcard certificate
 - [ ] Deploy and test persistent storage
 - [ ] Define namespaces, resource limits, and network policies
 - [ ] Back up and restore the k3s datastore

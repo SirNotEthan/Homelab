@@ -107,8 +107,25 @@ The resolver currently returns duplicate identical answers for the base
 application name and wildcard child names. This is harmless but should be
 simplified when the DNS role is next refactored.
 
+## Traefik ingress installation
+
+Traefik was installed with Helm into the `ingress-system` namespace rather than
+using the packaged k3s Traefik deployment. The Helm values are private for now
+because they include the reserved ingress address.
+
+Validation evidence:
+
+- Two Traefik replicas reported `Running`.
+- The Traefik service used `LoadBalancer` type and received the reserved
+  private MetalLB ingress address.
+- The `traefik` ingress class was created as the default ingress class.
+- Windows successfully opened TCP ports 80 and 443 on
+  `apps.lab.sirnotethan.uk`.
+
 ## Follow-up
 
 - Automate the k3s installation once the manual bootstrap is stable.
-- Install the chosen ingress controller and cert-manager.
+- Move the Traefik Helm values into declarative GitOps management without
+  exposing private address data.
+- Install cert-manager.
 - Document datastore backup and restore before treating the cluster as durable.
