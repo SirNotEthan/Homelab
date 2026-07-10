@@ -33,6 +33,9 @@ for `sirnotethan.uk`. The global Cloudflare API key must not be used. Public DNS
 does not contain private service addresses, and certificate issuance does not
 authorise public network exposure.
 
+Certificate automation uses DNS-01 validation. ACME challenge records are
+temporary public DNS records; application A and AAAA records remain private.
+
 ## Secrets management
 
 The secrets implementation is an open architecture decision. Until one is

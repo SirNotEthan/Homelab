@@ -45,6 +45,9 @@ recovery rather than an automatic failover.
 Exact commands will be added alongside bootstrap and backup automation. Until
 then, this procedure is a plan, not a tested runbook.
 
+Use the [cluster status runbook](runbooks/cluster-status.md) before and after
+recovery actions to capture platform health and remaining drift.
+
 ## Complete site loss
 
 Recovery requires a fresh trusted device, access to the Git remote, off-site

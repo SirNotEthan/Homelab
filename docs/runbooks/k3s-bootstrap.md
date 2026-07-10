@@ -122,10 +122,65 @@ Validation evidence:
 - Windows successfully opened TCP ports 80 and 443 on
   `apps.lab.sirnotethan.uk`.
 
+## HTTP ingress smoke test
+
+A temporary `whoami` deployment, service, and standard Kubernetes Ingress were
+created in the `smoke-test` namespace.
+
+Validation evidence:
+
+- `whoami.apps.lab.sirnotethan.uk` resolved through split DNS to the private
+  MetalLB ingress address.
+- A Windows client received HTTP 200 from the whoami application through
+  Traefik.
+- Browser access to the same host displayed the request headers forwarded by
+  Traefik.
+
+## cert-manager and HTTPS validation
+
+cert-manager was installed with Helm into the `cert-manager` namespace. The
+Cloudflare API token was stored only as a Kubernetes Secret and was not written
+to Git.
+
+Validation evidence:
+
+- cert-manager, cainjector, and webhook pods reported `Running`.
+- A Let's Encrypt staging wildcard certificate for the application namespace
+  issued successfully.
+- A Let's Encrypt production wildcard certificate for the application namespace
+  issued successfully.
+- The production TLS Secret was copied into the `smoke-test` namespace for the
+  temporary whoami Ingress test.
+- A Windows client received HTTP 200 from
+  `https://whoami.apps.lab.sirnotethan.uk` with a trusted certificate.
+
+## Longhorn storage installation
+
+Longhorn was installed with Helm into the `longhorn-system` namespace after the
+cluster, ingress, DNS, and certificate path were working. Host prerequisites
+were applied to all Kubernetes nodes before installation, including iSCSI, NFS,
+device-mapper, and crypto tooling.
+
+The cluster uses a dedicated default storage class named `longhorn-2replica` for
+new application volumes. The older Longhorn-created `longhorn` storage class and
+k3s `local-path` storage class are not default classes.
+
+Validation evidence:
+
+- Longhorn pods reported `Running`.
+- All Kubernetes nodes reported ready and schedulable in Longhorn.
+- `longhorn-2replica` was the only default storage class.
+- A smoke-test PVC using `longhorn-2replica` bound successfully.
+- A smoke-test pod mounted the PVC and wrote data successfully.
+- The test volume reported `healthy` with two running replicas.
+
 ## Follow-up
 
 - Automate the k3s installation once the manual bootstrap is stable.
 - Move the Traefik Helm values into declarative GitOps management without
   exposing private address data.
-- Install cert-manager.
+- Move cert-manager issuers and certificate requests into declarative GitOps
+  management without exposing API tokens or private keys.
+- Move Longhorn installation and storage smoke tests into declarative GitOps
+  management.
 - Document datastore backup and restore before treating the cluster as durable.
