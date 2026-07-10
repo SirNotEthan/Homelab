@@ -92,9 +92,9 @@ Tailscale for approved clients. Exact resolver and service addresses are kept
 in the private inventory.
 
 Split DNS resolves `apps.lab.sirnotethan.uk` and
-`*.apps.lab.sirnotethan.uk` to the private MetalLB ingress address when clients
-query the homelab resolver. Client-wide or Tailscale split DNS configuration is
-tracked separately from resolver deployment.
+`*.apps.lab.sirnotethan.uk` to the private MetalLB ingress address. Tailscale
+split DNS is configured for `lab.sirnotethan.uk`, so Tailscale clients can use
+these names without manually selecting the homelab resolver.
 
 ## Planned segmentation
 

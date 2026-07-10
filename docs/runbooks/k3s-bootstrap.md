@@ -99,10 +99,13 @@ Validation evidence:
 - Split DNS resolved both `apps.lab.sirnotethan.uk` and a wildcard child name
   to the same reserved ingress address when queried through the private
   resolver.
+- Tailscale split DNS was configured for `lab.sirnotethan.uk`, allowing the
+  Windows administrative workstation to resolve the application namespace
+  without an explicit DNS server.
 
-Windows name resolution without an explicit DNS server still uses the client
-default resolver. Client-wide or split DNS configuration is a separate step;
-until then, use the private resolver explicitly when testing names.
+The resolver currently returns duplicate identical answers for the base
+application name and wildcard child names. This is harmless but should be
+simplified when the DNS role is next refactored.
 
 ## Follow-up
 
