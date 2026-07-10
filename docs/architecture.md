@@ -41,6 +41,10 @@ workers, with `m700-03` also available for experimental workloads. This is not a
 high-availability control plane; losing `m910q-01` requires control-plane
 recovery until additional server nodes are introduced.
 
+The initial k3s cluster has been bootstrapped with packaged Traefik and
+ServiceLB disabled so ingress and load-balancing can be managed deliberately
+through the documented MetalLB and certificate approach.
+
 `hp-utility-01` is outside the cluster failure domain and is intended to hold
 backup copies and utility services. Its use as a backup target does not by
 itself satisfy the planned off-site copy requirement.

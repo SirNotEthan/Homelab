@@ -22,7 +22,7 @@ complete only when its documentation and recovery path match the implementation.
 
 ## v0.3 - k3s foundation
 
-- [ ] Bootstrap the control plane and workers
+- [x] Bootstrap the control plane and workers
 - [ ] Configure ingress and certificate management
 - [ ] Deploy and test persistent storage
 - [ ] Define namespaces, resource limits, and network policies

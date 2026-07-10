@@ -26,6 +26,18 @@ passed on `m910q-01`. The `m700-03` is the manual pilot and `m910q-01` is the
 first node recovered with the automated host baseline. The `m700-01` recovery
 provided the first complete timing measurement.
 
+## k3s node baseline
+
+| Host | k3s role | Status |
+|---|---|---|
+| `m910q-01` | control plane | Ready |
+| `m700-01` | worker | Ready |
+| `m700-02` | worker | Ready |
+| `m700-03` | worker | Ready |
+
+All nodes joined the initial k3s cluster on Ubuntu 26.04 LTS with k3s
+`v1.36.2+k3s1` and containerd `2.3.2-k3s2`.
+
 ## Target host baseline
 
 - Ubuntu Server 26.04 LTS
