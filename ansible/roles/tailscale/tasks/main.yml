@@ -14,6 +14,16 @@
     group: root
     mode: "0755"
 
+- name: Check for an existing Tailscale repository definition
+  ansible.builtin.stat:
+    path: "{{ tailscale_repository_path }}"
+  register: tailscale_repository
+
+- name: Check for an existing Tailscale repository signing key
+  ansible.builtin.stat:
+    path: "{{ tailscale_keyring_path }}"
+  register: tailscale_keyring
+
 - name: Install the Tailscale repository signing key
   ansible.builtin.get_url:
     url: >-
@@ -23,6 +33,9 @@
     owner: root
     group: root
     mode: "0644"
+  # get_url reports a false change for existing downloads in check mode because
+  # it cannot compare their full remote content without downloading it.
+  when: not ansible_check_mode or not tailscale_keyring.stat.exists
 
 - name: Install the official Tailscale repository definition
   ansible.builtin.get_url:
@@ -33,15 +46,24 @@
     owner: root
     group: root
     mode: "0644"
+  when: not ansible_check_mode or not tailscale_repository.stat.exists
 
 - name: Install Tailscale
   ansible.builtin.apt:
     name: tailscale
     state: present
     update_cache: true
+  # On a fresh host, check mode predicts the repository file without creating
+  # it, so APT cannot yet resolve the package. A real run installs it normally.
+  when: not ansible_check_mode or tailscale_repository.stat.exists
+
+- name: Gather installed package facts
+  ansible.builtin.package_facts:
+    manager: auto
 
 - name: Enable the Tailscale daemon
   ansible.builtin.systemd_service:
     name: tailscaled.service
     enabled: true
     state: started
+  when: not ansible_check_mode or "tailscale" in ansible_facts.packages

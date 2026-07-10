@@ -40,11 +40,18 @@
     update_cache: true
   when: homelab_apply_full_upgrade | bool
 
+- name: Gather installed package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
 - name: Enable chrony time synchronisation
   ansible.builtin.systemd_service:
     name: chrony.service
     enabled: true
     state: started
+  # A fresh-host check run predicts the package installation without actually
+  # creating the service unit. Skip only that impossible service preview.
+  when: not ansible_check_mode or "chrony" in ansible_facts.packages
 
 - name: Configure unattended security updates
   ansible.builtin.template:
