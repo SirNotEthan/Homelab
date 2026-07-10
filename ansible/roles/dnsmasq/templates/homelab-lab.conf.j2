@@ -27,5 +27,4 @@ address=/{{ record.name }}.{{ homelab_dns_zone }}/{{ record.address }}
 {% endfor %}
 {% for record in homelab_dns_wildcard_records %}
 address=/.{{ record.name }}.{{ homelab_dns_zone }}/{{ record.address }}
-address=/{{ record.name }}.{{ homelab_dns_zone }}/{{ record.address }}
 {% endfor %}

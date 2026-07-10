@@ -43,8 +43,10 @@ conflicts before assignment and configured declaratively on each host.
 | Dynamic client block | General DHCP clients | Active |
 | Gateway address | EE hub | Active |
 
-The load-balancer range is reserved in the address plan only. Its implementation
-will be selected and documented during the k3s milestone.
+The load-balancer range is reserved in the address plan only. Kubernetes
+`LoadBalancer` services will use MetalLB in layer-2 mode with exact addresses
+kept in the private inventory. See
+[ADR-0007](decisions/0007-kubernetes-load-balancer.md).
 
 ## Hostnames
 
@@ -89,6 +91,10 @@ resolver on `hp-utility-01`. The resolver is reachable over both LAN and
 Tailscale for approved clients. Exact resolver and service addresses are kept
 in the private inventory.
 
+When the cluster ingress address exists, split DNS will resolve
+`apps.lab.sirnotethan.uk` and `*.apps.lab.sirnotethan.uk` to that private
+MetalLB address.
+
 ## Planned segmentation
 
 VLANs are a future enhancement, not a v0.2 dependency. Likely trust zones are
@@ -98,6 +104,5 @@ documented as allowed flows rather than broad trust between zones.
 ## Open decisions
 
 - Kubernetes Service and Pod CIDRs
-- Load-balancer implementation
 - IPv6 addressing and firewall policy
 - Whether cluster storage traffic requires a dedicated network
