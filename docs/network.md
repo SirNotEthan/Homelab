@@ -38,7 +38,7 @@ conflicts before assignment and configured declaratively on each host.
 | Static host address | `m700-01` | Active |
 | Static host address | `m700-02` | Active |
 | Static host address | `m700-03` | Active |
-| Static host address | `hp-utility-01` | Planned |
+| Static host address | `hp-utility-01` | Active |
 | Static service block | Kubernetes load-balancer pool | Reserved |
 | Dynamic client block | General DHCP clients | Active |
 | Gateway address | EE hub | Active |
@@ -54,7 +54,7 @@ will be selected and documented during the k3s milestone.
 | `m700-01` | k3s worker | Static, active | Active |
 | `m700-02` | k3s worker | Static, active | Active |
 | `m700-03` | k3s worker/lab | Static, active | Active |
-| `hp-utility-01` | Backup/utility | Static, private inventory | Planned |
+| `hp-utility-01` | Backup/utility | Static, private inventory | Active |
 
 ## Access model
 
@@ -83,6 +83,11 @@ private application zone for approved LAN and Tailscale clients. cert-manager
 will obtain Let's Encrypt certificates through Cloudflare DNS-01 challenges,
 so no inbound router ports are required. See
 [ADR-0006](decisions/0006-dns-certificates.md).
+
+The initial private DNS implementation is an Ansible-managed `dnsmasq`
+resolver on `hp-utility-01`. The resolver is reachable over both LAN and
+Tailscale for approved clients. Exact resolver and service addresses are kept
+in the private inventory.
 
 ## Planned segmentation
 

@@ -1,11 +1,27 @@
 ---
 all:
+  vars:
+    ansible_user: ethan
+    ansible_ssh_private_key_file: ~/.ssh/homelab_ansible
+    ansible_python_interpreter: /usr/bin/python3
   children:
     homelab:
       hosts:
         m700-03:
           ansible_host: CHANGE_ME
+        hp-utility-01:
+          ansible_host: CHANGE_ME
+          ansible_become_exe: /usr/bin/sudo
+    dns_resolvers:
+      hosts:
+        hp-utility-01:
       vars:
-        ansible_user: ethan
-        ansible_ssh_private_key_file: ~/.ssh/homelab_ansible
-        ansible_python_interpreter: /usr/bin/python3
+        homelab_dns_listen_addresses:
+          - CHANGE_ME
+        homelab_dns_interfaces:
+          - CHANGE_ME
+        homelab_dns_upstream_servers:
+          - CHANGE_ME
+        homelab_dns_wildcard_records:
+          - name: CHANGE_ME
+            address: CHANGE_ME

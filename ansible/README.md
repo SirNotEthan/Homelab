@@ -106,6 +106,57 @@ Open the displayed authentication URL and sign in to the intended tailnet. No
 Tailscale auth key, access token, or device address belongs in this repository.
 Confirm the connection afterwards with `tailscale status`.
 
+## Configure private DNS
+
+Private DNS is served by `dnsmasq` on the host in the `dns_resolvers` inventory
+group. Exact resolver, upstream, and service addresses are private inventory
+data and must stay in `inventory/hosts.yml`.
+
+Example private inventory shape:
+
+```yaml
+dns_resolvers:
+  hosts:
+    hp-utility-01:
+  vars:
+    homelab_dns_listen_addresses:
+      - <resolver-lan-address>
+      - <resolver-tailscale-address>
+    homelab_dns_interfaces:
+      - <lan-interface>
+      - tailscale0
+    homelab_dns_upstream_servers:
+      - <router-or-upstream-dns-address>
+    homelab_dns_wildcard_records:
+      - name: apps
+        address: <kubernetes-ingress-address>
+```
+
+Validate, preview, and apply:
+
+```bash
+ansible-playbook playbooks/dns.yml --syntax-check
+ansible-playbook playbooks/dns.yml --check --diff --ask-become-pass
+ansible-playbook playbooks/dns.yml --diff --ask-become-pass
+```
+
+Then test resolution from the controller:
+
+```bash
+dig @<resolver-lan-address> apps.lab.sirnotethan.uk
+dig @<resolver-lan-address> test.apps.lab.sirnotethan.uk
+```
+
+Windows clients can test the same resolver from PowerShell:
+
+```powershell
+Resolve-DnsName dns-test.lab.sirnotethan.uk -Server <resolver-lan-address>
+Resolve-DnsName dns-test.lab.sirnotethan.uk -Server <resolver-tailscale-address>
+```
+
+The public Cloudflare zone must not contain private application A or AAAA
+records. Certificate automation uses DNS-01 challenge records only.
+
 ## Managed baseline
 
 - Hostname matches the inventory name.

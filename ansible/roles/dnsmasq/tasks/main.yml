@@ -1,0 +1,48 @@
+---
+- name: Verify the managed operating system
+  ansible.builtin.assert:
+    that:
+      - ansible_facts.os_family == "Debian"
+      - ansible_facts.distribution == "Ubuntu"
+    fail_msg: "This role currently supports Ubuntu hosts only."
+
+- name: Verify private DNS inputs
+  ansible.builtin.assert:
+    that:
+      - homelab_dns_zone | length > 0
+      - homelab_dns_listen_addresses | length > 0
+      - homelab_dns_upstream_servers | length > 0
+      - (homelab_dns_records | length > 0) or (homelab_dns_wildcard_records | length > 0)
+    fail_msg: >-
+      Configure homelab_dns_listen_addresses, homelab_dns_upstream_servers, and
+      at least one DNS record in the private inventory before applying dnsmasq.
+
+- name: Gather installed package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Install dnsmasq
+  ansible.builtin.apt:
+    name: dnsmasq
+    state: present
+    update_cache: true
+
+- name: Install the managed dnsmasq configuration
+  ansible.builtin.template:
+    src: homelab-lab.conf.j2
+    dest: /etc/dnsmasq.d/homelab-lab.conf
+    owner: root
+    group: root
+    mode: "0644"
+    validate: >-
+      {{ 'dnsmasq --test --conf-file=%s'
+         if (not ansible_check_mode or 'dnsmasq' in ansible_facts.packages)
+         else omit }}
+  notify: Restart dnsmasq
+
+- name: Enable dnsmasq
+  ansible.builtin.systemd_service:
+    name: dnsmasq.service
+    enabled: true
+    state: started
+  when: not ansible_check_mode or "dnsmasq" in ansible_facts.packages

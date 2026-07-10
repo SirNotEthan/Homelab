@@ -1,0 +1,31 @@
+# Managed by Ansible. Local changes will be overwritten.
+
+domain-needed
+{% if homelab_dns_bogus_priv %}
+bogus-priv
+{% endif %}
+cache-size={{ homelab_dns_cache_size }}
+local-ttl={{ homelab_dns_local_ttl }}
+
+{% for listen_address in homelab_dns_listen_addresses %}
+listen-address={{ listen_address }}
+{% endfor %}
+{% for interface in homelab_dns_interfaces %}
+interface={{ interface }}
+{% endfor %}
+bind-dynamic
+
+{% for upstream_server in homelab_dns_upstream_servers %}
+server={{ upstream_server }}
+{% endfor %}
+
+local=/{{ homelab_dns_zone }}/
+domain={{ homelab_dns_zone }}
+
+{% for record in homelab_dns_records %}
+address=/{{ record.name }}.{{ homelab_dns_zone }}/{{ record.address }}
+{% endfor %}
+{% for record in homelab_dns_wildcard_records %}
+address=/.{{ record.name }}.{{ homelab_dns_zone }}/{{ record.address }}
+address=/{{ record.name }}.{{ homelab_dns_zone }}/{{ record.address }}
+{% endfor %}

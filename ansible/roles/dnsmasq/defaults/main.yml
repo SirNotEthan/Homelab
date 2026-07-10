@@ -1,0 +1,11 @@
+---
+homelab_dns_zone: lab.sirnotethan.uk
+homelab_dns_domain_needed: true
+homelab_dns_bogus_priv: true
+homelab_dns_cache_size: 1000
+homelab_dns_local_ttl: 60
+homelab_dns_listen_addresses: []
+homelab_dns_interfaces: []
+homelab_dns_upstream_servers: []
+homelab_dns_records: []
+homelab_dns_wildcard_records: []
