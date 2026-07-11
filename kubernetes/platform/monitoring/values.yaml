@@ -23,6 +23,7 @@ grafana:
     userKey: admin-user
   deploymentStrategy:
     type: Recreate
+  rollingUpdate: null
   enabled: true
   ingress:
     enabled: true
