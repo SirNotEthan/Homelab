@@ -52,7 +52,7 @@ See [docs/hardware.md](docs/hardware.md) for the inventory.
 | Storage | Longhorn deployed and smoke-tested |
 | GitOps | Argo CD deployed; selected applications reconcile from `main` |
 | Dashboard | Homepage deployed and GitOps-managed |
-| Observability | Planned |
+| Observability | Prometheus and Grafana deployed; GitOps definition added |
 | Identity and SSO | Planned |
 
 Applications listed in [docs/services.md](docs/services.md) are candidates, not

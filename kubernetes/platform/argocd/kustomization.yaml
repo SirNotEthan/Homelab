@@ -4,3 +4,4 @@ resources:
   - argocd-access.yaml
   - applications/cert-manager-config.yaml
   - applications/homepage.yaml
+  - applications/monitoring.yaml

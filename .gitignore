@@ -40,3 +40,6 @@ backups/data/
 *.tar
 *.tar.gz
 *.zip
+
+# Generated Kubernetes snapshots
+kubernetes/platform/monitoring/*.generated.yaml

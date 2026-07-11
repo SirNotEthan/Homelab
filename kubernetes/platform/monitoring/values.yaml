@@ -1,0 +1,49 @@
+alertmanager:
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 2Gi
+          storageClassName: longhorn-2replica
+grafana:
+  admin:
+    existingSecret: grafana-admin
+    passwordKey: admin-password
+    userKey: admin-user
+  enabled: true
+  ingress:
+    enabled: true
+    hosts:
+    - grafana.apps.lab.sirnotethan.uk
+    ingressClassName: traefik
+    tls:
+    - hosts:
+      - grafana.apps.lab.sirnotethan.uk
+      secretName: apps-prod-wildcard-tls
+  persistence:
+    enabled: true
+    size: 5Gi
+    storageClassName: longhorn-2replica
+kubeControllerManager:
+  enabled: false
+kubeEtcd:
+  enabled: false
+kubeScheduler:
+  enabled: false
+prometheus:
+  prometheusSpec:
+    retention: 7d
+    retentionSize: 10GB
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 20Gi
+          storageClassName: longhorn-2replica
