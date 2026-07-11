@@ -78,6 +78,47 @@ sudo ls -lh /srv/homelab-backups/k3s/
 sudo tar -tzf /srv/homelab-backups/k3s/<backup-file>.tar.gz
 ```
 
+## Scheduled backup
+
+A systemd timer on the control-plane node runs the offline SQLite backup daily.
+The timer creates a local root-only archive, copies it to `hp-utility-01` using
+a dedicated SSH key, stores the remote copy in the root-only backup directory,
+and prunes local and remote k3s archives older than 14 days.
+
+Systemd units:
+
+```text
+/etc/systemd/system/homelab-k3s-sqlite-backup.service
+/etc/systemd/system/homelab-k3s-sqlite-backup.timer
+```
+
+Backup script:
+
+```text
+/usr/local/sbin/homelab-k3s-sqlite-backup
+```
+
+Schedule:
+
+```text
+Daily at 04:10 UTC, with up to 10 minutes randomized delay
+```
+
+Validation:
+
+```bash
+systemctl list-timers homelab-k3s-sqlite-backup.timer --no-pager
+sudo systemctl status homelab-k3s-sqlite-backup.service --no-pager -l
+sudo ls -lh /var/backups/homelab/k3s/
+```
+
+On `hp-utility-01`:
+
+```bash
+sudo ls -lh /srv/homelab-backups/k3s/
+sudo tar -tzf /srv/homelab-backups/k3s/<backup-file>.tar.gz
+```
+
 ## Restore outline
 
 This outline is not yet a tested restore procedure.
@@ -94,8 +135,5 @@ This outline is not yet a tested restore procedure.
 
 ## Follow-up
 
-- Automate scheduled backup creation.
-- Add retention and pruning.
 - Add a tested restore exercise.
 - Add off-site encrypted backup storage.
-

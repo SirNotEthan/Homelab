@@ -15,7 +15,7 @@ still to be selected.
 | Asset | Method | Target | Frequency | Retention | Status |
 |---|---|---|---|---|---|
 | Git configuration | Remote Git mirror | GitHub | On push | Repository history | Planned |
-| k3s datastore | Offline SQLite archive | Local and backup host | Manual | TBD | First backup complete |
+| k3s datastore | Offline SQLite archive | Local and backup host | Daily | 14 days local and backup host | Automated locally |
 | Persistent volumes | Longhorn backup | Backup target | Daily | TBD | Planned |
 | Databases | Application-aware dump | Backup target | Daily | TBD | Planned |
 | Documents/photos | File backup | Local and off-site | Daily | TBD | Planned |
@@ -39,8 +39,10 @@ documented restore procedure and periodic restore test. Record the date,
 duration, result, and corrective actions from every test.
 
 The first k3s SQLite datastore backup was created offline, verified by listing
-the archive contents, and copied to the backup host. Restore is not yet tested.
-See [k3s datastore backup runbook](runbooks/k3s-datastore-backup.md).
+the archive contents, and copied to the backup host. A daily systemd timer now
+creates and copies the backup with 14-day local and backup-host retention.
+Restore is not yet tested. See
+[k3s datastore backup runbook](runbooks/k3s-datastore-backup.md).
 
 ## Never commit
 

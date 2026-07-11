@@ -30,6 +30,7 @@ complete only when its documentation and recovery path match the implementation.
 - [ ] Define namespaces, resource limits, and network policies
 - [ ] Back up and restore the k3s datastore
   - [x] Create and copy first manual k3s SQLite backup
+  - [x] Automate daily local and backup-host k3s SQLite backups
   - [ ] Test k3s datastore restore
 - [x] Record a repeatable cluster status check
 
@@ -49,6 +50,8 @@ complete only when its documentation and recovery path match the implementation.
   - [x] Reconcile cert-manager issuer and certificate configuration from `main`
 - [ ] Implement encrypted secrets management
 - [ ] Automate local and off-site backups
+  - [x] Automate local k3s datastore backup
+  - [ ] Add off-site encrypted backup target
 - [ ] Test application and volume restores
 
 ## v1.0 - Reliable personal cloud
