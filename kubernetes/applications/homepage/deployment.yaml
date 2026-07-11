@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homepage
+  namespace: homepage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homepage
+  template:
+    metadata:
+      labels:
+        app: homepage
+    spec:
+      containers:
+        - name: homepage
+          image: ghcr.io/gethomepage/homepage:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: HOMEPAGE_CONFIG_DIR
+              value: /app/config
+            - name: HOMEPAGE_ALLOWED_HOSTS
+              value: homepage.apps.lab.sirnotethan.uk
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /app/config/settings.yaml
+              subPath: settings.yaml
+            - name: config
+              mountPath: /app/config/services.yaml
+              subPath: services.yaml
+            - name: config
+              mountPath: /app/config/widgets.yaml
+              subPath: widgets.yaml
+            - name: config
+              mountPath: /app/config/bookmarks.yaml
+              subPath: bookmarks.yaml
+            - name: config
+              mountPath: /app/config/kubernetes.yaml
+              subPath: kubernetes.yaml
+            - name: config
+              mountPath: /app/config/docker.yaml
+              subPath: docker.yaml
+            - name: logs
+              mountPath: /app/config/logs
+      volumes:
+        - name: config
+          configMap:
+            name: homepage-config
+        - name: logs
+          emptyDir: {}
