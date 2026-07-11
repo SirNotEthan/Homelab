@@ -40,7 +40,7 @@ complete only when its documentation and recovery path match the implementation.
 
 ## v0.5 - GitOps and automated recovery
 
-- [ ] Deploy Argo CD
+- [x] Deploy Argo CD
 - [ ] Reconcile platform and applications from `main`
 - [ ] Implement encrypted secrets management
 - [ ] Automate local and off-site backups

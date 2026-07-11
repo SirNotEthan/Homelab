@@ -11,7 +11,7 @@ validated on the cluster.
 | Traefik | Cluster ingress | v0.3 | Deployed | Configuration |
 | Longhorn | Persistent volume storage | v0.3 | Deployed | Critical state |
 | Homepage | Service dashboard | v0.4 | Deployed | Configuration |
-| Argo CD | GitOps reconciliation | v0.5 | Planned | Reproducible configuration |
+| Argo CD | GitOps reconciliation | v0.5 | Deployed | Reproducible configuration |
 | Authentik | Identity and SSO | v0.4 | Planned | Critical database |
 | Prometheus | Metrics | v0.4 | Planned | Regenerable history |
 | Grafana | Dashboards and visualisation | v0.4 | Planned | Configuration |

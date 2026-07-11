@@ -189,6 +189,24 @@ Validation evidence:
 - browser access displayed the Infrastructure group with Traefik and Longhorn
   entries.
 
+## Argo CD GitOps bootstrap
+
+Argo CD was installed from the official upstream installation manifest into the
+`argocd` namespace. The private application DNS namespace, Traefik, and the
+production wildcard certificate expose the Argo CD UI.
+
+The initial administrator password was changed after first login, and the
+bootstrap `argocd-initial-admin-secret` was deleted.
+
+The first GitOps-managed application is `argocd-access`, which reconciles the
+homelab-specific Argo CD access configuration from this repository.
+
+Validation evidence:
+
+- Argo CD pods reported `Running`;
+- HTTPS returned HTTP 200 through Traefik;
+- the `argocd-access` Application reported `Synced` and `Healthy`.
+
 ## Follow-up
 
 - Automate the k3s installation once the manual bootstrap is stable.
@@ -199,4 +217,5 @@ Validation evidence:
 - Move Longhorn installation and storage smoke tests into declarative GitOps
   management.
 - Move Homepage manifests into declarative GitOps management.
+- Move the remaining platform components under Argo CD reconciliation.
 - Document datastore backup and restore before treating the cluster as durable.

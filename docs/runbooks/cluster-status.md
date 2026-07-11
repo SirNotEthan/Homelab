@@ -113,6 +113,8 @@ Expected baseline:
 
 ```bash
 kubectl get pods,svc,ingress,configmap -n homepage -o wide
+kubectl get pods,svc,ingress -n argocd -o wide
+kubectl get application argocd-access -n argocd
 ```
 
 From a Windows client:
@@ -129,6 +131,10 @@ Expected baseline:
   certificate;
 - the services API returns the Homelab configuration, including Traefik and
   Longhorn entries.
+- Argo CD pods are running;
+- the Argo CD Ingress is served through Traefik and the application wildcard
+  certificate;
+- the `argocd-access` Application reports `Synced` and `Healthy`.
 
 ## Host checks
 
@@ -152,7 +158,8 @@ Expected baseline:
 
 - The control plane is not highly available.
 - k3s datastore backup and restore are not yet implemented.
-- The smoke-test workload and Helm values are still manually applied.
+- Some platform workloads and Helm values are still manually applied while
+  GitOps migration is in progress.
 - Secrets are manually created in the cluster and are not yet managed by a
   declarative secret-management workflow.
 - Longhorn backup targets and volume restore exercises are not yet implemented.
