@@ -42,6 +42,8 @@ complete only when its documentation and recovery path match the implementation.
 
 - [x] Deploy Argo CD
 - [ ] Reconcile platform and applications from `main`
+  - [x] Reconcile Argo CD access configuration from `main`
+  - [x] Reconcile Homepage from `main`
 - [ ] Implement encrypted secrets management
 - [ ] Automate local and off-site backups
 - [ ] Test application and volume restores

@@ -180,6 +180,9 @@ Homepage was deployed as the first user-facing platform service. The service is
 served through the private application DNS namespace, Traefik, and the
 production wildcard certificate.
 
+After Argo CD was bootstrapped, Homepage was moved under GitOps management from
+the repository path `kubernetes/applications/homepage`.
+
 Validation evidence:
 
 - the Homepage pod reported `Running`;
@@ -188,6 +191,7 @@ Validation evidence:
 - the Homepage services API returned the managed Homelab configuration;
 - browser access displayed the Infrastructure group with Traefik and Longhorn
   entries.
+- the Argo CD `homepage` Application reported `Synced` and `Healthy`.
 
 ## Argo CD GitOps bootstrap
 
@@ -216,6 +220,5 @@ Validation evidence:
   management without exposing API tokens or private keys.
 - Move Longhorn installation and storage smoke tests into declarative GitOps
   management.
-- Move Homepage manifests into declarative GitOps management.
 - Move the remaining platform components under Argo CD reconciliation.
 - Document datastore backup and restore before treating the cluster as durable.

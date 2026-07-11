@@ -114,7 +114,7 @@ Expected baseline:
 ```bash
 kubectl get pods,svc,ingress,configmap -n homepage -o wide
 kubectl get pods,svc,ingress -n argocd -o wide
-kubectl get application argocd-access -n argocd
+kubectl get application argocd-access homepage -n argocd
 ```
 
 From a Windows client:
@@ -135,6 +135,7 @@ Expected baseline:
 - the Argo CD Ingress is served through Traefik and the application wildcard
   certificate;
 - the `argocd-access` Application reports `Synced` and `Healthy`.
+- the `homepage` Application reports `Synced` and `Healthy`.
 
 ## Host checks
 
