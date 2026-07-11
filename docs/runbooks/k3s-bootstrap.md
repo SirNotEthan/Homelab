@@ -226,4 +226,4 @@ Validation evidence:
 - Move Longhorn installation and storage smoke tests into declarative GitOps
   management.
 - Move the remaining platform components under Argo CD reconciliation.
-- Document datastore backup and restore before treating the cluster as durable.
+- Test datastore restore before treating the cluster as durable.

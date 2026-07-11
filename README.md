@@ -9,9 +9,13 @@ memory.
 
 ## Current status
 
-Version **0.1.0** establishes the repository structure and documents the
-intended architecture. Infrastructure automation and cluster deployment are
-planned work; the repository does not yet represent a production-ready system.
+Version **0.2.0** establishes the host and network baseline. The homelab now
+has a running k3s cluster, private DNS, HTTPS ingress, distributed storage, a
+service dashboard, and the first GitOps-managed applications.
+
+The platform is usable for controlled homelab workloads, but it is not yet
+production-ready. k3s datastore backup, encrypted secret management,
+observability, and restore exercises are still active roadmap items.
 
 ## Principles
 
@@ -37,14 +41,19 @@ See [docs/hardware.md](docs/hardware.md) for the inventory.
 
 ## Target platform
 
-- Ubuntu Server and k3s
-- Traefik ingress and certificate management
-- Tailscale remote administration
-- Argo CD GitOps reconciliation
-- Longhorn distributed storage
-- Prometheus, Grafana, and Loki observability
-- Authentik single sign-on
-- Homepage service dashboard
+| Capability | Current state |
+|---|---|
+| Ubuntu host baseline | Automated with Ansible |
+| Remote administration | Tailscale deployed |
+| Kubernetes | k3s control plane and workers deployed |
+| Private DNS | Managed resolver with split DNS |
+| Ingress | Traefik deployed |
+| Certificates | cert-manager and wildcard certificate deployed |
+| Storage | Longhorn deployed and smoke-tested |
+| GitOps | Argo CD deployed; selected applications reconcile from `main` |
+| Dashboard | Homepage deployed and GitOps-managed |
+| Observability | Planned |
+| Identity and SSO | Planned |
 
 Applications listed in [docs/services.md](docs/services.md) are candidates, not
 all currently deployed services.
@@ -56,7 +65,6 @@ all currently deployed services.
 | `ansible/` | Host configuration and repeatable operating-system changes |
 | `bootstrap/` | First-run host and cluster bootstrap tooling |
 | `docs/` | Architecture, operations, standards, and decisions |
-| `homepage/` | Homepage dashboard configuration |
 | `kubernetes/` | Cluster infrastructure, platform, and application manifests |
 | `monitoring/` | Dashboards, alerts, and observability configuration |
 | `scripts/` | Small operational and validation utilities |
@@ -75,6 +83,7 @@ documentation and configuration only.
 - [Storage](docs/storage.md)
 - [Backups](docs/backups.md)
 - [Disaster recovery](docs/disaster-recovery.md)
+- [Cluster status runbook](docs/runbooks/cluster-status.md)
 - [Node rebuild runbook](docs/runbooks/node-rebuild.md)
 - [Project standards](docs/standards.md)
 - [Roadmap](docs/roadmap.md)
@@ -82,17 +91,18 @@ documentation and configuration only.
 
 ## Getting started
 
-The repository is currently in its documentation phase. Before deploying
-anything:
+For orientation:
 
-1. Review the hardware inventory and fill in missing network information.
-2. Read the accepted architecture decision records (ADRs).
-3. Follow the conventions in `docs/standards.md`.
-4. Use a feature branch for changes and run `make validate` before merging.
+1. Review the current milestone in [docs/roadmap.md](docs/roadmap.md).
+2. Run the [cluster status runbook](docs/runbooks/cluster-status.md) before
+   large platform changes.
+3. Read the accepted architecture decision records (ADRs).
+4. Follow the conventions in [docs/standards.md](docs/standards.md).
+5. Use a feature branch for changes and run validation before merging.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the change and release workflow.
 
 ## Version
 
-Current version: **0.1.0**. See [CHANGELOG.md](CHANGELOG.md) for notable changes
+Current version: **0.2.0**. See [CHANGELOG.md](CHANGELOG.md) for notable changes
 and [docs/roadmap.md](docs/roadmap.md) for planned milestones.

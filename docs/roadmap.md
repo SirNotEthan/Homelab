@@ -29,6 +29,8 @@ complete only when its documentation and recovery path match the implementation.
 - [x] Deploy and test persistent storage
 - [ ] Define namespaces, resource limits, and network policies
 - [ ] Back up and restore the k3s datastore
+  - [x] Create and copy first manual k3s SQLite backup
+  - [ ] Test k3s datastore restore
 - [x] Record a repeatable cluster status check
 
 ## v0.4 - Platform services
@@ -44,7 +46,7 @@ complete only when its documentation and recovery path match the implementation.
 - [ ] Reconcile platform and applications from `main`
   - [x] Reconcile Argo CD access configuration from `main`
   - [x] Reconcile Homepage from `main`
-  - [ ] Reconcile cert-manager issuer and certificate configuration from `main`
+  - [x] Reconcile cert-manager issuer and certificate configuration from `main`
 - [ ] Implement encrypted secrets management
 - [ ] Automate local and off-site backups
 - [ ] Test application and volume restores

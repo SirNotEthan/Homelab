@@ -35,15 +35,16 @@ The initial topology has one control-plane node, so this is a full control-plane
 recovery rather than an automatic failover.
 
 1. Provision `m910q-01` or replacement hardware from the host baseline.
-2. Restore the most recent verified k3s datastore snapshot.
+2. Restore the most recent verified k3s SQLite datastore archive and matching
+   server token.
 3. Confirm cluster API access before allowing broad reconciliation.
 4. Restore GitOps and platform services in recovery-priority order.
 5. Verify persistent volumes and restore application-aware backups as needed.
 6. Rotate credentials if compromise, rather than hardware failure, caused the
    incident.
 
-Exact commands will be added alongside bootstrap and backup automation. Until
-then, this procedure is a plan, not a tested runbook.
+The current backup runbook records the manual backup method, but the restore
+process is not yet tested end-to-end.
 
 Use the [cluster status runbook](runbooks/cluster-status.md) before and after
 recovery actions to capture platform health and remaining drift.
@@ -59,7 +60,7 @@ priority order above.
 
 | Date | Scenario | Recovery time | Result | Follow-up |
 |---|---|---:|---|---|
-| Not yet tested | - | - | - | Schedule after backup automation exists |
+| Not yet tested | k3s datastore restore | - | - | Schedule after backup automation exists |
 
 ## After every incident or exercise
 
