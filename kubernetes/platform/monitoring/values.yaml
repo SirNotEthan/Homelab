@@ -14,6 +14,8 @@ grafana:
     existingSecret: grafana-admin
     passwordKey: admin-password
     userKey: admin-user
+  deploymentStrategy:
+    type: Recreate
   enabled: true
   ingress:
     enabled: true
