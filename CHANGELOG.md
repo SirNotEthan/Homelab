@@ -8,6 +8,13 @@ follow [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Argo CD GitOps bootstrap for Argo CD access, Homepage, and cert-manager
+  issuer configuration.
+
+## [0.2.0] - 2026-07-11
+
+### Added
+
 - ADR-0006 selecting split DNS under `lab.sirnotethan.uk` and Let's Encrypt
   certificates issued through Cloudflare DNS-01.
 - Automated installation of Tailscale from its official Ubuntu repository.

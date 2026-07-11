@@ -2,4 +2,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - argocd-access.yaml
+  - applications/cert-manager-config.yaml
   - applications/homepage.yaml

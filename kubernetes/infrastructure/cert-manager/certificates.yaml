@@ -1,0 +1,27 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: apps-staging-wildcard
+  namespace: ingress-system
+spec:
+  secretName: apps-staging-wildcard-tls
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-staging-cloudflare
+  dnsNames:
+    - apps.lab.sirnotethan.uk
+    - "*.apps.lab.sirnotethan.uk"
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: apps-prod-wildcard
+  namespace: ingress-system
+spec:
+  secretName: apps-prod-wildcard-tls
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-prod-cloudflare
+  dnsNames:
+    - apps.lab.sirnotethan.uk
+    - "*.apps.lab.sirnotethan.uk"

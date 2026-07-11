@@ -44,6 +44,7 @@ complete only when its documentation and recovery path match the implementation.
 - [ ] Reconcile platform and applications from `main`
   - [x] Reconcile Argo CD access configuration from `main`
   - [x] Reconcile Homepage from `main`
+  - [ ] Reconcile cert-manager issuer and certificate configuration from `main`
 - [ ] Implement encrypted secrets management
 - [ ] Automate local and off-site backups
 - [ ] Test application and volume restores

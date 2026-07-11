@@ -56,6 +56,7 @@ kubectl get clusterissuer
 kubectl get certificate -A
 kubectl get orders -A
 kubectl get challenges -A
+kubectl get application cert-manager-config -n argocd
 ```
 
 Expected baseline:
@@ -64,6 +65,8 @@ Expected baseline:
 - staging and production Cloudflare issuers exist;
 - the production wildcard application certificate is `Ready`;
 - no challenges remain pending after issuance.
+- the `cert-manager-config` Application reports `Synced` and `Healthy` after
+  GitOps migration.
 
 ## Storage checks
 

@@ -142,6 +142,11 @@ cert-manager was installed with Helm into the `cert-manager` namespace. The
 Cloudflare API token was stored only as a Kubernetes Secret and was not written
 to Git.
 
+The issuer and wildcard certificate configuration are managed from
+`kubernetes/infrastructure/cert-manager` after the Argo CD bootstrap. The
+Cloudflare API token Secret remains manually managed until encrypted secret
+management is implemented.
+
 Validation evidence:
 
 - cert-manager, cainjector, and webhook pods reported `Running`.
@@ -153,6 +158,8 @@ Validation evidence:
   temporary whoami Ingress test.
 - A Windows client received HTTP 200 from
   `https://whoami.apps.lab.sirnotethan.uk` with a trusted certificate.
+- the Argo CD `cert-manager-config` Application reported `Synced` and
+  `Healthy` after GitOps migration.
 
 ## Longhorn storage installation
 
@@ -216,8 +223,6 @@ Validation evidence:
 - Automate the k3s installation once the manual bootstrap is stable.
 - Move the Traefik Helm values into declarative GitOps management without
   exposing private address data.
-- Move cert-manager issuers and certificate requests into declarative GitOps
-  management without exposing API tokens or private keys.
 - Move Longhorn installation and storage smoke tests into declarative GitOps
   management.
 - Move the remaining platform components under Argo CD reconciliation.
