@@ -119,19 +119,116 @@ sudo ls -lh /srv/homelab-backups/k3s/
 sudo tar -tzf /srv/homelab-backups/k3s/<backup-file>.tar.gz
 ```
 
-## Restore outline
+## Restore procedure
 
-This outline is not yet a tested restore procedure.
+This procedure is documented but not yet tested. Do not run it on the live
+cluster unless performing a real control-plane restore.
 
-1. Rebuild or replace the control-plane host using the host baseline.
-2. Stop k3s if it is running.
-3. Restore the archived `server/db`, `server/token`, and
-   `/etc/rancher/k3s/config.yaml` paths with root ownership and restrictive
-   permissions.
-4. Start k3s.
-5. Confirm Kubernetes API access.
-6. Confirm Argo CD, ingress, certificates, and storage health.
-7. Reconcile remaining desired state from Git.
+### 1. Prepare the replacement control-plane host
+
+Rebuild or replace the control-plane host using the documented host baseline.
+Install the expected Ubuntu version, verify firmware and disk health, establish
+SSH access, and do not join worker nodes until the control-plane datastore is
+restored and validated.
+
+### 2. Stage the backup archive
+
+Copy the selected backup archive from the backup host to the replacement
+control-plane host:
+
+```bash
+scp /path/to/k3s-sqlite-offline-<timestamp>.tar.gz \
+  ethan@m910q-01:/tmp/k3s-restore.tar.gz
+```
+
+Then restrict it on the control-plane host:
+
+```bash
+sudo chown root:root /tmp/k3s-restore.tar.gz
+sudo chmod 600 /tmp/k3s-restore.tar.gz
+sudo tar -tzf /tmp/k3s-restore.tar.gz
+```
+
+The archive should contain:
+
+```text
+var/lib/rancher/k3s/server/db/
+var/lib/rancher/k3s/server/db/state.db
+var/lib/rancher/k3s/server/db/state.db-shm
+var/lib/rancher/k3s/server/db/state.db-wal
+var/lib/rancher/k3s/server/token
+etc/rancher/k3s/config.yaml
+```
+
+### 3. Stop k3s and preserve any current state
+
+```bash
+sudo systemctl stop k3s || true
+
+sudo install -d -m 700 -o root -g root /var/lib/rancher/k3s/server
+sudo install -d -m 700 -o root -g root /etc/rancher/k3s
+
+if [ -e /var/lib/rancher/k3s/server/db ]; then
+  sudo mv /var/lib/rancher/k3s/server/db \
+    "/var/lib/rancher/k3s/server/db.pre-restore.$(date -u +%Y%m%dT%H%M%SZ)"
+fi
+
+if [ -e /var/lib/rancher/k3s/server/token ]; then
+  sudo cp -a /var/lib/rancher/k3s/server/token \
+    "/var/lib/rancher/k3s/server/token.pre-restore.$(date -u +%Y%m%dT%H%M%SZ)"
+fi
+
+if [ -e /etc/rancher/k3s/config.yaml ]; then
+  sudo cp -a /etc/rancher/k3s/config.yaml \
+    "/etc/rancher/k3s/config.yaml.pre-restore.$(date -u +%Y%m%dT%H%M%SZ)"
+fi
+```
+
+### 4. Restore the archived datastore, token, and configuration
+
+```bash
+sudo tar -xzf /tmp/k3s-restore.tar.gz -C /
+
+sudo chown -R root:root /var/lib/rancher/k3s/server/db
+sudo chown root:root /var/lib/rancher/k3s/server/token
+sudo chown root:root /etc/rancher/k3s/config.yaml
+
+sudo chmod 700 /var/lib/rancher/k3s/server/db
+sudo chmod 600 /var/lib/rancher/k3s/server/token
+sudo chmod 600 /etc/rancher/k3s/config.yaml
+```
+
+### 5. Start k3s and validate the control plane
+
+```bash
+sudo systemctl start k3s
+sudo systemctl status k3s --no-pager -l
+```
+
+From the administrative controller:
+
+```bash
+export KUBECONFIG="$HOME/.kube/homelab.yaml"
+
+kubectl get nodes
+kubectl get pods -A
+kubectl get application -n argocd
+```
+
+Expected:
+
+- the control-plane node returns to `Ready`;
+- worker nodes reconnect or are rejoined as needed;
+- Argo CD Applications report `Synced` and `Healthy`;
+- ingress, certificates, storage, and Homepage pass the cluster status runbook.
+
+### 6. Post-restore actions
+
+- Run the [cluster status runbook](cluster-status.md).
+- Create a fresh k3s datastore backup after successful restore.
+- Rotate credentials if the restore was triggered by compromise rather than
+  hardware failure.
+- Record the restore result and any runbook corrections.
 
 ## Follow-up
 

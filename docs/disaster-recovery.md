@@ -43,8 +43,8 @@ recovery rather than an automatic failover.
 6. Rotate credentials if compromise, rather than hardware failure, caused the
    incident.
 
-The current backup runbook records the manual backup method, but the restore
-process is not yet tested end-to-end.
+The current backup runbook records the backup and restore commands, but the
+restore process is not yet tested end-to-end.
 
 Use the [cluster status runbook](runbooks/cluster-status.md) before and after
 recovery actions to capture platform health and remaining drift.
