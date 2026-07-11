@@ -40,7 +40,7 @@ complete only when its documentation and recovery path match the implementation.
 - [ ] Deploy metrics, dashboards, alerting, and logs
   - [x] Deploy metrics, dashboards, and alerting
   - [x] Deploy cluster log collection and storage
-  - [ ] Reconcile logging from `main`
+  - [x] Reconcile logging from `main`
 - [ ] Deploy Authentik and document break-glass access
 - [ ] Add health checks and backup plans for every platform service
 
@@ -52,7 +52,7 @@ complete only when its documentation and recovery path match the implementation.
   - [x] Reconcile Homepage from `main`
   - [x] Reconcile cert-manager issuer and certificate configuration from `main`
   - [x] Reconcile monitoring from `main`
-  - [ ] Reconcile logging from `main`
+  - [x] Reconcile logging from `main`
 - [ ] Implement encrypted secrets management
 - [ ] Automate local and off-site backups
   - [x] Automate local k3s datastore backup
