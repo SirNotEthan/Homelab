@@ -10,6 +10,13 @@ alertmanager:
               storage: 2Gi
           storageClassName: longhorn-2replica
 grafana:
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      access: proxy
+      url: http://loki-gateway.logging.svc.cluster.local
+      isDefault: false
+      editable: true
   admin:
     existingSecret: grafana-admin
     passwordKey: admin-password

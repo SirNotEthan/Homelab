@@ -9,4 +9,5 @@ recovery.
 | Component | Purpose |
 |---|---|
 | `argocd/` | GitOps reconciliation and Argo CD application definitions |
+| `logging/` | Loki log storage and Alloy log collection configuration |
 | `monitoring/` | Prometheus, Grafana, Alertmanager, and exporter configuration |

@@ -4,3 +4,6 @@ homelab_common_packages: []
 homelab_apply_full_upgrade: false
 homelab_manage_ssh: true
 homelab_unattended_upgrades: true
+homelab_sysctl_settings:
+  fs.inotify.max_user_watches: 524288
+  fs.inotify.max_user_instances: 1024

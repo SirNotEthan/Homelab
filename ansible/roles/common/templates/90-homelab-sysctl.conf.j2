@@ -1,0 +1,4 @@
+# Managed by Ansible. Local changes will be overwritten.
+{% for name, value in homelab_sysctl_settings | dictsort %}
+{{ name }} = {{ value }}
+{% endfor %}

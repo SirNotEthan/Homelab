@@ -44,6 +44,15 @@
   ansible.builtin.package_facts:
     manager: auto
 
+- name: Apply managed kernel tuning
+  ansible.builtin.template:
+    src: 90-homelab-sysctl.conf.j2
+    dest: /etc/sysctl.d/90-homelab.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload sysctl settings
+
 - name: Enable chrony time synchronisation
   ansible.builtin.systemd_service:
     name: chrony.service
