@@ -22,8 +22,10 @@ grafana:
     passwordKey: admin-password
     userKey: admin-user
   deploymentStrategy:
-    type: Recreate
-    rollingUpdate: null
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
   enabled: true
   ingress:
     enabled: true
