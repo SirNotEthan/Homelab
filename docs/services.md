@@ -1,20 +1,21 @@
 # Services
 
-This is a target service catalogue. A listing means a service is under
-consideration or planned; it does not imply that it is deployed.
+This is the service catalogue for planned and deployed homelab services. The
+status column records whether a service is only a candidate or has been
+validated on the cluster.
 
 ## Platform services
 
-| Service | Purpose | Phase | Data class |
-|---|---|---|---|
-| Traefik | Cluster ingress | v0.3 | Configuration |
-| Longhorn | Persistent volume storage | v0.3 | Critical state |
-| Argo CD | GitOps reconciliation | v0.5 | Reproducible configuration |
-| Authentik | Identity and SSO | v0.4 | Critical database |
-| Prometheus | Metrics | v0.4 | Regenerable history |
-| Grafana | Dashboards and visualisation | v0.4 | Configuration |
-| Loki | Centralised logs | v0.4 | Regenerable history |
-| Homepage | Service dashboard | v0.4 | Configuration |
+| Service | Purpose | Phase | Status | Data class |
+|---|---|---|---|---|
+| Traefik | Cluster ingress | v0.3 | Deployed | Configuration |
+| Longhorn | Persistent volume storage | v0.3 | Deployed | Critical state |
+| Homepage | Service dashboard | v0.4 | Deployed | Configuration |
+| Argo CD | GitOps reconciliation | v0.5 | Planned | Reproducible configuration |
+| Authentik | Identity and SSO | v0.4 | Planned | Critical database |
+| Prometheus | Metrics | v0.4 | Planned | Regenerable history |
+| Grafana | Dashboards and visualisation | v0.4 | Planned | Configuration |
+| Loki | Centralised logs | v0.4 | Planned | Regenerable history |
 
 ## Development services
 

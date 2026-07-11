@@ -109,6 +109,27 @@ Expected baseline:
 - the response body contains the whoami request headers.
 - the Longhorn storage smoke-test PVC is bound and the writer pod is running.
 
+## Platform service checks
+
+```bash
+kubectl get pods,svc,ingress,configmap -n homepage -o wide
+```
+
+From a Windows client:
+
+```powershell
+Resolve-DnsName homepage.apps.lab.sirnotethan.uk
+Invoke-WebRequest https://homepage.apps.lab.sirnotethan.uk/api/services -UseBasicParsing
+```
+
+Expected baseline:
+
+- the Homepage pod is running;
+- the Homepage Ingress is served through Traefik and the application wildcard
+  certificate;
+- the services API returns the Homelab configuration, including Traefik and
+  Longhorn entries.
+
 ## Host checks
 
 ```bash

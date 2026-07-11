@@ -174,6 +174,21 @@ Validation evidence:
 - A smoke-test pod mounted the PVC and wrote data successfully.
 - The test volume reported `healthy` with two running replicas.
 
+## Homepage deployment
+
+Homepage was deployed as the first user-facing platform service. The service is
+served through the private application DNS namespace, Traefik, and the
+production wildcard certificate.
+
+Validation evidence:
+
+- the Homepage pod reported `Running`;
+- DNS resolved the Homepage application host through the private resolver path;
+- HTTPS returned HTTP 200 through Traefik;
+- the Homepage services API returned the managed Homelab configuration;
+- browser access displayed the Infrastructure group with Traefik and Longhorn
+  entries.
+
 ## Follow-up
 
 - Automate the k3s installation once the manual bootstrap is stable.
@@ -183,4 +198,5 @@ Validation evidence:
   management without exposing API tokens or private keys.
 - Move Longhorn installation and storage smoke tests into declarative GitOps
   management.
+- Move Homepage manifests into declarative GitOps management.
 - Document datastore backup and restore before treating the cluster as durable.

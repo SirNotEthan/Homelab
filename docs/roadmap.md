@@ -33,7 +33,7 @@ complete only when its documentation and recovery path match the implementation.
 
 ## v0.4 - Platform services
 
-- [ ] Deploy Homepage
+- [x] Deploy Homepage
 - [ ] Deploy metrics, dashboards, alerting, and logs
 - [ ] Deploy Authentik and document break-glass access
 - [ ] Add health checks and backup plans for every platform service
