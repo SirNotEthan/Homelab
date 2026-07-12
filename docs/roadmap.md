@@ -41,14 +41,14 @@ complete only when its documentation and recovery path match the implementation.
   - [x] Deploy metrics, dashboards, and alerting
   - [x] Deploy cluster log collection and storage
   - [x] Reconcile logging from `main`
-- [ ] Deploy Authentik and document break-glass access
+- [x] Deploy Authentik and document break-glass access
   - [x] Deploy Authentik
   - [x] Reconcile Authentik from `main`
-  - [ ] Document break-glass access
+  - [x] Document break-glass access
     - [x] Record emergency access paths
     - [x] Create local private notes file for sensitive storage locations
     - [x] Run initial connectivity test
-    - [ ] Test local admin logins and recovery procedures
+    - [x] Test local admin logins
 - [ ] Add health checks and backup plans for every platform service
 
 ## v0.5 - GitOps and automated recovery

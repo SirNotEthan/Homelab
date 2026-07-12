@@ -9,7 +9,7 @@ Git.
 
 ## Current status
 
-Break-glass access is partially documented and has a basic connectivity test.
+Break-glass access is documented and has an initial validated test record.
 Sensitive credential storage details are recorded outside Git.
 
 ## Known emergency paths
@@ -56,16 +56,11 @@ Passed:
 - Argo CD reported all registered applications Synced and Healthy.
 - Argo CD returned HTTP 200 over the private HTTPS application hostname.
 - Authentik returned HTTP 200 over the private HTTPS application hostname.
-
-Not yet tested:
-
-- Argo CD local admin login.
-- Authentik local admin login.
-- Credential recovery procedures.
+- Argo CD local admin login succeeded.
+- Authentik local admin login succeeded.
 
 ## Follow-up
 
-- Record where each emergency credential is stored.
 - Add recovery steps for replacing a lost Authentik admin password.
 - Add recovery steps for Argo CD local admin password rotation.
 - Add an annual break-glass review cadence.
