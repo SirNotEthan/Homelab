@@ -6,8 +6,8 @@ using Let's Encrypt DNS-01 validation through Cloudflare.
 ## Secret handling
 
 The Cloudflare API token Secret is intentionally not stored in Git as a plain
-Kubernetes Secret. It is currently created manually in the `cert-manager`
-namespace and should be migrated to a SealedSecret.
+Kubernetes Secret. It is reconciled from the encrypted SealedSecret under
+`kubernetes/infrastructure/cert-manager/secrets/`.
 
 Required Secret name and key:
 

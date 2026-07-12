@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - argocd-access.yaml
   - applications/cert-manager-config.yaml
+  - applications/cert-manager-secrets.yaml
   - applications/homepage.yaml
   - applications/identity-authentik.yaml
   - applications/logging-alloy.yaml

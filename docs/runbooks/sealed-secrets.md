@@ -145,6 +145,8 @@ Passed:
 - A controller key Secret existed in the `sealed-secrets` namespace.
 - The controller private key was exported to `.local/` and verified to contain
   Secret material.
+- The Grafana admin Secret was sealed, reconciled by the `monitoring-secrets`
+  Argo CD Application, and remained available to the running Grafana pod.
 
 ## Restore after cluster rebuild
 
