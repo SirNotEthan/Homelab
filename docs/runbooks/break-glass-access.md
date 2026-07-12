@@ -51,12 +51,14 @@ Passed:
 - SSH to the k3s control-plane host succeeded and `k3s` was active.
 - SSH to the utility host succeeded.
 - `dnsmasq` and `tailscaled` were active on the utility host.
+- `kubectl get nodes` succeeded from the operator workstation and all cluster
+  nodes were Ready.
+- Argo CD reported all registered applications Synced and Healthy.
 - Argo CD returned HTTP 200 over the private HTTPS application hostname.
 - Authentik returned HTTP 200 over the private HTTPS application hostname.
 
 Not yet tested:
 
-- `kubectl get nodes` from the operator workstation as part of this runbook.
 - Argo CD local admin login.
 - Authentik local admin login.
 - Credential recovery procedures.
