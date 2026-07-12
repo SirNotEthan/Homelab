@@ -14,8 +14,8 @@ has a running k3s cluster, private DNS, HTTPS ingress, distributed storage, a
 service dashboard, and the first GitOps-managed applications.
 
 The platform is usable for controlled homelab workloads, but it is not yet
-production-ready. k3s datastore backup, encrypted secret management,
-observability, and restore exercises are still active roadmap items.
+production-ready. Encrypted secret management, independent persistent-volume
+backups, and restore exercises are still active roadmap items.
 
 ## Principles
 
@@ -53,7 +53,7 @@ See [docs/hardware.md](docs/hardware.md) for the inventory.
 | GitOps | Argo CD deployed; selected applications reconcile from `main` |
 | Dashboard | Homepage deployed and GitOps-managed |
 | Observability | Prometheus, Grafana, and Loki deployed; GitOps-managed |
-| Identity and SSO | Authentik deployed; GitOps definition in progress |
+| Identity and SSO | Authentik deployed and GitOps-managed |
 
 Applications listed in [docs/services.md](docs/services.md) are candidates, not
 all currently deployed services.

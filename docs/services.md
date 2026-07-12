@@ -12,10 +12,26 @@ validated on the cluster.
 | Longhorn | Persistent volume storage | v0.3 | Deployed | Critical state |
 | Homepage | Service dashboard | v0.4 | GitOps-managed | Configuration |
 | Argo CD | GitOps reconciliation | v0.5 | Deployed | Reproducible configuration |
-| Authentik | Identity and SSO | v0.4 | Planned | Critical database |
-| Prometheus | Metrics | v0.4 | Planned | Regenerable history |
-| Grafana | Dashboards and visualisation | v0.4 | Planned | Configuration |
-| Loki | Centralised logs | v0.4 | Planned | Regenerable history |
+| Authentik | Identity and SSO | v0.4 | GitOps-managed | Critical database |
+| Prometheus | Metrics | v0.4 | GitOps-managed | Regenerable history |
+| Grafana | Dashboards and visualisation | v0.4 | GitOps-managed | Configuration |
+| Loki | Centralised logs | v0.4 | GitOps-managed | Regenerable history |
+| Alloy | Log collection | v0.4 | GitOps-managed | Reproducible configuration |
+
+## Platform health and backup plan
+
+| Service | Health check | State to protect | Backup and recovery plan |
+|---|---|---|---|
+| Traefik | Pods ready, LoadBalancer service assigned, ingress class present | Helm values and ingress configuration | Reconcile from Git; no runtime state backup required |
+| cert-manager | Pods ready, ClusterIssuers ready, wildcard Certificate ready, no stuck challenges | Issuer and Certificate manifests; DNS provider token | Reconcile manifests from Git; recreate provider token from password manager if needed |
+| Longhorn | Longhorn pods ready, nodes schedulable, volumes healthy, replicas running | Persistent volume data and Longhorn metadata | Configure Longhorn backup target; test volume restore before relying on it |
+| Homepage | Pod ready, Ingress ready, HTTPS returns the service API | ConfigMap manifests | Reconcile from Git; no persistent app data backup required |
+| Argo CD | Pods ready, Ingress reachable, Applications Synced and Healthy | Application definitions and local admin recovery access | Reinstall Argo CD, reapply app-of-apps from Git, use break-glass admin access when needed |
+| Authentik | Server, worker, PostgreSQL, and Redis pods ready; HTTPS login works | PostgreSQL database and emergency admin access | Back up PostgreSQL application data; keep recovery credentials outside Git; test admin recovery |
+| Prometheus | Prometheus, Alertmanager, operator, kube-state-metrics, and node exporters ready | Metrics history and alerting configuration | Treat metrics as useful but mostly regenerable; keep configuration in Git; protect PVC until retention expires |
+| Grafana | Grafana pod ready, HTTPS login works, datasources available | Dashboards, datasource config, admin secret | Prefer declarative dashboards and datasources in Git; back up Grafana database while manual config exists |
+| Loki | Loki and cache pods ready, Alloy agents ready, log queries return streams | Recent log history | Treat logs as regenerable operational history; protect Loki PVC until retention expires |
+| Alloy | DaemonSet ready on all cluster nodes | Collector configuration | Reconcile from Git; no runtime state backup required |
 
 ## Development services
 

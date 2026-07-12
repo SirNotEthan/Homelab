@@ -17,6 +17,10 @@ still to be selected.
 | Git configuration | Remote Git mirror | GitHub | On push | Repository history | Planned |
 | k3s datastore | Offline SQLite archive | Local and backup host | Daily | 14 days local and backup host | Automated locally |
 | Persistent volumes | Longhorn backup | Backup target | Daily | TBD | Planned |
+| Authentik database | PostgreSQL dump plus Longhorn volume backup | Backup target | Daily | TBD | Planned |
+| Grafana database | Declarative config plus database backup while manual config exists | Backup target | Daily or on change | TBD | Planned |
+| Prometheus metrics | Longhorn volume backup if history is worth preserving | Backup target | Daily | Retention-limited | Planned |
+| Loki logs | Longhorn volume backup if history is worth preserving | Backup target | Daily | Retention-limited | Planned |
 | Databases | Application-aware dump | Backup target | Daily | TBD | Planned |
 | Documents/photos | File backup | Local and off-site | Daily | TBD | Planned |
 | Grafana/app config | Export or declarative config | Git/backup target | On change | Version history | Planned |
@@ -43,6 +47,9 @@ the archive contents, and copied to the backup host. A daily systemd timer now
 creates and copies the backup with 14-day local and backup-host retention.
 Restore is not yet tested. See
 [k3s datastore backup runbook](runbooks/k3s-datastore-backup.md).
+
+Platform service health checks and service-specific backup expectations are
+tracked in the [service catalogue](services.md).
 
 ## Never commit
 

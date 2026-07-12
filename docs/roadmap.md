@@ -49,7 +49,7 @@ complete only when its documentation and recovery path match the implementation.
     - [x] Create local private notes file for sensitive storage locations
     - [x] Run initial connectivity test
     - [x] Test local admin logins
-- [ ] Add health checks and backup plans for every platform service
+- [x] Add health checks and backup plans for every platform service
 
 ## v0.5 - GitOps and automated recovery
 

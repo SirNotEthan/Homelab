@@ -117,7 +117,10 @@ Expected baseline:
 ```bash
 kubectl get pods,svc,ingress,configmap -n homepage -o wide
 kubectl get pods,svc,ingress -n argocd -o wide
-kubectl get application argocd-access homepage -n argocd
+kubectl get pods,svc,ingress,pvc -n identity -o wide
+kubectl get pods,svc,ingress,pvc -n monitoring -o wide
+kubectl get pods,svc,pvc -n logging -o wide
+kubectl get application -n argocd
 ```
 
 From a Windows client:
@@ -125,6 +128,9 @@ From a Windows client:
 ```powershell
 Resolve-DnsName homepage.apps.lab.sirnotethan.uk
 Invoke-WebRequest https://homepage.apps.lab.sirnotethan.uk/api/services -UseBasicParsing
+Invoke-WebRequest https://argocd.apps.lab.sirnotethan.uk -UseBasicParsing
+Invoke-WebRequest https://auth.apps.lab.sirnotethan.uk -UseBasicParsing
+Invoke-WebRequest https://grafana.apps.lab.sirnotethan.uk -UseBasicParsing
 ```
 
 Expected baseline:
@@ -137,8 +143,11 @@ Expected baseline:
 - Argo CD pods are running;
 - the Argo CD Ingress is served through Traefik and the application wildcard
   certificate;
-- the `argocd-access` Application reports `Synced` and `Healthy`.
-- the `homepage` Application reports `Synced` and `Healthy`.
+- Authentik server, worker, PostgreSQL, and Redis components are running;
+- Grafana, Prometheus, Alertmanager, kube-state-metrics, and node exporters are
+  running;
+- Loki and Alloy pods are running;
+- every Argo CD Application reports `Synced` and `Healthy`.
 
 ## Host checks
 
@@ -161,9 +170,7 @@ Expected baseline:
 ## Current known limitations
 
 - The control plane is not highly available.
-- k3s datastore backup and restore are not yet implemented.
-- Some platform workloads and Helm values are still manually applied while
-  GitOps migration is in progress.
+- k3s datastore restore is documented but not yet tested.
 - Secrets are manually created in the cluster and are not yet managed by a
   declarative secret-management workflow.
 - Longhorn backup targets and volume restore exercises are not yet implemented.
