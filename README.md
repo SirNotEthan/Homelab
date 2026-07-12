@@ -52,8 +52,8 @@ See [docs/hardware.md](docs/hardware.md) for the inventory.
 | Storage | Longhorn deployed and smoke-tested |
 | GitOps | Argo CD deployed; selected applications reconcile from `main` |
 | Dashboard | Homepage deployed and GitOps-managed |
-| Observability | Prometheus, Grafana, and Loki deployed; GitOps definitions in progress |
-| Identity and SSO | Planned |
+| Observability | Prometheus, Grafana, and Loki deployed; GitOps-managed |
+| Identity and SSO | Authentik deployed; GitOps definition in progress |
 
 Applications listed in [docs/services.md](docs/services.md) are candidates, not
 all currently deployed services.

@@ -1,0 +1,35 @@
+authentik:
+  error_reporting:
+    enabled: false
+  existingSecret:
+    secretName: authentik-secrets
+  postgresql:
+    host: authentik-postgresql
+    name: authentik
+    user: authentik
+
+server:
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    hosts:
+      - auth.apps.lab.sirnotethan.uk
+    tls:
+      - hosts:
+          - auth.apps.lab.sirnotethan.uk
+        secretName: apps-prod-wildcard-tls
+
+postgresql:
+  enabled: true
+  auth:
+    database: authentik
+    existingSecret: authentik-postgresql
+    username: authentik
+  primary:
+    persistence:
+      enabled: true
+      size: 10Gi
+      storageClass: longhorn-2replica
+
+redis:
+  enabled: true

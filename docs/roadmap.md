@@ -42,6 +42,9 @@ complete only when its documentation and recovery path match the implementation.
   - [x] Deploy cluster log collection and storage
   - [x] Reconcile logging from `main`
 - [ ] Deploy Authentik and document break-glass access
+  - [x] Deploy Authentik
+  - [ ] Reconcile Authentik from `main`
+  - [ ] Document break-glass access
 - [ ] Add health checks and backup plans for every platform service
 
 ## v0.5 - GitOps and automated recovery
@@ -53,6 +56,7 @@ complete only when its documentation and recovery path match the implementation.
   - [x] Reconcile cert-manager issuer and certificate configuration from `main`
   - [x] Reconcile monitoring from `main`
   - [x] Reconcile logging from `main`
+  - [ ] Reconcile Authentik from `main`
 - [ ] Implement encrypted secrets management
 - [ ] Automate local and off-site backups
   - [x] Automate local k3s datastore backup
