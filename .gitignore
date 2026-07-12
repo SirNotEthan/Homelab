@@ -43,3 +43,4 @@ backups/data/
 
 # Generated Kubernetes snapshots
 kubernetes/platform/monitoring/*.generated.yaml
+.local/

@@ -9,7 +9,8 @@ Git.
 
 ## Current status
 
-Break-glass access is not fully documented yet.
+Break-glass access is partially documented and has a basic connectivity test.
+Sensitive credential storage details are recorded outside Git.
 
 ## Known emergency paths
 
@@ -22,6 +23,16 @@ Break-glass access is not fully documented yet.
 | GitOps | Argo CD local admin account | Password must be stored outside Git |
 | Identity | Authentik local admin account | Password must be stored outside Git |
 
+## Private notes
+
+Sensitive storage locations and recovery notes are tracked locally in:
+
+```text
+.local/break-glass-private.md
+```
+
+The `.local/` directory is ignored by Git. Do not force-add it.
+
 ## Minimum test plan
 
 - Confirm SSH access to the k3s control-plane host without SSO.
@@ -30,6 +41,25 @@ Break-glass access is not fully documented yet.
 - Confirm Authentik local admin login works.
 - Confirm private DNS and Tailscale are not required for direct LAN recovery
   where possible.
+
+## Test record
+
+### 2026-07-12
+
+Passed:
+
+- SSH to the k3s control-plane host succeeded and `k3s` was active.
+- SSH to the utility host succeeded.
+- `dnsmasq` and `tailscaled` were active on the utility host.
+- Argo CD returned HTTP 200 over the private HTTPS application hostname.
+- Authentik returned HTTP 200 over the private HTTPS application hostname.
+
+Not yet tested:
+
+- `kubectl get nodes` from the operator workstation as part of this runbook.
+- Argo CD local admin login.
+- Authentik local admin login.
+- Credential recovery procedures.
 
 ## Follow-up
 
