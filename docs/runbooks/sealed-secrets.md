@@ -147,6 +147,9 @@ Passed:
   Secret material.
 - The Grafana admin Secret was sealed, reconciled by the `monitoring-secrets`
   Argo CD Application, and remained available to the running Grafana pod.
+- The Cloudflare API token Secret was sealed, reconciled by the
+  `cert-manager-secrets` Argo CD Application, and cert-manager issuers and
+  wildcard certificates remained Ready.
 
 ## Restore after cluster rebuild
 
