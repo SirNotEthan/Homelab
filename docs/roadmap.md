@@ -65,8 +65,8 @@ complete only when its documentation and recovery path match the implementation.
   - [x] Choose GitOps-compatible encrypted secret approach
   - [x] Document Sealed Secrets operating process
   - [x] Add Sealed Secrets GitOps definition
-  - [ ] Install Sealed Secrets controller
-  - [ ] Back up Sealed Secrets controller private key
+  - [x] Install Sealed Secrets controller
+  - [x] Back up Sealed Secrets controller private key
   - [ ] Migrate manually-created platform Secrets
 - [ ] Automate local and off-site backups
   - [x] Automate local k3s datastore backup

@@ -133,6 +133,19 @@ kubectl get secret -n sealed-secrets \
 Store a copy in the same protected location as other break-glass recovery
 material. Treat this file as highly sensitive.
 
+## Test record
+
+### 2026-07-12
+
+Passed:
+
+- Argo CD `sealed-secrets` Application reported `Synced` and `Healthy`.
+- The controller pod reported `Running`.
+- The `sealedsecrets.bitnami.com` CRD existed.
+- A controller key Secret existed in the `sealed-secrets` namespace.
+- The controller private key was exported to `.local/` and verified to contain
+  Secret material.
+
 ## Restore after cluster rebuild
 
 Before applying sealed secret manifests on a rebuilt cluster, restore the
