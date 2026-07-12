@@ -13,6 +13,10 @@
 secrets/
 credentials/
 
+# GitOps-safe encrypted Kubernetes secrets
+!kubernetes/platform/*/secrets/
+!kubernetes/platform/*/secrets/*.sealedsecret.yaml
+
 # Private Ansible controller data
 ansible/inventory/hosts.yml
 ansible/*.retry
