@@ -17,7 +17,7 @@ and the shared wildcard application certificate.
 
 The Grafana administrator password is stored in the in-cluster
 `grafana-admin` Secret in the `monitoring` namespace. The secret value is not
-stored in Git.
+stored in Git and should be migrated to a SealedSecret.
 
 ## Storage
 

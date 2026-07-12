@@ -38,10 +38,18 @@ temporary public DNS records; application A and AAAA records remain private.
 
 ## Secrets management
 
-The secrets implementation is an open architecture decision. Until one is
-adopted, manifests committed to Git must contain only references or documented
-placeholders. Secrets may be provided manually for experiments, but that is not
-considered a finished deployment.
+GitOps-managed Kubernetes Secrets will use Sealed Secrets. See
+[ADR-0008](decisions/0008-sealed-secrets.md) and the
+[Sealed Secrets runbook](runbooks/sealed-secrets.md).
+
+Until each existing manual Secret is migrated, manifests committed to Git must
+contain only references or documented placeholders. Plain Kubernetes Secret
+manifests, plaintext values, and generated recovery material must not be
+committed.
+
+The Sealed Secrets controller private key is recovery-critical. It must be
+backed up outside Git and protected with the same care as other break-glass
+material.
 
 If a secret is committed accidentally:
 

@@ -22,7 +22,7 @@ The following Kubernetes Secrets are required before applying the Helm release:
 - `authentik-postgresql`
 
 They are intentionally created manually and are not stored in Git until
-encrypted secret management is implemented.
+they are migrated to SealedSecret resources.
 
 Required keys:
 

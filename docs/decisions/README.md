@@ -14,6 +14,7 @@ including its trade-offs.
 | [0005](0005-network-baseline.md) | Use the EE hub as the single LAN router | Accepted |
 | [0006](0006-dns-certificates.md) | Use split DNS and public certificates for private services | Accepted |
 | [0007](0007-kubernetes-load-balancer.md) | Use MetalLB for the Kubernetes ingress address | Accepted |
+| [0008](0008-sealed-secrets.md) | Use Sealed Secrets for GitOps-managed Kubernetes secrets | Accepted |
 
 ## Lifecycle
 

@@ -62,6 +62,11 @@ complete only when its documentation and recovery path match the implementation.
   - [x] Reconcile logging from `main`
   - [x] Reconcile Authentik from `main`
 - [ ] Implement encrypted secrets management
+  - [x] Choose GitOps-compatible encrypted secret approach
+  - [x] Document Sealed Secrets operating process
+  - [ ] Install Sealed Secrets controller
+  - [ ] Back up Sealed Secrets controller private key
+  - [ ] Migrate manually-created platform Secrets
 - [ ] Automate local and off-site backups
   - [x] Automate local k3s datastore backup
   - [ ] Add off-site encrypted backup target
