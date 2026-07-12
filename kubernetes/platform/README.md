@@ -12,3 +12,4 @@ recovery.
 | `identity/` | Authentik identity and SSO configuration |
 | `logging/` | Loki log storage and Alloy log collection configuration |
 | `monitoring/` | Prometheus, Grafana, Alertmanager, and exporter configuration |
+| `sealed-secrets/` | Encrypted Kubernetes Secret reconciliation |

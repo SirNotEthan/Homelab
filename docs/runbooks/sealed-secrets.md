@@ -25,24 +25,20 @@ account tokens, and Helm release Secrets are not manually sealed.
 
 ## Controller installation
 
-Install the controller into its own namespace. Pin the chart version selected
-at install time in the GitOps manifest after validation.
+Install the controller into its own namespace through Argo CD. The initial
+GitOps definition pins the `sealed-secrets` Helm chart to `2.19.1`.
 
 ```bash
 export KUBECONFIG="$HOME/.kube/homelab.yaml"
 
-helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
-helm repo update
-helm search repo sealed-secrets/sealed-secrets --versions | head
+kubectl apply -k kubernetes/platform/argocd
 
-helm upgrade --install sealed-secrets sealed-secrets/sealed-secrets \
-  --namespace sealed-secrets \
-  --create-namespace \
-  --version <chart-version> \
-  --wait \
-  --timeout 10m
+kubectl annotate application sealed-secrets -n argocd \
+  argocd.argoproj.io/refresh=hard \
+  --overwrite
 
 kubectl get pods -n sealed-secrets
+kubectl get application sealed-secrets -n argocd
 ```
 
 ## Client installation
@@ -150,7 +146,7 @@ kubectl apply -f .local/sealed-secrets-controller-key-backup.yaml
 
 helm upgrade --install sealed-secrets sealed-secrets/sealed-secrets \
   --namespace sealed-secrets \
-  --version <chart-version> \
+  --version 2.19.1 \
   --wait \
   --timeout 10m
 ```

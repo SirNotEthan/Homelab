@@ -64,6 +64,7 @@ complete only when its documentation and recovery path match the implementation.
 - [ ] Implement encrypted secrets management
   - [x] Choose GitOps-compatible encrypted secret approach
   - [x] Document Sealed Secrets operating process
+  - [x] Add Sealed Secrets GitOps definition
   - [ ] Install Sealed Secrets controller
   - [ ] Back up Sealed Secrets controller private key
   - [ ] Migrate manually-created platform Secrets

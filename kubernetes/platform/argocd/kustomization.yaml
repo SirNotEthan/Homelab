@@ -8,3 +8,4 @@ resources:
   - applications/logging-alloy.yaml
   - applications/logging-loki.yaml
   - applications/monitoring.yaml
+  - applications/sealed-secrets.yaml
