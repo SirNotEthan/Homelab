@@ -102,7 +102,8 @@ complete only when its documentation and recovery path match the implementation.
   - [ ] Evaluate Stable Diffusion and ComfyUI for local image generation
   - [ ] Evaluate Whisper for local speech-to-text
 - [ ] Build the custom home AI foundation
-  - [ ] Define skill-learning workflow and safety boundaries
+  - [x] Add initial AI model, persona, skill, memory, and tool registry files
+  - [ ] Define skill-learning workflow and operating boundaries
   - [ ] Define tool/API access between the assistant, homelab services, and
         future home automation
   - [ ] Document privacy, logging, and retention rules for AI interactions

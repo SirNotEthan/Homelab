@@ -1,0 +1,39 @@
+---
+models:
+  - name: qwen2.5-coder:1.5b
+    provider: ollama
+    status: installed
+    primary_role: lightweight code help
+    notes:
+      - First validated local model.
+      - Suitable for small coding, scripting, and configuration tasks.
+      - CPU-friendly enough for the initial m700-03 AI node.
+
+  - name: llama3.2:3b
+    provider: ollama
+    status: planned
+    primary_role: general chat
+    notes:
+      - Candidate general assistant model for everyday local chat.
+
+  - name: phi3:mini
+    provider: ollama
+    status: planned
+    primary_role: compact reasoning
+    notes:
+      - Candidate small model for lightweight reasoning and summarisation.
+
+routing_preferences:
+  code:
+    preferred_model: qwen2.5-coder:1.5b
+  homelab_operations:
+    preferred_model: qwen2.5-coder:1.5b
+  general_chat:
+    preferred_model: llama3.2:3b
+  summarisation:
+    preferred_model: phi3:mini
+
+runtime:
+  default_provider: ollama
+  ollama_service_url: http://ollama.ai.svc.cluster.local:11434
+  ai_node: m700-03

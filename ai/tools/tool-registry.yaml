@@ -1,0 +1,42 @@
+---
+tools:
+  - name: searxng
+    category: search
+    status: deployed
+    endpoint: https://search.apps.lab.sirnotethan.uk
+    access: private_ingress
+    purpose: Private metasearch for research and retrieval workflows.
+
+  - name: ollama
+    category: model_runtime
+    status: deployed
+    endpoint: http://ollama.ai.svc.cluster.local:11434
+    access: cluster_internal
+    purpose: Local model serving.
+
+  - name: open-webui
+    category: ai_workspace
+    status: pending_validation
+    endpoint: https://ai.apps.lab.sirnotethan.uk
+    access: private_ingress
+    purpose: Browser UI for local models and chats.
+
+  - name: kubernetes
+    category: homelab_operations
+    status: future
+    access: explicit_user_grant
+    purpose: Inspect and operate cluster resources.
+
+  - name: git
+    category: source_of_truth
+    status: future
+    access: explicit_user_grant
+    purpose: Propose and review repository changes.
+
+tool_access_profiles:
+  read_only:
+    description: Inspect status, logs, documentation, and search results.
+  propose_changes:
+    description: Generate commands, manifests, and plans for user review.
+  approved_actions:
+    description: Execute actions after explicit user approval or through a documented automation.

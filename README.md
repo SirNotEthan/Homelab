@@ -64,6 +64,7 @@ all currently deployed services.
 | Path | Purpose |
 |---|---|
 | `ansible/` | Host configuration and repeatable operating-system changes |
+| `ai/` | Local AI model registry, personas, skills, memory, and tool definitions |
 | `bootstrap/` | First-run host and cluster bootstrap tooling |
 | `docs/` | Architecture, operations, standards, and decisions |
 | `kubernetes/` | Cluster infrastructure, platform, and application manifests |

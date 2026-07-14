@@ -33,6 +33,23 @@ prompt, search, or file to third-party services.
 | Code assistant tooling | Local code help routed through Ollama-compatible models | Evaluate after Ollama baseline |
 | Custom Home AI | Long-term assistant layer with curated skills and homelab tool access | Design before implementation |
 
+## Home AI foundation
+
+The repository now includes an `ai/` directory for the assistant-facing layer.
+It is separate from Kubernetes runtime manifests.
+
+| Path | Purpose |
+|---|---|
+| `ai/models/` | Model registry and routing preferences |
+| `ai/personas/` | Persona and system-prompt drafts |
+| `ai/skills/` | Curated skills the assistant can learn from |
+| `ai/memory/` | Memory policy and future memory layout |
+| `ai/tools/` | Tool and integration registry |
+
+The first foundation files define a local Home AI Core persona, a code-assistant
+persona, a research persona, a model registry, and starter skills for cluster
+status and GitOps application work.
+
 ## Access model
 
 - Expose user-facing AI services only through private DNS, HTTPS ingress, and
