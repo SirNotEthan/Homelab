@@ -70,6 +70,7 @@ complete only when its documentation and recovery path match the implementation.
   - [ ] Migrate manually-created platform Secrets
     - [x] Migrate Grafana admin Secret
     - [x] Migrate Cloudflare API token Secret
+    - [x] Migrate Authentik application and PostgreSQL Secrets
 - [ ] Automate local and off-site backups
   - [x] Automate local k3s datastore backup
   - [ ] Add off-site encrypted backup target

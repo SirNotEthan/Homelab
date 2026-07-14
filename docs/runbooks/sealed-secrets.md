@@ -150,6 +150,9 @@ Passed:
 - The Cloudflare API token Secret was sealed, reconciled by the
   `cert-manager-secrets` Argo CD Application, and cert-manager issuers and
   wildcard certificates remained Ready.
+- The Authentik application and PostgreSQL Secrets were sealed, reconciled by
+  the `identity-secrets` Argo CD Application, and Authentik server, worker, and
+  PostgreSQL pods remained Running.
 
 ## Restore after cluster rebuild
 
