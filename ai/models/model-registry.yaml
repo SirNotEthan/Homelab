@@ -11,14 +11,14 @@ models:
 
   - name: llama3.2:3b
     provider: ollama
-    status: planned
+    status: installed
     primary_role: general chat
     notes:
       - Candidate general assistant model for everyday local chat.
 
   - name: phi3:mini
     provider: ollama
-    status: planned
+    status: installed
     primary_role: compact reasoning
     notes:
       - Candidate small model for lightweight reasoning and summarisation.
