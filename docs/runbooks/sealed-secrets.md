@@ -154,6 +154,19 @@ Passed:
   the `identity-secrets` Argo CD Application, and Authentik server, worker, and
   PostgreSQL pods remained Running.
 
+### 2026-07-14
+
+Passed:
+
+- All Argo CD Applications reported `Synced` and `Healthy`.
+- Four SealedSecrets reported `SYNCED=True`: Grafana admin, Cloudflare API
+  token, Authentik application, and Authentik PostgreSQL.
+- The corresponding normal Kubernetes Secrets still existed in their target
+  namespaces.
+- Monitoring, cert-manager, and Authentik workloads remained healthy.
+- Secret manifest paths contained no plain `kind: Secret`, `data:`, or
+  `stringData:` manifests.
+
 ## Restore after cluster rebuild
 
 Before applying sealed secret manifests on a rebuilt cluster, restore the
