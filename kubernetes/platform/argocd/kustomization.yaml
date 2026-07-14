@@ -6,6 +6,7 @@ resources:
   - applications/cert-manager-secrets.yaml
   - applications/homepage.yaml
   - applications/identity-authentik.yaml
+  - applications/identity-secrets.yaml
   - applications/logging-alloy.yaml
   - applications/logging-loki.yaml
   - applications/monitoring.yaml

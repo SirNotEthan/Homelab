@@ -16,13 +16,14 @@ the shared wildcard application certificate.
 
 ## Secrets
 
-The following Kubernetes Secrets are required before applying the Helm release:
+The following Kubernetes Secrets are required by the Helm release:
 
 - `authentik-secrets`
 - `authentik-postgresql`
 
-They are intentionally created manually and are not stored in Git until
-they are migrated to SealedSecret resources.
+They are reconciled from encrypted SealedSecret resources under
+`kubernetes/platform/identity/secrets/`. Plain Kubernetes Secret manifests and
+plaintext values must not be committed.
 
 Required keys:
 
