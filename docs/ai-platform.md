@@ -72,6 +72,15 @@ CPU-only Ollama models. A future GPU host should become the dedicated model
 runtime if image generation, speech workloads, or larger code/text models become
 important.
 
+Initial Ollama deployment posture:
+
+- Run Ollama in Kubernetes on `m700-03`.
+- Keep the Ollama API internal to the cluster.
+- Expose human access through Open WebUI rather than direct ingress.
+- Use Longhorn-backed storage for model files so the first deployment survives
+  pod rescheduling on the AI node.
+- Start with small CPU-friendly models before testing larger workloads.
+
 ## Privacy requirements
 
 - Route AI research search through SearxNG where practical.

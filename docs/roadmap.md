@@ -85,6 +85,7 @@ complete only when its documentation and recovery path match the implementation.
         dedicated host
   - [ ] Define storage, model-cache, and backup requirements
 - [ ] Deploy Ollama for local model serving
+  - [x] Add GitOps manifests for Ollama
   - [ ] Select initial text/code models
   - [ ] Document model lifecycle and update policy
   - [ ] Add monitoring for model host resource usage

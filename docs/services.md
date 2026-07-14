@@ -47,7 +47,7 @@ components rather than user-facing hosted applications.
 
 | Service | Purpose | Status | Data class |
 |---|---|---|---|
-| Ollama | Local text and code model serving | Planned | Model cache and configuration |
+| Ollama | Local text and code model serving | GitOps manifest added | Model cache and configuration |
 | Open WebUI | Private browser UI for local models | Planned | User settings and chat history |
 | SearxNG | Privacy-preserving metasearch for AI and human research | GitOps manifest added | Configuration; minimal retained state |
 | Stable Diffusion / ComfyUI | Local image-generation workflows | Candidate | Model cache, workflows, generated assets |
