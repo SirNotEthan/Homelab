@@ -8,23 +8,23 @@ encryption material required for recovery.
 
 ## Target strategy
 
-Adopt a 3-2-1 approach: three copies, on two media or systems, with one copy
-off-site. `hp-utility-01` is the local target. The proposed off-site target is
-S3-compatible object storage, with Backblaze B2 as the initial recommended
-provider.
+Adopt a pragmatic local-first backup approach while the homelab is still being
+built. `hp-utility-01` is the local target for k3s datastore backup copies.
+Off-site object storage was evaluated and documented, but is deferred until the
+platform contains data that justifies the extra operational overhead.
 
 | Asset | Method | Target | Frequency | Retention | Status |
 |---|---|---|---|---|---|
 | Git configuration | Remote Git mirror | GitHub | On push | Repository history | Planned |
-| k3s datastore | Offline SQLite archive plus restic copy | Local, backup host, and off-site object storage | Daily | 14 days local and backup host; off-site TBD | Local automated; off-site planned |
-| Persistent volumes | Longhorn backup | S3-compatible object storage | Daily | TBD | Planned |
+| k3s datastore | Offline SQLite archive | Local and backup host | Daily | 14 days local and backup host | Automated locally |
+| Persistent volumes | Longhorn backup | Local or future backup target | Daily | TBD | Deferred |
 | Authentik database | PostgreSQL dump plus Longhorn volume backup | Backup target | Daily | TBD | Planned |
 | Grafana database | Declarative config plus database backup while manual config exists | Backup target | Daily or on change | TBD | Planned |
 | Prometheus metrics | Longhorn volume backup if history is worth preserving | Backup target | Daily | Retention-limited | Planned |
 | Loki logs | Longhorn volume backup if history is worth preserving | Backup target | Daily | Retention-limited | Planned |
 | Databases | Application-aware dump | Backup target | Daily | TBD | Planned |
-| Sealed Secrets controller key | Encrypted file backup | Private local storage and off-site object storage | On rotation or controller replacement | Keep latest and prior key during migration | Local private backup exists; off-site planned |
-| Documents/photos | File backup | Local and off-site | Daily | TBD | Planned |
+| Sealed Secrets controller key | Encrypted file backup | Private local storage | On rotation or controller replacement | Keep latest and prior key during migration | Local private backup exists |
+| Documents/photos | File backup | Local target first; off-site later if needed | Daily | TBD | Planned |
 | Grafana/app config | Export or declarative config | Git/backup target | On change | Version history | Planned |
 
 Frequencies and retention are provisional until data value and available
@@ -50,9 +50,8 @@ creates and copies the backup with 14-day local and backup-host retention.
 Restore is not yet tested. See
 [k3s datastore backup runbook](runbooks/k3s-datastore-backup.md).
 
-The off-site backup target is tracked by
-[ADR-0009](decisions/0009-offsite-backups.md). The implementation process is in
-the [off-site backups runbook](runbooks/offsite-backups.md).
+The off-site backup target evaluation is tracked by
+[ADR-0009](decisions/0009-offsite-backups.md) and is currently deferred.
 
 Platform service health checks and service-specific backup expectations are
 tracked in the [service catalogue](services.md).

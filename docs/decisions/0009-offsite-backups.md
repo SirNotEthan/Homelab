@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed
+Deferred
 
 ## Context
 
@@ -17,12 +17,12 @@ future application-aware database dumps.
 ## Decision
 
 Use an S3-compatible object storage provider as the first off-site backup
-target.
+target when off-site backups become worth the extra operational overhead.
 
-The initial recommended provider is Backblaze B2 because it is S3-compatible,
-cost-effective for small homelab backup volumes, and supported by common backup
-tools. The exact provider, region, bucket name, and access keys must be created
-outside Git.
+Backblaze B2 was evaluated first because it is S3-compatible, cost-effective for
+small homelab backup volumes, and supported by common backup tools. The
+implementation is deferred because local backups and GitOps are enough for the
+current build phase.
 
 Use:
 

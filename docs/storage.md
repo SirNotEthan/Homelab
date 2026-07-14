@@ -37,8 +37,8 @@ Baseline settings:
 - volume expansion: enabled;
 - reclaim policy: `Delete`;
 - filesystem type: `ext4`;
-- backup target: not yet configured; the proposed target is S3-compatible
-  object storage.
+- backup target: local-first backup posture; off-site object storage is
+  deferred.
 
 Validation evidence:
 
@@ -57,7 +57,7 @@ Longhorn defaults, but it is not the default class for new workloads.
 ## Open decisions
 
 - Long-term bulk storage platform
-- Backup protocol and off-site destination proposed in
+- Off-site backup destination deferred in
   [ADR-0009](decisions/0009-offsite-backups.md)
 - Encryption at rest requirements
 - Retention by data class

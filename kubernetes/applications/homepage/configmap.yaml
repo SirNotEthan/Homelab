@@ -20,6 +20,10 @@ data:
         - Longhorn:
             href: https://longhorn.apps.lab.sirnotethan.uk
             description: Persistent storage
+    - AI:
+        - SearXNG:
+            href: https://search.apps.lab.sirnotethan.uk
+            description: Private metasearch
   settings.yaml: |
     title: Homelab
     theme: dark

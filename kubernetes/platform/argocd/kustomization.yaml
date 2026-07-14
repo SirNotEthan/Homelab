@@ -11,4 +11,5 @@ resources:
   - applications/logging-loki.yaml
   - applications/monitoring.yaml
   - applications/monitoring-secrets.yaml
+  - applications/searxng.yaml
   - applications/sealed-secrets.yaml

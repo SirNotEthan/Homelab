@@ -49,7 +49,7 @@ components rather than user-facing hosted applications.
 |---|---|---|---|
 | Ollama | Local text and code model serving | Planned | Model cache and configuration |
 | Open WebUI | Private browser UI for local models | Planned | User settings and chat history |
-| SearxNG | Privacy-preserving metasearch for AI and human research | Planned | Configuration; minimal retained state |
+| SearxNG | Privacy-preserving metasearch for AI and human research | GitOps manifest added | Configuration; minimal retained state |
 | Stable Diffusion / ComfyUI | Local image-generation workflows | Candidate | Model cache, workflows, generated assets |
 | Whisper | Local speech-to-text transcription | Candidate | Model cache and transient audio inputs |
 | Custom Home AI | Personal assistant and skill-learning system | Planned | Critical assistant memory, skills, tool config |

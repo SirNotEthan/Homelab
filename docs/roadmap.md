@@ -74,10 +74,7 @@ complete only when its documentation and recovery path match the implementation.
 - [ ] Automate local and off-site backups
   - [x] Automate local k3s datastore backup
   - [x] Propose off-site S3-compatible backup target
-  - [ ] Add off-site encrypted backup target
-  - [ ] Configure restic off-site backup for k3s archives
-  - [ ] Configure Longhorn off-site backup target
-  - [ ] Test off-site restore
+  - [x] Defer off-site encrypted backup target
 - [ ] Test application and volume restores
 
 ## v0.6 - Local AI platform
@@ -96,6 +93,7 @@ complete only when its documentation and recovery path match the implementation.
         routing
   - [ ] Integrate with Authentik where practical
 - [ ] Deploy SearxNG for privacy-preserving search
+  - [x] Add GitOps manifests for SearxNG
   - [ ] Restrict access to trusted users and services
   - [ ] Connect it to local AI workflows for research/search augmentation
 - [ ] Evaluate image and audio AI services
