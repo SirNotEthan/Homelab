@@ -33,6 +33,7 @@ Hardware
 | Infrastructure | Networking and durable storage | Traefik, certificates, Longhorn |
 | Platform | Shared operational capabilities | Argo CD, Authentik, observability |
 | Applications | User-facing workloads | Homepage, Immich, Jellyfin |
+| AI platform | Private local AI, search, and assistant workflows | Ollama, Open WebUI, SearxNG |
 
 ## Target topology
 
@@ -70,6 +71,8 @@ external API; it is not required merely for consistency.
 - A single physical site remains vulnerable until off-site backups are active.
 - Address allocation and the DNS/certificate approach are documented; storage
   sizing and later network segmentation remain roadmap work.
+- Local AI workloads may require different placement, resource isolation, and
+  privacy rules from normal web applications.
 
 ## Related documents
 
@@ -78,4 +81,5 @@ external API; it is not required merely for consistency.
 - [Storage](storage.md)
 - [Backups](backups.md)
 - [Disaster recovery](disaster-recovery.md)
+- [Local AI platform](ai-platform.md)
 - [Architecture decisions](decisions/README.md)

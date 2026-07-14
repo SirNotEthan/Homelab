@@ -43,6 +43,21 @@ validated on the cluster.
 GitHub, Docker tooling, and Kubernetes are external dependencies or platform
 components rather than user-facing hosted applications.
 
+## Local AI services
+
+| Service | Purpose | Status | Data class |
+|---|---|---|---|
+| Ollama | Local text and code model serving | Planned | Model cache and configuration |
+| Open WebUI | Private browser UI for local models | Planned | User settings and chat history |
+| SearxNG | Privacy-preserving metasearch for AI and human research | Planned | Configuration; minimal retained state |
+| Stable Diffusion / ComfyUI | Local image-generation workflows | Candidate | Model cache, workflows, generated assets |
+| Whisper | Local speech-to-text transcription | Candidate | Model cache and transient audio inputs |
+| Custom Home AI | Personal assistant and skill-learning system | Planned | Critical assistant memory, skills, tool config |
+
+The local AI platform should prefer private DNS, HTTPS ingress, Authentik SSO
+where supported, and Tailscale access for trusted devices. Internet-facing AI
+endpoints are out of scope unless explicitly approved and threat-modeled.
+
 ## Personal applications
 
 | Service | Purpose | Status | Backup priority |

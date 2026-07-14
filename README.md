@@ -14,8 +14,9 @@ has a running k3s cluster, private DNS, HTTPS ingress, distributed storage, a
 service dashboard, and the first GitOps-managed applications.
 
 The platform is usable for controlled homelab workloads, but it is not yet
-production-ready. Encrypted secret management, independent persistent-volume
-backups, and restore exercises are still active roadmap items.
+production-ready. Independent persistent-volume backups, off-site backups, and
+restore exercises are still active roadmap items. A local AI platform is now a
+planned future capability.
 
 ## Principles
 
@@ -81,11 +82,13 @@ documentation and configuration only.
 - [Security](docs/security.md)
 - [Services](docs/services.md)
 - [Storage](docs/storage.md)
+- [Local AI platform](docs/ai-platform.md)
 - [Backups](docs/backups.md)
 - [Disaster recovery](docs/disaster-recovery.md)
 - [Cluster status runbook](docs/runbooks/cluster-status.md)
 - [Break-glass access runbook](docs/runbooks/break-glass-access.md)
 - [Sealed Secrets runbook](docs/runbooks/sealed-secrets.md)
+- [Off-site backups runbook](docs/runbooks/offsite-backups.md)
 - [Node rebuild runbook](docs/runbooks/node-rebuild.md)
 - [Project standards](docs/standards.md)
 - [Roadmap](docs/roadmap.md)

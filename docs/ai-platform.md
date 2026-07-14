@@ -1,0 +1,92 @@
+# Local AI platform
+
+## Purpose
+
+The local AI platform will provide private model serving, search augmentation,
+speech processing, image workflows, and a foundation for a future custom home
+AI assistant.
+
+The platform should prefer local execution, private networking, and explicit
+tool boundaries. External AI services may still be used deliberately, but the
+homelab should be capable of useful private AI workflows without sending every
+prompt, search, or file to third-party services.
+
+## Initial goals
+
+- Serve local text and code models with Ollama.
+- Provide a private browser interface with Open WebUI or an equivalent UI.
+- Provide privacy-preserving search with SearxNG.
+- Evaluate local image workflows with Stable Diffusion and ComfyUI.
+- Evaluate local speech-to-text with Whisper.
+- Build toward a custom home AI and assistant that can learn curated skill
+  files and operate against explicitly approved homelab tools.
+
+## Candidate components
+
+| Component | Role | Initial stance |
+|---|---|---|
+| Ollama | Model runtime and model lifecycle manager | Preferred first deployment |
+| Open WebUI | Browser UI and chat workspace for local models | Likely first UI |
+| SearxNG | Private metasearch layer for research and retrieval | Required before search-augmented AI workflows |
+| Stable Diffusion / ComfyUI | Image generation and workflow graph execution | Evaluate after base text/search stack |
+| Whisper | Speech-to-text for local audio transcription | Evaluate after base text/search stack |
+| Code assistant tooling | Local code help routed through Ollama-compatible models | Evaluate after Ollama baseline |
+| Custom Home AI | Long-term assistant layer with curated skills and homelab tool access | Design before implementation |
+
+## Access model
+
+- Expose user-facing AI services only through private DNS, HTTPS ingress, and
+  Tailscale-accessible routes.
+- Prefer Authentik SSO for browser-facing services that support it.
+- Keep administrative APIs private and restrict them to trusted operators.
+- Do not expose model APIs directly to the public internet.
+- Avoid retaining prompts, chats, audio, generated images, or tool traces unless
+  the retention policy is documented.
+
+## Placement and resource planning
+
+Model workloads are resource-sensitive. Before deployment, record:
+
+- whether workloads run in Kubernetes or directly on a dedicated host;
+- CPU, memory, disk, and GPU requirements;
+- where model caches live;
+- how generated assets are stored and backed up;
+- whether workloads can tolerate eviction or node loss;
+- whether a service needs persistent Longhorn storage or host-local storage.
+
+The first deployment should be conservative: text model serving and a web UI
+before adding image generation or always-on voice services.
+
+## Privacy requirements
+
+- Route AI research search through SearxNG where practical.
+- Avoid unnecessary third-party telemetry.
+- Keep model prompts and generated outputs private by default.
+- Document any external API calls made by the custom assistant.
+- Treat assistant memory, skill files, and tool credentials as sensitive.
+
+## Backup and recovery
+
+The AI platform will likely contain a mix of reproducible and valuable state:
+
+| Data | Backup priority |
+|---|---|
+| Git-managed configuration | Git history |
+| Downloaded model files | Re-downloadable unless bandwidth/time becomes a concern |
+| Open WebUI user data and chat history | User decision; default to important if retained |
+| SearxNG configuration | Git-managed |
+| ComfyUI workflows | Important if customized |
+| Generated images/audio/transcripts | User decision; document per workflow |
+| Custom assistant memory and skills | Critical once it becomes useful |
+
+## Open questions
+
+- Which host should carry AI workloads?
+- Is GPU acceleration available or planned?
+- Should Ollama run inside Kubernetes or directly on a host?
+- Should Open WebUI use Authentik directly or rely on private-network access
+  first?
+- What is the default retention policy for prompts, chats, generated media, and
+  assistant memory?
+- What tool permissions will the custom home AI receive, and how will those
+  permissions be reviewed?

@@ -73,8 +73,39 @@ complete only when its documentation and recovery path match the implementation.
     - [x] Migrate Authentik application and PostgreSQL Secrets
 - [ ] Automate local and off-site backups
   - [x] Automate local k3s datastore backup
+  - [x] Propose off-site S3-compatible backup target
   - [ ] Add off-site encrypted backup target
+  - [ ] Configure restic off-site backup for k3s archives
+  - [ ] Configure Longhorn off-site backup target
+  - [ ] Test off-site restore
 - [ ] Test application and volume restores
+
+## v0.6 - Local AI platform
+
+- [ ] Design local AI architecture
+  - [ ] Define GPU/CPU placement and resource isolation
+  - [ ] Decide which AI services run in Kubernetes and which run directly on a
+        dedicated host
+  - [ ] Define storage, model-cache, and backup requirements
+- [ ] Deploy Ollama for local model serving
+  - [ ] Select initial text/code models
+  - [ ] Document model lifecycle and update policy
+  - [ ] Add monitoring for model host resource usage
+- [ ] Deploy Open WebUI for private AI access
+  - [ ] Expose through private DNS, HTTPS ingress, and Tailscale-accessible
+        routing
+  - [ ] Integrate with Authentik where practical
+- [ ] Deploy SearxNG for privacy-preserving search
+  - [ ] Restrict access to trusted users and services
+  - [ ] Connect it to local AI workflows for research/search augmentation
+- [ ] Evaluate image and audio AI services
+  - [ ] Evaluate Stable Diffusion and ComfyUI for local image generation
+  - [ ] Evaluate Whisper for local speech-to-text
+- [ ] Build the custom home AI foundation
+  - [ ] Define skill-learning workflow and safety boundaries
+  - [ ] Define tool/API access between the assistant, homelab services, and
+        future home automation
+  - [ ] Document privacy, logging, and retention rules for AI interactions
 
 ## v1.0 - Reliable personal cloud
 

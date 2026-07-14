@@ -15,6 +15,7 @@ including its trade-offs.
 | [0006](0006-dns-certificates.md) | Use split DNS and public certificates for private services | Accepted |
 | [0007](0007-kubernetes-load-balancer.md) | Use MetalLB for the Kubernetes ingress address | Accepted |
 | [0008](0008-sealed-secrets.md) | Use Sealed Secrets for GitOps-managed Kubernetes secrets | Accepted |
+| [0009](0009-offsite-backups.md) | Use S3-compatible object storage for off-site backups | Proposed |
 
 ## Lifecycle
 
