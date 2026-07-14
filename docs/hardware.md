@@ -51,7 +51,9 @@ All nodes joined the initial k3s cluster on Ubuntu 26.04 LTS with k3s
 ## Placement constraints
 
 - `m910q-01` initially hosts the only k3s control plane.
-- `m700-03` may be tainted or labelled for experimental workloads.
+- `m700-03` is labelled for AI/lab workloads with
+  `homelab.sirnotethan.uk/workload=ai` and
+  `homelab.sirnotethan.uk/ai=true`.
 - `hp-utility-01` remains outside the cluster so local backups do not share the
   Kubernetes control-plane failure domain.
 - Stateful workload placement must account for actual disk capacity and health.

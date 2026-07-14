@@ -57,6 +57,21 @@ Model workloads are resource-sensitive. Before deployment, record:
 The first deployment should be conservative: text model serving and a web UI
 before adding image generation or always-on voice services.
 
+Initial placement decision:
+
+- `m700-03` is the first AI/lab Kubernetes node.
+- The node is labelled with `homelab.sirnotethan.uk/workload=ai` and
+  `homelab.sirnotethan.uk/ai=true`.
+- Early AI platform services should use a `nodeSelector` for
+  `homelab.sirnotethan.uk/workload: ai`.
+- The control-plane node is intentionally avoided for experimental or heavy AI
+  workloads.
+
+This placement is suitable for SearXNG, Open WebUI, automation glue, and small
+CPU-only Ollama models. A future GPU host should become the dedicated model
+runtime if image generation, speech workloads, or larger code/text models become
+important.
+
 ## Privacy requirements
 
 - Route AI research search through SearxNG where practical.

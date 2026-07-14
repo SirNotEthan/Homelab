@@ -13,6 +13,8 @@ spec:
       labels:
         app: searxng
     spec:
+      nodeSelector:
+        homelab.sirnotethan.uk/workload: ai
       containers:
         - name: searxng
           image: docker.io/searxng/searxng:latest
