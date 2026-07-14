@@ -12,5 +12,6 @@ resources:
   - applications/monitoring.yaml
   - applications/monitoring-secrets.yaml
   - applications/ollama.yaml
+  - applications/open-webui.yaml
   - applications/searxng.yaml
   - applications/sealed-secrets.yaml

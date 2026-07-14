@@ -81,6 +81,16 @@ Initial Ollama deployment posture:
   pod rescheduling on the AI node.
 - Start with small CPU-friendly models before testing larger workloads.
 
+Initial Open WebUI deployment posture:
+
+- Run Open WebUI in Kubernetes on `m700-03`.
+- Expose it privately at `https://ai.apps.lab.sirnotethan.uk`.
+- Connect it to the internal Ollama service at
+  `http://ollama.ai.svc.cluster.local:11434`.
+- Store Open WebUI user data and chat history on a Longhorn-backed PVC.
+- Use local Open WebUI admin login first; add Authentik SSO after the base AI
+  interface is stable.
+
 ## Privacy requirements
 
 - Route AI research search through SearxNG where practical.

@@ -21,6 +21,9 @@ data:
             href: https://longhorn.apps.lab.sirnotethan.uk
             description: Persistent storage
     - AI:
+        - Homelab AI:
+            href: https://ai.apps.lab.sirnotethan.uk
+            description: Local AI chat workspace
         - SearXNG:
             href: https://search.apps.lab.sirnotethan.uk
             description: Private metasearch
