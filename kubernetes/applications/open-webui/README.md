@@ -29,7 +29,14 @@ above.
 On the first visit, create the initial local administrator account. Store the
 credentials in the private break-glass notes location.
 
-Authentik SSO can be added later after the local deployment is stable.
+Authentik SSO is planned through OpenID Connect. Keep the local admin login
+available until SSO is configured, tested, and recorded as a break-glass path.
+
+Runbook:
+
+```text
+docs/runbooks/open-webui-authentik.md
+```
 
 ## Storage
 

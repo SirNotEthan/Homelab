@@ -22,6 +22,7 @@ Sensitive credential storage details are recorded outside Git.
 | Kubernetes | Local kubeconfig | Stored outside Git on the operator workstation |
 | GitOps | Argo CD local admin account | Password must be stored outside Git |
 | Identity | Authentik local admin account | Password must be stored outside Git |
+| AI UI | Open WebUI local admin account | Keep available until Authentik SSO is tested |
 
 ## Private notes
 
@@ -39,6 +40,7 @@ The `.local/` directory is ignored by Git. Do not force-add it.
 - Confirm `kubectl get nodes` works from the operator workstation.
 - Confirm Argo CD local admin login works.
 - Confirm Authentik local admin login works.
+- Confirm Open WebUI local admin login works before changing SSO settings.
 - Confirm private DNS and Tailscale are not required for direct LAN recovery
   where possible.
 

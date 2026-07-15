@@ -117,8 +117,9 @@ Initial Open WebUI deployment posture:
 - Use the internal SearXNG service for private web search augmentation at
   `http://searxng.ai.svc.cluster.local/search?q=<query>&format=json`.
 - Store Open WebUI user data and chat history on a Longhorn-backed PVC.
-- Use local Open WebUI admin login first; add Authentik SSO after the base AI
-  interface is stable.
+- Use local Open WebUI admin login as a break-glass path.
+- Add Authentik SSO through OpenID Connect after the OAuth client secret is
+  sealed and the local admin path is tested.
 
 ## Privacy requirements
 

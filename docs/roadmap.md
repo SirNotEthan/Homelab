@@ -94,6 +94,10 @@ complete only when its documentation and recovery path match the implementation.
   - [x] Expose through private DNS, HTTPS ingress, and Tailscale-accessible
         routing
   - [ ] Integrate with Authentik where practical
+    - [x] Document the Authentik OIDC integration plan
+    - [ ] Create Authentik OAuth2 provider and application
+    - [ ] Seal Open WebUI OIDC client credentials
+    - [ ] Enable and validate Open WebUI Authentik login
 - [ ] Deploy SearxNG for privacy-preserving search
   - [x] Add GitOps manifests for SearxNG
   - [ ] Restrict access to trusted users and services
