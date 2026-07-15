@@ -80,7 +80,7 @@ complete only when its documentation and recovery path match the implementation.
 ## v0.6 - Local AI platform
 
 - [ ] Design local AI architecture
-  - [ ] Define GPU/CPU placement and resource isolation
+  - [x] Define GPU/CPU placement and resource isolation
   - [ ] Decide which AI services run in Kubernetes and which run directly on a
         dedicated host
   - [ ] Define storage, model-cache, and backup requirements

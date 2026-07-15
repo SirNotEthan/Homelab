@@ -83,6 +83,8 @@ Initial placement decision:
   `homelab.sirnotethan.uk/workload: ai`.
 - The control-plane node is intentionally avoided for experimental or heavy AI
   workloads.
+- The `ai` namespace has a ResourceQuota and LimitRange so experiments cannot
+  consume the whole cluster by accident.
 
 This placement is suitable for SearXNG, Open WebUI, automation glue, and small
 CPU-only Ollama models. A future GPU host should become the dedicated model

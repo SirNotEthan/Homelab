@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: ai-namespace-quota
+  namespace: ai
+spec:
+  hard:
+    requests.cpu: "3"
+    requests.memory: 6Gi
+    limits.cpu: "6"
+    limits.memory: 12Gi
+    requests.storage: 40Gi
+    persistentvolumeclaims: "4"
+    pods: "8"
