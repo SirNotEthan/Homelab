@@ -81,7 +81,7 @@ complete only when its documentation and recovery path match the implementation.
 
 - [ ] Design local AI architecture
   - [x] Define GPU/CPU placement and resource isolation
-  - [ ] Decide which AI services run in Kubernetes and which run directly on a
+  - [x] Decide which AI services run in Kubernetes and which run directly on a
         dedicated host
   - [ ] Define storage, model-cache, and backup requirements
 - [ ] Deploy Ollama for local model serving

@@ -91,6 +91,10 @@ CPU-only Ollama models. A future GPU host should become the dedicated model
 runtime if image generation, speech workloads, or larger code/text models become
 important.
 
+ADR-0010 records the workload placement decision: keep lightweight and
+control-plane AI services in Kubernetes, and move heavy or GPU-backed model
+runtime workloads to a dedicated AI host when that hardware exists.
+
 Initial Ollama deployment posture:
 
 - Run Ollama in Kubernetes on `m700-03`.
@@ -140,9 +144,7 @@ The AI platform will likely contain a mix of reproducible and valuable state:
 
 ## Open questions
 
-- Which host should carry AI workloads?
 - Is GPU acceleration available or planned?
-- Should Ollama run inside Kubernetes or directly on a host?
 - Should Open WebUI use Authentik directly or rely on private-network access
   first?
 - What is the default retention policy for prompts, chats, generated media, and

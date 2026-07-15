@@ -16,6 +16,7 @@ including its trade-offs.
 | [0007](0007-kubernetes-load-balancer.md) | Use MetalLB for the Kubernetes ingress address | Accepted |
 | [0008](0008-sealed-secrets.md) | Use Sealed Secrets for GitOps-managed Kubernetes secrets | Accepted |
 | [0009](0009-offsite-backups.md) | Use S3-compatible object storage for off-site backups | Deferred |
+| [0010](0010-ai-workload-placement.md) | Split AI workloads between Kubernetes and a future dedicated AI host | Accepted |
 
 ## Lifecycle
 
