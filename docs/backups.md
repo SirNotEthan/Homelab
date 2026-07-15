@@ -26,6 +26,9 @@ platform contains data that justifies the extra operational overhead.
 | Sealed Secrets controller key | Encrypted file backup | Private local storage | On rotation or controller replacement | Keep latest and prior key during migration | Local private backup exists |
 | Documents/photos | File backup | Local target first; off-site later if needed | Daily | TBD | Planned |
 | Grafana/app config | Export or declarative config | Git/backup target | On change | Version history | Planned |
+| Open WebUI data | PVC backup or app export | Backup target | TBD | TBD | Planned if chat/upload history is retained |
+| AI model cache | Re-download from model registry | None by default | On demand | N/A | Deferred |
+| Custom assistant memory | Export plus encrypted backup | Backup target | TBD | TBD | Planned before production use |
 
 Frequencies and retention are provisional until data value and available
 capacity are measured.
@@ -55,6 +58,9 @@ The off-site backup target evaluation is tracked by
 
 Platform service health checks and service-specific backup expectations are
 tracked in the [service catalogue](services.md).
+
+AI storage and cache requirements are tracked in the
+[local AI platform document](ai-platform.md).
 
 ## Never commit
 

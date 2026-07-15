@@ -142,6 +142,36 @@ The AI platform will likely contain a mix of reproducible and valuable state:
 | Generated images/audio/transcripts | User decision; document per workflow |
 | Custom assistant memory and skills | Critical once it becomes useful |
 
+## Storage, cache, and backup requirements
+
+The AI platform separates reproducible configuration, disposable caches, and
+state worth preserving.
+
+| Component | Data | Current storage | Backup stance |
+|---|---|---|---|
+| Ollama | Downloaded model files and manifests | `ollama-data` Longhorn PVC | Re-downloadable for now; do not back up until model download time or bandwidth becomes painful. |
+| Open WebUI | Users, settings, chat history, uploaded files, UI metadata | `open-webui-data` Longhorn PVC | Treat as important if chat history or uploaded files are kept. Add backup before relying on it for long-term memory. |
+| SearXNG | Runtime cache | Pod-local `emptyDir` | Disposable. |
+| SearXNG | Settings and secret reference | Git-managed manifests and SealedSecret | Git and Sealed Secrets controller key backup protect recovery. |
+| AI model registry and persona/skill files | Intended models, routing, prompts, skills, memory policy | Git | Git is the source of truth. |
+| Future ComfyUI | Workflows, custom nodes, selected generated assets | To be decided | Workflows are important; generated assets need an explicit retention decision. |
+| Future Stable Diffusion | Model checkpoints, LoRAs, generated images | Dedicated host or large local storage preferred | Model files are re-downloadable; custom assets and selected outputs need backup. |
+| Future Whisper | Input audio, transcripts, temporary model cache | To be decided | Transcripts may be important; raw audio retention should be deliberate. |
+| Future custom assistant memory | Long-term memory, notes, embeddings, tool state | To be decided | Critical once useful; must have backup, export, and delete process. |
+
+Current policy:
+
+- Keep AI Kubernetes persistent volumes on `longhorn-2replica`.
+- Keep downloaded model files out of Git and out of routine backup for now.
+- Prefer Git for reproducible AI configuration, prompts, skills, tool registry,
+  and model registry.
+- Treat Open WebUI data as user state, not as reproducible configuration.
+- Do not add image/audio generation storage until retention and cleanup rules
+  are documented.
+- If Ollama moves to a dedicated AI host, model cache storage moves with that
+  host and the Kubernetes service configuration should point Open WebUI at the
+  new runtime endpoint.
+
 ## Open questions
 
 - Is GPU acceleration available or planned?

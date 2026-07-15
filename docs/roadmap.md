@@ -83,7 +83,7 @@ complete only when its documentation and recovery path match the implementation.
   - [x] Define GPU/CPU placement and resource isolation
   - [x] Decide which AI services run in Kubernetes and which run directly on a
         dedicated host
-  - [ ] Define storage, model-cache, and backup requirements
+  - [x] Define storage, model-cache, and backup requirements
 - [ ] Deploy Ollama for local model serving
   - [x] Add GitOps manifests for Ollama
   - [x] Select initial text/code models

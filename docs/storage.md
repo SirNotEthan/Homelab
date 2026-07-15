@@ -13,6 +13,8 @@ verified before workloads are placed on them.
 | Ephemeral application data | Node-local | Safe to recreate |
 | Kubernetes persistent volumes | Longhorn | Replicated across eligible nodes |
 | Databases | Longhorn plus app-aware backup | Crash-consistent snapshots alone may be insufficient |
+| AI model cache | Longhorn initially; dedicated host storage later | Re-downloadable unless model size or bandwidth becomes painful |
+| AI user/workspace state | Longhorn plus app-aware backup | Open WebUI data and future assistant memory may become important |
 | Media and documents | To be decided | Capacity and performance requirements need measurement |
 | Backup copies | `hp-utility-01` plus off-site target | Separate from the cluster failure domain |
 
@@ -57,6 +59,7 @@ Longhorn defaults, but it is not the default class for new workloads.
 ## Open decisions
 
 - Long-term bulk storage platform
+- AI generated media and model-cache retention
 - Off-site backup destination deferred in
   [ADR-0009](decisions/0009-offsite-backups.md)
 - Encryption at rest requirements
