@@ -16,10 +16,10 @@ tools:
 
   - name: open-webui
     category: ai_workspace
-    status: pending_validation
+    status: deployed
     endpoint: https://ai.apps.lab.sirnotethan.uk
     access: private_ingress
-    purpose: Browser UI for local models and chats.
+    purpose: Browser UI for local models, chats, and SearXNG-backed web search.
 
   - name: kubernetes
     category: homelab_operations

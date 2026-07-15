@@ -14,6 +14,16 @@ The UI connects to the internal Ollama service:
 http://ollama.ai.svc.cluster.local:11434
 ```
 
+Web search is configured to use the internal SearXNG service:
+
+```text
+http://searxng.ai.svc.cluster.local/search?q=<query>&format=json
+```
+
+Open WebUI stores some settings after first launch. If web search does not
+appear after a rollout, enable it in the admin settings and use the SearXNG URL
+above.
+
 ## First login
 
 On the first visit, create the initial local administrator account. Store the

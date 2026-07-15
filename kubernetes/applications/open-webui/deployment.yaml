@@ -34,6 +34,18 @@ spec:
               value: qwen2.5-coder:1.5b
             - name: DEFAULT_LOCALE
               value: en
+            - name: ENABLE_WEB_SEARCH
+              value: "true"
+            - name: WEB_SEARCH_ENGINE
+              value: searxng
+            - name: SEARXNG_QUERY_URL
+              value: http://searxng.ai.svc.cluster.local/search?q=<query>&format=json
+            - name: WEB_SEARCH_RESULT_COUNT
+              value: "3"
+            - name: WEB_SEARCH_CONCURRENT_REQUESTS
+              value: "1"
+            - name: WEB_LOADER_CONCURRENT_REQUESTS
+              value: "2"
           ports:
             - name: http
               containerPort: 8080

@@ -86,18 +86,18 @@ complete only when its documentation and recovery path match the implementation.
   - [ ] Define storage, model-cache, and backup requirements
 - [ ] Deploy Ollama for local model serving
   - [x] Add GitOps manifests for Ollama
-  - [ ] Select initial text/code models
+  - [x] Select initial text/code models
   - [ ] Document model lifecycle and update policy
   - [ ] Add monitoring for model host resource usage
 - [ ] Deploy Open WebUI for private AI access
   - [x] Add GitOps manifests for Open WebUI
-  - [ ] Expose through private DNS, HTTPS ingress, and Tailscale-accessible
+  - [x] Expose through private DNS, HTTPS ingress, and Tailscale-accessible
         routing
   - [ ] Integrate with Authentik where practical
 - [ ] Deploy SearxNG for privacy-preserving search
   - [x] Add GitOps manifests for SearxNG
   - [ ] Restrict access to trusted users and services
-  - [ ] Connect it to local AI workflows for research/search augmentation
+  - [x] Connect it to local AI workflows for research/search augmentation
 - [ ] Evaluate image and audio AI services
   - [ ] Evaluate Stable Diffusion and ComfyUI for local image generation
   - [ ] Evaluate Whisper for local speech-to-text

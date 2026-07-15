@@ -14,6 +14,9 @@ data:
     search:
       safe_search: 0
       autocomplete: ""
+      formats:
+        - html
+        - json
 
     server:
       base_url: https://search.apps.lab.sirnotethan.uk/
