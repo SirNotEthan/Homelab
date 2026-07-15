@@ -97,6 +97,8 @@ Initial Ollama deployment posture:
 - Use Longhorn-backed storage for model files so the first deployment survives
   pod rescheduling on the AI node.
 - Start with small CPU-friendly models before testing larger workloads.
+- Keep recently used models warm with `OLLAMA_KEEP_ALIVE=30m`.
+- Record supported models and update/removal policy in `ai/models/`.
 
 Initial Open WebUI deployment posture:
 

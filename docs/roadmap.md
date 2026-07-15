@@ -87,7 +87,7 @@ complete only when its documentation and recovery path match the implementation.
 - [ ] Deploy Ollama for local model serving
   - [x] Add GitOps manifests for Ollama
   - [x] Select initial text/code models
-  - [ ] Document model lifecycle and update policy
+  - [x] Document model lifecycle and update policy
   - [ ] Add monitoring for model host resource usage
 - [ ] Deploy Open WebUI for private AI access
   - [x] Add GitOps manifests for Open WebUI

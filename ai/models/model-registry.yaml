@@ -37,3 +37,10 @@ runtime:
   default_provider: ollama
   ollama_service_url: http://ollama.ai.svc.cluster.local:11434
   ai_node: m700-03
+  keep_alive: 30m
+
+lifecycle_policy:
+  source_of_truth: ai/models/model-registry.yaml
+  model_weights_storage: ollama-data PVC
+  update_policy: Pull and smoke-test intentionally; do not rely on moving tags changing silently.
+  removal_policy: Remove only after the model is no longer a preferred route or UI default.
