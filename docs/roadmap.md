@@ -88,7 +88,7 @@ complete only when its documentation and recovery path match the implementation.
   - [x] Add GitOps manifests for Ollama
   - [x] Select initial text/code models
   - [x] Document model lifecycle and update policy
-  - [ ] Add monitoring for model host resource usage
+  - [x] Add monitoring for model host resource usage
 - [ ] Deploy Open WebUI for private AI access
   - [x] Add GitOps manifests for Open WebUI
   - [x] Expose through private DNS, HTTPS ingress, and Tailscale-accessible

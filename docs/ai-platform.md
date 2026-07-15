@@ -99,6 +99,8 @@ Initial Ollama deployment posture:
 - Start with small CPU-friendly models before testing larger workloads.
 - Keep recently used models warm with `OLLAMA_KEEP_ALIVE=30m`.
 - Record supported models and update/removal policy in `ai/models/`.
+- Monitor AI pod CPU and memory usage with the `Homelab AI Node` Grafana
+  dashboard.
 
 Initial Open WebUI deployment posture:
 

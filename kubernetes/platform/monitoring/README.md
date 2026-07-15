@@ -25,6 +25,21 @@ stored in Git. The Secret is reconciled from the encrypted SealedSecret under
 Prometheus, Alertmanager, and Grafana use the Longhorn-backed
 `longhorn-2replica` StorageClass.
 
+## Dashboards
+
+The Helm values include a `Homelab AI Node` Grafana dashboard for the first AI
+worker, `m700-03`.
+
+It tracks:
+
+- AI namespace CPU usage by pod;
+- AI namespace memory usage by pod;
+- AI CPU share of the node allocatable CPU;
+- AI memory share of the node allocatable memory.
+
+Use it to watch the impact of Ollama, Open WebUI, and SearXNG while testing
+local models.
+
 ## Validation
 
 ```bash

@@ -17,6 +17,189 @@ grafana:
       url: http://loki-gateway.logging.svc.cluster.local
       isDefault: false
       editable: true
+  dashboards:
+    default:
+      ai-node:
+        json: |
+          {
+            "annotations": {
+              "list": []
+            },
+            "editable": true,
+            "fiscalYearStartMonth": 0,
+            "graphTooltip": 0,
+            "links": [],
+            "panels": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "prometheus"
+                },
+                "fieldConfig": {
+                  "defaults": {
+                    "unit": "cores"
+                  },
+                  "overrides": []
+                },
+                "gridPos": {
+                  "h": 8,
+                  "w": 12,
+                  "x": 0,
+                  "y": 0
+                },
+                "id": 1,
+                "options": {
+                  "legend": {
+                    "displayMode": "list",
+                    "placement": "bottom"
+                  },
+                  "tooltip": {
+                    "mode": "single"
+                  }
+                },
+                "targets": [
+                  {
+                    "expr": "sum(rate(container_cpu_usage_seconds_total{node=\"m700-03\",namespace=\"ai\",container!=\"\",image!=\"\"}[5m])) by (pod)",
+                    "legendFormat": "{{pod}}",
+                    "refId": "A"
+                  }
+                ],
+                "title": "AI namespace CPU usage on m700-03",
+                "type": "timeseries"
+              },
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "prometheus"
+                },
+                "fieldConfig": {
+                  "defaults": {
+                    "unit": "bytes"
+                  },
+                  "overrides": []
+                },
+                "gridPos": {
+                  "h": 8,
+                  "w": 12,
+                  "x": 12,
+                  "y": 0
+                },
+                "id": 2,
+                "options": {
+                  "legend": {
+                    "displayMode": "list",
+                    "placement": "bottom"
+                  },
+                  "tooltip": {
+                    "mode": "single"
+                  }
+                },
+                "targets": [
+                  {
+                    "expr": "sum(container_memory_working_set_bytes{node=\"m700-03\",namespace=\"ai\",container!=\"\",image!=\"\"}) by (pod)",
+                    "legendFormat": "{{pod}}",
+                    "refId": "A"
+                  }
+                ],
+                "title": "AI namespace memory usage on m700-03",
+                "type": "timeseries"
+              },
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "prometheus"
+                },
+                "fieldConfig": {
+                  "defaults": {
+                    "unit": "percentunit"
+                  },
+                  "overrides": []
+                },
+                "gridPos": {
+                  "h": 8,
+                  "w": 12,
+                  "x": 0,
+                  "y": 8
+                },
+                "id": 3,
+                "options": {
+                  "legend": {
+                    "displayMode": "list",
+                    "placement": "bottom"
+                  },
+                  "tooltip": {
+                    "mode": "single"
+                  }
+                },
+                "targets": [
+                  {
+                    "expr": "sum(rate(container_cpu_usage_seconds_total{node=\"m700-03\",namespace=\"ai\",container!=\"\",image!=\"\"}[5m])) / sum(kube_node_status_allocatable{node=\"m700-03\",resource=\"cpu\"})",
+                    "legendFormat": "AI CPU / node allocatable",
+                    "refId": "A"
+                  }
+                ],
+                "title": "AI CPU share of m700-03",
+                "type": "timeseries"
+              },
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "prometheus"
+                },
+                "fieldConfig": {
+                  "defaults": {
+                    "unit": "percentunit"
+                  },
+                  "overrides": []
+                },
+                "gridPos": {
+                  "h": 8,
+                  "w": 12,
+                  "x": 12,
+                  "y": 8
+                },
+                "id": 4,
+                "options": {
+                  "legend": {
+                    "displayMode": "list",
+                    "placement": "bottom"
+                  },
+                  "tooltip": {
+                    "mode": "single"
+                  }
+                },
+                "targets": [
+                  {
+                    "expr": "sum(container_memory_working_set_bytes{node=\"m700-03\",namespace=\"ai\",container!=\"\",image!=\"\"}) / sum(kube_node_status_allocatable{node=\"m700-03\",resource=\"memory\"})",
+                    "legendFormat": "AI memory / node allocatable",
+                    "refId": "A"
+                  }
+                ],
+                "title": "AI memory share of m700-03",
+                "type": "timeseries"
+              }
+            ],
+            "refresh": "30s",
+            "schemaVersion": 39,
+            "tags": [
+              "homelab",
+              "ai",
+              "ollama"
+            ],
+            "templating": {
+              "list": []
+            },
+            "time": {
+              "from": "now-1h",
+              "to": "now"
+            },
+            "timepicker": {},
+            "timezone": "browser",
+            "title": "Homelab AI Node",
+            "uid": "homelab-ai-node",
+            "version": 1,
+            "weekStart": ""
+          }
   admin:
     existingSecret: grafana-admin
     passwordKey: admin-password
