@@ -1,10 +1,14 @@
-# Homepage
+# Homelab Core
 
-Homepage is the first user-facing platform dashboard deployed on the cluster.
+Homelab Core is the private admin dashboard and future Steward AI command
+center for the homelab.
+
+It replaces the stock Homepage dashboard while keeping the existing application
+name, namespace, service, ingress, and private URL.
 
 ## Exposure
 
-Homepage is exposed through the private application DNS namespace behind
+Homelab Core is exposed through the private application DNS namespace behind
 Traefik. TLS uses the existing wildcard application certificate Secret in the
 `homepage` namespace.
 
@@ -13,10 +17,22 @@ certificate-management bootstrap until secret management is implemented.
 
 ## Configuration
 
-The dashboard configuration is stored in `homepage-config` and mounted into the
-container as individual files. The logs directory is mounted as writable
-ephemeral storage because the Homepage image writes runtime logs under the
-configuration path.
+The first implementation is a static HTML/CSS/JavaScript application stored in
+the `homepage-config` ConfigMap and served by an unprivileged NGINX container.
+
+This is intentionally simple for the first build slice. It proves the visual
+direction and route replacement before introducing a full application build
+pipeline.
+
+Current screens:
+
+- Overview
+- AI Core
+- Memory and Skills
+
+The central Steward Core is currently implemented with HTML/CSS. A future
+version should replace it with a real Three.js or React Three Fiber orbital
+intelligence core.
 
 ## Validation
 
@@ -29,6 +45,5 @@ From a Windows client:
 
 ```powershell
 Resolve-DnsName homepage.apps.lab.sirnotethan.uk
-Invoke-WebRequest https://homepage.apps.lab.sirnotethan.uk/api/services -UseBasicParsing
+Invoke-WebRequest https://homepage.apps.lab.sirnotethan.uk -UseBasicParsing
 ```
-

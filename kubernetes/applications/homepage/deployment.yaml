@@ -15,40 +15,36 @@ spec:
     spec:
       containers:
         - name: homepage
-          image: ghcr.io/gethomepage/homepage:latest
+          image: docker.io/nginxinc/nginx-unprivileged:alpine
           imagePullPolicy: IfNotPresent
-          env:
-            - name: HOMEPAGE_CONFIG_DIR
-              value: /app/config
-            - name: HOMEPAGE_ALLOWED_HOSTS
-              value: homepage.apps.lab.sirnotethan.uk
           ports:
-            - containerPort: 3000
+            - name: http
+              containerPort: 8080
               protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 25m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
           volumeMounts:
             - name: config
-              mountPath: /app/config/settings.yaml
-              subPath: settings.yaml
-            - name: config
-              mountPath: /app/config/services.yaml
-              subPath: services.yaml
-            - name: config
-              mountPath: /app/config/widgets.yaml
-              subPath: widgets.yaml
-            - name: config
-              mountPath: /app/config/bookmarks.yaml
-              subPath: bookmarks.yaml
-            - name: config
-              mountPath: /app/config/kubernetes.yaml
-              subPath: kubernetes.yaml
-            - name: config
-              mountPath: /app/config/docker.yaml
-              subPath: docker.yaml
-            - name: logs
-              mountPath: /app/config/logs
+              mountPath: /usr/share/nginx/html/index.html
+              subPath: index.html
       volumes:
         - name: config
           configMap:
             name: homepage-config
-        - name: logs
-          emptyDir: {}
