@@ -27,6 +27,8 @@ ansible/.vault-password
 *.log
 
 node_modules/
+.next/
+*.tsbuildinfo
 
 .vscode/
 

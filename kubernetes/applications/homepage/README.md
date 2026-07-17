@@ -17,12 +17,18 @@ certificate-management bootstrap until secret management is implemented.
 
 ## Configuration
 
-The first implementation is a static HTML/CSS/JavaScript application stored in
-the `homepage-config` ConfigMap and served by an unprivileged NGINX container.
+Homelab Core is now served by the custom Next.js application in
+`/homepage`. The production image is built from `homepage/Dockerfile` and
+published to GitHub Container Registry as:
 
-This is intentionally simple for the first build slice. It proves the visual
-direction and route replacement before introducing a full application build
-pipeline.
+```text
+ghcr.io/sirnotethan/homelab-core:main
+```
+
+The interface uses React and React Three Fiber for the Steward Core orbital
+knowledge cluster. The visual direction is a cold cyan/teal private command
+center: deep navy panels, cyan-gray borders, pale cyan-white core glow, and
+teal operational accents.
 
 Current screens:
 
@@ -30,14 +36,10 @@ Current screens:
 - AI Core
 - Memory and Skills
 
-The central Steward Core is currently implemented with HTML/CSS. A future
-version should replace it with a real Three.js or React Three Fiber orbital
-intelligence core.
-
 ## Validation
 
 ```bash
-kubectl get pods,svc,ingress,configmap -n homepage -o wide
+kubectl get pods,svc,ingress -n homepage -o wide
 kubectl get application homepage -n argocd
 ```
 

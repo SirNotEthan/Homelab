@@ -1,0 +1,39 @@
+name: Build Homelab Core image
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - homepage/**
+      - .github/workflows/homepage-image.yml
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  image:
+    name: Build and publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Homelab Core
+        uses: docker/build-push-action@v7
+        with:
+          context: homepage
+          file: homepage/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/sirnotethan/homelab-core:main
+            ghcr.io/sirnotethan/homelab-core:${{ github.sha }}

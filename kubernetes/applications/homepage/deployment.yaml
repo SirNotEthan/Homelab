@@ -15,11 +15,11 @@ spec:
     spec:
       containers:
         - name: homepage
-          image: docker.io/nginxinc/nginx-unprivileged:alpine
-          imagePullPolicy: IfNotPresent
+          image: ghcr.io/sirnotethan/homelab-core:main
+          imagePullPolicy: Always
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 3000
               protocol: TCP
           readinessProbe:
             httpGet:
@@ -35,16 +35,8 @@ spec:
             periodSeconds: 30
           resources:
             requests:
-              cpu: 25m
-              memory: 64Mi
+              cpu: 75m
+              memory: 128Mi
             limits:
-              cpu: 250m
-              memory: 256Mi
-          volumeMounts:
-            - name: config
-              mountPath: /usr/share/nginx/html/index.html
-              subPath: index.html
-      volumes:
-        - name: config
-          configMap:
-            name: homepage-config
+              cpu: 500m
+              memory: 512Mi
