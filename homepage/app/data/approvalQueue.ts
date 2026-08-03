@@ -1,9 +1,9 @@
-import type { StewardStatusPayload } from "../lib/api-types";
+import type { RickStatusPayload } from "../lib/api-types";
 
 // In-memory mock store. Resets on server restart - stands in for a real
-// Steward state service (or a CRD/DB-backed store) once this route is wired
+// Rick state service (or a CRD/DB-backed store) once this route is wired
 // to the live agent.
-export const STEWARD_STATUS_STORE: StewardStatusPayload = {
+export const RICK_STATUS_STORE: RickStatusPayload = {
   disposition: "Calm, watchful, awaiting approval",
   focus: "Home Assistant rollout",
   mode: "observe",

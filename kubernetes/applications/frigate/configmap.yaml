@@ -15,23 +15,32 @@ data:
         type: cpu
 
     # go2rtc restreams the camera's RTSP feed so Frigate only opens one
-    # connection to the camera itself.
+    # connection to the camera itself. The C200 exposes two streams - pull
+    # both, since detect and record want different resolutions.
     go2rtc:
       streams:
         tapo_cam_1:
           - rtsp://CHANGE_ME_USER:CHANGE_ME_PASS@CHANGE_ME_CAMERA_IP:554/stream1
+        tapo_cam_1_sub:
+          - rtsp://CHANGE_ME_USER:CHANGE_ME_PASS@CHANGE_ME_CAMERA_IP:554/stream2
 
     cameras:
       tapo_cam_1:
         ffmpeg:
           inputs:
+            # Full 1080p stream - only used for recording, never decoded for
+            # detection, so it doesn't cost CPU on every frame.
             - path: rtsp://127.0.0.1:8554/tapo_cam_1
               roles:
-                - detect
                 - record
+            # 640x360 sub-stream - cheap enough to run object detection on
+            # CPU without saturating a core per camera.
+            - path: rtsp://127.0.0.1:8554/tapo_cam_1_sub
+              roles:
+                - detect
         detect:
-          width: 1280
-          height: 720
+          width: 640
+          height: 360
           fps: 5
         record:
           enabled: true

@@ -28,6 +28,12 @@ spec:
             # create your own account, then turn it back off.
             - name: SIGNUPS_ALLOWED
               value: "false"
+            # Lets addresses on this domain register even while SIGNUPS_ALLOWED
+            # is false. Only put a domain here that you personally control -
+            # never a shared provider (gmail.com etc.), since that would open
+            # registration to anyone with an account there.
+            - name: SIGNUPS_DOMAINS_WHITELIST
+              value: "CHANGE_ME_YOURDOMAIN.COM"
             - name: ADMIN_TOKEN
               valueFrom:
                 secretKeyRef:

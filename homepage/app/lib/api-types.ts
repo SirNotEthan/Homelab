@@ -75,10 +75,10 @@ export type HomepageEvent = {
   id: string;
   time: string;
   message: string;
-  source: "argocd" | "kubernetes" | "steward" | "authentik" | "backup" | "git";
+  source: "argocd" | "kubernetes" | "rick" | "authentik" | "backup" | "git";
 };
 
-export type StewardMode = "observe" | "diagnose" | "plan" | "teach" | "repair-proposal" | "execute";
+export type RickMode = "observe" | "diagnose" | "plan" | "teach" | "repair-proposal" | "execute";
 
 export type ApprovalItem = {
   id: string;
@@ -89,13 +89,33 @@ export type ApprovalItem = {
   risk: "low" | "medium" | "high";
 };
 
-export type StewardStatusPayload = {
+export type RickStatusPayload = {
   disposition: string;
   focus: string;
-  mode: StewardMode;
+  mode: RickMode;
   operatingMode: string;
   online: boolean;
   confidence: number;
   recentActions: { text: string; when: string }[];
   approvalQueue: ApprovalItem[];
+};
+
+export type ApplicationStatus = "healthy" | "attention" | "offline";
+
+export type ApplicationItem = {
+  id: string;
+  name: string;
+  group: string;
+  status: ApplicationStatus;
+  detail: string;
+  url: string;
+};
+
+export type ApplicationsPayload = {
+  apps: ApplicationItem[];
+};
+
+export type SettingsPayload = {
+  ntfyTopic: string;
+  theme: "dark";
 };

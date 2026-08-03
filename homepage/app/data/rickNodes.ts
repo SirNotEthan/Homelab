@@ -1,9 +1,9 @@
-// Steward Core data model - every particle in the 3D scene comes from here.
-// This is the single source of truth for both the visual core (StewardCore.tsx)
-// and the dashboard context panels (page.tsx) that key off the same ids.
+// What Rick knows - the knowledge graph behind the Infrastructure, Memory,
+// and Automation pages. This used to also drive a 3D visualization; that's
+// gone, but the underlying facts (confidence, trust, dependencies) are the
+// same data, just shown as plain rows now instead of particles.
 
-export type ParticleKind =
-  | "core"
+export type KnowledgeKind =
   | "skill"
   | "selfTaughtSkill"
   | "device"
@@ -11,10 +11,9 @@ export type ParticleKind =
   | "memory"
   | "tool"
   | "automation"
-  | "alert"
   | "document";
 
-export type ParticleCluster =
+export type KnowledgeCluster =
   | "intelligence"
   | "homelab"
   | "devices"
@@ -23,8 +22,6 @@ export type ParticleCluster =
   | "security"
   | "gitops"
   | "memory";
-
-export type OrbitBand = "inner" | "middle" | "outer" | "satellite";
 
 export type LinkType = "observes" | "controls" | "dependsOn" | "learnedFrom" | "securedBy" | "runsOn" | "backedUpBy";
 
@@ -38,94 +35,41 @@ export const LINK_TYPE_LABEL: Record<LinkType, string> = {
   backedUpBy: "backed up by"
 };
 
-export type ParticleLink = { target: string; type: LinkType };
+export type KnowledgeLink = { target: string; type: LinkType };
 
 export type AccessLevel = "read" | "write" | "control" | "none";
 
-export type StewardParticle = {
+export type KnowledgeItem = {
   id: string;
   label: string;
-  kind: ParticleKind;
-  cluster: ParticleCluster;
-  orbit: OrbitBand;
-  /** id of the anchor particle this one orbits, for satellite-tier particles. */
-  parentId?: string;
-  /** 0-100. Drives node size - how well-established this knowledge is. */
+  kind: KnowledgeKind;
+  cluster: KnowledgeCluster;
+  /** 0-100. How well-established this knowledge is. */
   confidence: number;
-  /** 0-100. Drives brightness - how actively Steward is using/watching this. */
-  activation: number;
-  /** 0-100. Drives motion regularity - low stability flickers/drifts. */
-  stability: number;
-  /** 0-100. Drives pulse speed - how much is happening here right now. */
-  energy: number;
-  /** 0-100. Drives color saturation - low trust reads dim/faint. */
+  /** 0-100. How much Rick trusts this source/finding. */
   trust: number;
-  /** What Steward can do to this system. Shown in the inspector. */
+  /** What Rick can do to this system. */
   access: AccessLevel;
-  /** Self-taught skills stay unconfirmed (shimmering) until you approve them. */
+  /** Self-taught skills stay unconfirmed until you approve them. */
   approved?: boolean;
+  /** id of the item this one is grouped under, e.g. a skill under "skills". */
+  parentId?: string;
   learnedAt?: string;
   source?: string;
   hostedOn?: string;
   status?: string;
-  links: ParticleLink[];
-  position: [number, number, number];
-  size: number;
+  links: KnowledgeLink[];
 };
 
-type OrbitSpec = { radius: number; tilt: number; yJitter: number; flatten: number };
-
-const ORBIT_SPEC: Record<Exclude<OrbitBand, "satellite">, OrbitSpec> = {
-  inner: { radius: 1.25, tilt: 0.6, yJitter: 0.22, flatten: 0.55 },
-  middle: { radius: 2.05, tilt: 1.4, yJitter: 0.42, flatten: 0.62 },
-  outer: { radius: 2.95, tilt: 2.3, yJitter: 0.55, flatten: 0.68 }
-};
-
-function ringPosition(
-  index: number,
-  count: number,
-  orbit: Exclude<OrbitBand, "satellite">,
-  confidence: number,
-  activation: number
-): [number, number, number] {
-  const spec = ORBIT_SPEC[orbit];
-  const angle = (index / count) * Math.PI * 2 + spec.tilt;
-  // Low-confidence knowledge drifts outward; high-activation knowledge sits
-  // closer to the core - radius is a function of what Steward knows, not
-  // a fixed ring.
-  const radius = spec.radius * (1 + ((100 - confidence) / 100) * 0.15) * (1 - (activation / 100) * 0.12);
-  const x = radius * Math.cos(angle);
-  const z = radius * Math.sin(angle) * spec.flatten;
-  const y = Math.sin(angle * 2 + spec.tilt) * spec.yJitter;
-  return [x, y, z];
-}
-
-/** Positions a small satellite particle in a loose halo around its parent anchor. */
-function satellitePosition(parentPosition: [number, number, number], index: number, count: number, confidence: number): [number, number, number] {
-  const localRadius = 0.28 + ((100 - confidence) / 100) * 0.18;
-  const angle = (index / count) * Math.PI * 2 + index * 0.7;
-  const tilt = (index % 3) * 0.6;
-  const x = parentPosition[0] + localRadius * Math.cos(angle);
-  const y = parentPosition[1] + Math.sin(angle * 1.7 + tilt) * localRadius * 0.5;
-  const z = parentPosition[2] + localRadius * Math.sin(angle);
-  return [x, y, z];
-}
-
-type ParticleSeed = Omit<StewardParticle, "position" | "size" | "links" | "orbit"> & {
-  links: ParticleLink[];
-};
-
-const INNER: (ParticleSeed & { orbit: "inner" })[] = [
+// Major systems - shown on Infrastructure/Automation and as the top-level
+// "Rick currently knows" list on Memory.
+const ANCHORS: KnowledgeItem[] = [
   {
     id: "reasoning",
     label: "Reasoning",
     kind: "service",
     cluster: "intelligence",
-    orbit: "inner",
     confidence: 97,
-    activation: 88,
-    stability: 90,
-    energy: 70,
     trust: 95,
     access: "control",
     learnedAt: "continuous",
@@ -142,11 +86,7 @@ const INNER: (ParticleSeed & { orbit: "inner" })[] = [
     label: "Memory",
     kind: "memory",
     cluster: "memory",
-    orbit: "inner",
     confidence: 92,
-    activation: 75,
-    stability: 92,
-    energy: 40,
     trust: 96,
     access: "write",
     learnedAt: "10m ago",
@@ -163,11 +103,7 @@ const INNER: (ParticleSeed & { orbit: "inner" })[] = [
     label: "Current Context",
     kind: "service",
     cluster: "intelligence",
-    orbit: "inner",
     confidence: 99,
-    activation: 95,
-    stability: 80,
-    energy: 85,
     trust: 90,
     access: "read",
     learnedAt: "just now",
@@ -183,11 +119,7 @@ const INNER: (ParticleSeed & { orbit: "inner" })[] = [
     label: "Skills",
     kind: "skill",
     cluster: "intelligence",
-    orbit: "inner",
     confidence: 94,
-    activation: 70,
-    stability: 85,
-    energy: 55,
     trust: 88,
     access: "control",
     learnedAt: "18m ago",
@@ -198,20 +130,13 @@ const INNER: (ParticleSeed & { orbit: "inner" })[] = [
       { target: "gitops", type: "runsOn" },
       { target: "kubernetes", type: "runsOn" }
     ]
-  }
-];
-
-const MIDDLE: (ParticleSeed & { orbit: "middle" })[] = [
+  },
   {
     id: "tools",
     label: "Tools",
     kind: "tool",
     cluster: "intelligence",
-    orbit: "middle",
     confidence: 85,
-    activation: 60,
-    stability: 88,
-    energy: 30,
     trust: 90,
     access: "control",
     learnedAt: "1mo ago",
@@ -227,11 +152,7 @@ const MIDDLE: (ParticleSeed & { orbit: "middle" })[] = [
     label: "Models",
     kind: "service",
     cluster: "intelligence",
-    orbit: "middle",
     confidence: 91,
-    activation: 82,
-    stability: 78,
-    energy: 65,
     trust: 85,
     access: "control",
     learnedAt: "6m ago",
@@ -249,11 +170,7 @@ const MIDDLE: (ParticleSeed & { orbit: "middle" })[] = [
     label: "Search",
     kind: "service",
     cluster: "intelligence",
-    orbit: "middle",
     confidence: 88,
-    activation: 55,
-    stability: 82,
-    energy: 35,
     trust: 80,
     access: "read",
     learnedAt: "10m ago",
@@ -269,11 +186,7 @@ const MIDDLE: (ParticleSeed & { orbit: "middle" })[] = [
     label: "GitOps",
     kind: "service",
     cluster: "gitops",
-    orbit: "middle",
     confidence: 96,
-    activation: 78,
-    stability: 90,
-    energy: 45,
     trust: 92,
     access: "write",
     learnedAt: "4m ago",
@@ -289,11 +202,7 @@ const MIDDLE: (ParticleSeed & { orbit: "middle" })[] = [
     label: "Kubernetes",
     kind: "service",
     cluster: "homelab",
-    orbit: "middle",
     confidence: 97,
-    activation: 85,
-    stability: 93,
-    energy: 50,
     trust: 95,
     access: "control",
     learnedAt: "2m ago",
@@ -309,11 +218,7 @@ const MIDDLE: (ParticleSeed & { orbit: "middle" })[] = [
     label: "Observability",
     kind: "service",
     cluster: "observability",
-    orbit: "middle",
     confidence: 95,
-    activation: 72,
-    stability: 88,
-    energy: 40,
     trust: 90,
     access: "read",
     learnedAt: "1m ago",
@@ -330,31 +235,20 @@ const MIDDLE: (ParticleSeed & { orbit: "middle" })[] = [
     label: "Identity",
     kind: "service",
     cluster: "security",
-    orbit: "middle",
     confidence: 96,
-    activation: 68,
-    stability: 95,
-    energy: 25,
     trust: 97,
     access: "read",
     learnedAt: "24h ago",
     source: "Authentik",
     status: "Online",
     links: [{ target: "kubernetes", type: "dependsOn" }]
-  }
-];
-
-const OUTER: (ParticleSeed & { orbit: "outer" })[] = [
+  },
   {
     id: "devices",
     label: "Devices",
     kind: "device",
     cluster: "devices",
-    orbit: "outer",
     confidence: 40,
-    activation: 20,
-    stability: 60,
-    energy: 15,
     trust: 55,
     access: "none",
     learnedAt: "not yet paired",
@@ -367,11 +261,7 @@ const OUTER: (ParticleSeed & { orbit: "outer" })[] = [
     label: "Home Automation",
     kind: "automation",
     cluster: "homeAutomation",
-    orbit: "outer",
     confidence: 35,
-    activation: 15,
-    stability: 45,
-    energy: 20,
     trust: 50,
     access: "none",
     learnedAt: "planned",
@@ -387,11 +277,7 @@ const OUTER: (ParticleSeed & { orbit: "outer" })[] = [
     label: "Documents",
     kind: "document",
     cluster: "memory",
-    orbit: "outer",
     confidence: 78,
-    activation: 40,
-    stability: 85,
-    energy: 20,
     trust: 82,
     access: "read",
     learnedAt: "10m ago",
@@ -407,11 +293,7 @@ const OUTER: (ParticleSeed & { orbit: "outer" })[] = [
     label: "Recovery",
     kind: "service",
     cluster: "homelab",
-    orbit: "outer",
     confidence: 88,
-    activation: 30,
-    stability: 90,
-    energy: 15,
     trust: 90,
     access: "read",
     learnedAt: "10:20",
@@ -427,11 +309,7 @@ const OUTER: (ParticleSeed & { orbit: "outer" })[] = [
     label: "Personal Knowledge",
     kind: "memory",
     cluster: "memory",
-    orbit: "outer",
     confidence: 90,
-    activation: 45,
-    stability: 88,
-    energy: 25,
     trust: 85,
     access: "write",
     learnedAt: "1w ago",
@@ -444,12 +322,8 @@ const OUTER: (ParticleSeed & { orbit: "outer" })[] = [
   }
 ];
 
-type SatelliteSeed = Omit<StewardParticle, "position" | "size" | "orbit"> & { parentId: string };
-
-// Every taught and self-taught skill gets its own particle in a "Skill
-// Lattice" orbiting the Skills anchor. Self-taught ones stay unapproved
-// (shimmering) until you confirm them.
-const SKILL_SATELLITES: SatelliteSeed[] = [
+// Individual taught / self-taught skills, grouped under the "skills" anchor.
+const SKILLS: KnowledgeItem[] = [
   {
     id: "skill-cluster-status",
     label: "cluster-status",
@@ -457,9 +331,6 @@ const SKILL_SATELLITES: SatelliteSeed[] = [
     cluster: "intelligence",
     parentId: "skills",
     confidence: 98,
-    activation: 60,
-    stability: 90,
-    energy: 30,
     trust: 92,
     access: "read",
     approved: true,
@@ -478,9 +349,6 @@ const SKILL_SATELLITES: SatelliteSeed[] = [
     cluster: "gitops",
     parentId: "skills",
     confidence: 94,
-    activation: 55,
-    stability: 88,
-    energy: 28,
     trust: 90,
     access: "write",
     approved: true,
@@ -499,9 +367,6 @@ const SKILL_SATELLITES: SatelliteSeed[] = [
     cluster: "gitops",
     parentId: "skills",
     confidence: 91,
-    activation: 45,
-    stability: 86,
-    energy: 25,
     trust: 88,
     access: "write",
     approved: true,
@@ -520,9 +385,6 @@ const SKILL_SATELLITES: SatelliteSeed[] = [
     cluster: "homelab",
     parentId: "skills",
     confidence: 93,
-    activation: 40,
-    stability: 89,
-    energy: 22,
     trust: 90,
     access: "control",
     approved: true,
@@ -541,9 +403,6 @@ const SKILL_SATELLITES: SatelliteSeed[] = [
     cluster: "homelab",
     parentId: "skills",
     confidence: 88,
-    activation: 20,
-    stability: 90,
-    energy: 15,
     trust: 90,
     access: "write",
     approved: true,
@@ -562,9 +421,6 @@ const SKILL_SATELLITES: SatelliteSeed[] = [
     cluster: "observability",
     parentId: "skills",
     confidence: 71,
-    activation: 50,
-    stability: 38,
-    energy: 55,
     trust: 62,
     access: "read",
     approved: false,
@@ -583,9 +439,6 @@ const SKILL_SATELLITES: SatelliteSeed[] = [
     cluster: "homelab",
     parentId: "skills",
     confidence: 58,
-    activation: 35,
-    stability: 30,
-    energy: 45,
     trust: 48,
     access: "none",
     approved: false,
@@ -604,9 +457,6 @@ const SKILL_SATELLITES: SatelliteSeed[] = [
     cluster: "gitops",
     parentId: "skills",
     confidence: 82,
-    activation: 30,
-    stability: 42,
-    energy: 40,
     trust: 68,
     access: "none",
     approved: false,
@@ -620,9 +470,9 @@ const SKILL_SATELLITES: SatelliteSeed[] = [
   }
 ];
 
-// Every remembered fact/preference gets its own small particle, denser and
-// closer to whichever anchor it's most relevant to.
-const MEMORY_SATELLITES: SatelliteSeed[] = [
+// Individual remembered facts/preferences, grouped under whichever anchor
+// they're most relevant to.
+const MEMORIES: KnowledgeItem[] = [
   {
     id: "memory-prefers-argocd",
     label: "Prefers Argo CD over Flux",
@@ -630,9 +480,6 @@ const MEMORY_SATELLITES: SatelliteSeed[] = [
     cluster: "memory",
     parentId: "memory",
     confidence: 96,
-    activation: 30,
-    stability: 90,
-    energy: 15,
     trust: 92,
     access: "read",
     learnedAt: "2d ago",
@@ -650,9 +497,6 @@ const MEMORY_SATELLITES: SatelliteSeed[] = [
     cluster: "memory",
     parentId: "memory",
     confidence: 90,
-    activation: 20,
-    stability: 88,
-    energy: 12,
     trust: 88,
     access: "read",
     learnedAt: "3d ago",
@@ -667,9 +511,6 @@ const MEMORY_SATELLITES: SatelliteSeed[] = [
     cluster: "memory",
     parentId: "memory",
     confidence: 98,
-    activation: 25,
-    stability: 92,
-    energy: 10,
     trust: 94,
     access: "read",
     learnedAt: "1w ago",
@@ -687,9 +528,6 @@ const MEMORY_SATELLITES: SatelliteSeed[] = [
     cluster: "memory",
     parentId: "memory",
     confidence: 99,
-    activation: 30,
-    stability: 93,
-    energy: 12,
     trust: 95,
     access: "read",
     learnedAt: "1w ago",
@@ -707,9 +545,6 @@ const MEMORY_SATELLITES: SatelliteSeed[] = [
     cluster: "memory",
     parentId: "tools",
     confidence: 100,
-    activation: 35,
-    stability: 95,
-    energy: 10,
     trust: 98,
     access: "read",
     learnedAt: "1mo ago",
@@ -727,9 +562,6 @@ const MEMORY_SATELLITES: SatelliteSeed[] = [
     cluster: "memory",
     parentId: "tools",
     confidence: 100,
-    activation: 40,
-    stability: 95,
-    energy: 12,
     trust: 98,
     access: "write",
     learnedAt: "1mo ago",
@@ -747,9 +579,6 @@ const MEMORY_SATELLITES: SatelliteSeed[] = [
     cluster: "memory",
     parentId: "skills",
     confidence: 91,
-    activation: 20,
-    stability: 87,
-    energy: 15,
     trust: 88,
     access: "read",
     learnedAt: "5h ago",
@@ -767,9 +596,6 @@ const MEMORY_SATELLITES: SatelliteSeed[] = [
     cluster: "memory",
     parentId: "memory",
     confidence: 94,
-    activation: 55,
-    stability: 82,
-    energy: 30,
     trust: 90,
     access: "read",
     learnedAt: "18m ago",
@@ -787,9 +613,6 @@ const MEMORY_SATELLITES: SatelliteSeed[] = [
     cluster: "memory",
     parentId: "memory",
     confidence: 87,
-    activation: 50,
-    stability: 78,
-    energy: 32,
     trust: 82,
     access: "read",
     learnedAt: "18m ago",
@@ -807,9 +630,6 @@ const MEMORY_SATELLITES: SatelliteSeed[] = [
     cluster: "memory",
     parentId: "memory",
     confidence: 52,
-    activation: 30,
-    stability: 25,
-    energy: 40,
     trust: 45,
     access: "read",
     learnedAt: "4d ago",
@@ -827,9 +647,6 @@ const MEMORY_SATELLITES: SatelliteSeed[] = [
     cluster: "memory",
     parentId: "skills",
     confidence: 63,
-    activation: 25,
-    stability: 40,
-    energy: 30,
     trust: 55,
     access: "read",
     learnedAt: "6d ago",
@@ -847,9 +664,6 @@ const MEMORY_SATELLITES: SatelliteSeed[] = [
     cluster: "memory",
     parentId: "home-automation",
     confidence: 41,
-    activation: 20,
-    stability: 35,
-    energy: 20,
     trust: 45,
     access: "read",
     learnedAt: "2d ago",
@@ -862,52 +676,13 @@ const MEMORY_SATELLITES: SatelliteSeed[] = [
   }
 ];
 
-function withLayout(seeds: (ParticleSeed & { orbit: Exclude<OrbitBand, "satellite"> })[], sizeRange: [number, number]): StewardParticle[] {
-  return seeds.map((seed, index) => ({
-    ...seed,
-    position: ringPosition(index, seeds.length, seed.orbit, seed.confidence, seed.activation),
-    size: sizeRange[0] + (seed.confidence / 100) * (sizeRange[1] - sizeRange[0])
-  }));
-}
+export const KNOWLEDGE_ITEMS: KnowledgeItem[] = [...ANCHORS, ...SKILLS, ...MEMORIES];
 
-function withSatelliteLayout(seeds: SatelliteSeed[], anchors: StewardParticle[], sizeRange: [number, number]): StewardParticle[] {
-  const byParent = new Map<string, SatelliteSeed[]>();
-  seeds.forEach((seed) => {
-    const list = byParent.get(seed.parentId) ?? [];
-    list.push(seed);
-    byParent.set(seed.parentId, list);
-  });
-
-  return seeds.map((seed) => {
-    const anchor = anchors.find((particle) => particle.id === seed.parentId);
-    const siblings = byParent.get(seed.parentId) ?? [seed];
-    const index = siblings.indexOf(seed);
-    const parentPosition: [number, number, number] = anchor?.position ?? [0, 0, 0];
-
-    return {
-      ...seed,
-      orbit: "satellite" as const,
-      position: satellitePosition(parentPosition, index, siblings.length, seed.confidence),
-      size: sizeRange[0] + (seed.confidence / 100) * (sizeRange[1] - sizeRange[0])
-    };
-  });
-}
-
-const ANCHORS: StewardParticle[] = [
-  ...withLayout(INNER, [0.1, 0.14]),
-  ...withLayout(MIDDLE, [0.08, 0.12]),
-  ...withLayout(OUTER, [0.07, 0.1])
-];
-
-export const STEWARD_PARTICLES: StewardParticle[] = [
-  ...ANCHORS,
-  ...withSatelliteLayout(SKILL_SATELLITES, ANCHORS, [0.035, 0.055]),
-  ...withSatelliteLayout(MEMORY_SATELLITES, ANCHORS, [0.025, 0.045])
-];
-
-export const DEFAULT_FOCUS_PARTICLE_ID = "home-automation";
-
-export function findParticle(id: string | null): StewardParticle | undefined {
+export function findKnowledgeItem(id: string | null): KnowledgeItem | undefined {
   if (!id) return undefined;
-  return STEWARD_PARTICLES.find((particle) => particle.id === id);
+  return KNOWLEDGE_ITEMS.find((item) => item.id === id);
+}
+
+export function childrenOf(id: string): KnowledgeItem[] {
+  return KNOWLEDGE_ITEMS.filter((item) => item.parentId === id);
 }

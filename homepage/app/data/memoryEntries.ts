@@ -6,7 +6,7 @@ export type MemoryRow = {
   source: string;
   linked: string;
   category: string;
-  /** id of the matching particle in stewardNodes.ts, for "View in Core". */
+  /** id of the matching item in rickNodes.ts - not yet wired into the UI. */
   particleId: string;
 };
 

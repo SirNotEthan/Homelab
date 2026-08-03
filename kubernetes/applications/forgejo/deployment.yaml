@@ -36,6 +36,11 @@ spec:
             # admin user create` command in the README instead.
             - name: GITEA__service__DISABLE_REGISTRATION
               value: "true"
+            # Config is fully env-driven, so skip the web install wizard -
+            # without this, admin CLI commands refuse to run because the
+            # instance considers itself uninstalled.
+            - name: GITEA__security__INSTALL_LOCK
+              value: "true"
           ports:
             - name: http
               containerPort: 3000

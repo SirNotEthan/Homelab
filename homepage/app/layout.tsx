@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Homelab Core - Steward",
-  description: "Private AI command center for the homelab"
+  title: "Homelab Core - Rick",
+  description: "Calm operational dashboard for the homelab"
 };
 
 export default function RootLayout({
