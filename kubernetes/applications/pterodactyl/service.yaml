@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pterodactyl-panel
+  namespace: pterodactyl
+spec:
+  type: ClusterIP
+  selector:
+    app: pterodactyl-panel
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

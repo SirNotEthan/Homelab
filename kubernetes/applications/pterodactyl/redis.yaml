@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pterodactyl-redis
+  namespace: pterodactyl
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: pterodactyl-redis
+  template:
+    metadata:
+      labels:
+        app: pterodactyl-redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:7-alpine
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: redis
+              containerPort: 6379
+              protocol: TCP
+          readinessProbe:
+            tcpSocket:
+              port: redis
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
+      volumes:
+        # Cache/session/queue only - fine to lose on restart, so no PVC.
+        - name: redis-data
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pterodactyl-redis
+  namespace: pterodactyl
+spec:
+  type: ClusterIP
+  selector:
+    app: pterodactyl-redis
+  ports:
+    - name: redis
+      port: 6379
+      targetPort: redis

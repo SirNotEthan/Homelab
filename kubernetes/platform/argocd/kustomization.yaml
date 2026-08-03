@@ -2,17 +2,26 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - argocd-access.yaml
+  - applications/adguard-home.yaml
   - applications/ai-namespace.yaml
   - applications/cert-manager-config.yaml
   - applications/cert-manager-secrets.yaml
+  - applications/forgejo.yaml
+  - applications/frigate.yaml
   - applications/homepage.yaml
   - applications/identity-authentik.yaml
   - applications/identity-secrets.yaml
+  - applications/jellyfin.yaml
   - applications/logging-alloy.yaml
   - applications/logging-loki.yaml
   - applications/monitoring.yaml
   - applications/monitoring-secrets.yaml
+  - applications/ntfy.yaml
   - applications/ollama.yaml
   - applications/open-webui.yaml
+  - applications/pterodactyl.yaml
   - applications/searxng.yaml
   - applications/sealed-secrets.yaml
+  - applications/stirling-pdf.yaml
+  - applications/uptime-kuma.yaml
+  - applications/vaultwarden.yaml

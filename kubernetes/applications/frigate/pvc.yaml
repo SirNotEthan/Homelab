@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: frigate-media
+  namespace: frigate
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn-2replica
+  resources:
+    requests:
+      # Recordings + snapshots. 7-day motion-only retention for one camera
+      # should comfortably fit; grow this if you add cameras or retention.
+      storage: 50Gi

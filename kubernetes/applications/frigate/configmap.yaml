@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frigate-config
+  namespace: frigate
+data:
+  config.yml: |
+    mqtt:
+      enabled: false
+
+    # No Coral/GPU yet - CPU detection only. This is fine for one low-frame-rate
+    # camera but will not scale to many cameras or high detection FPS.
+    detectors:
+      cpu1:
+        type: cpu
+
+    # go2rtc restreams the camera's RTSP feed so Frigate only opens one
+    # connection to the camera itself.
+    go2rtc:
+      streams:
+        tapo_cam_1:
+          - rtsp://CHANGE_ME_USER:CHANGE_ME_PASS@CHANGE_ME_CAMERA_IP:554/stream1
+
+    cameras:
+      tapo_cam_1:
+        ffmpeg:
+          inputs:
+            - path: rtsp://127.0.0.1:8554/tapo_cam_1
+              roles:
+                - detect
+                - record
+        detect:
+          width: 1280
+          height: 720
+          fps: 5
+        record:
+          enabled: true
+          retain:
+            days: 7
+            mode: motion
+        snapshots:
+          enabled: true
+          retain:
+            default: 14
+
+    version: 0.14

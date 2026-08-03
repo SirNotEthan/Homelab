@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frigate
+  namespace: frigate
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: frigate
+  template:
+    metadata:
+      labels:
+        app: frigate
+    spec:
+      containers:
+        - name: frigate
+          image: ghcr.io/blakeblackshear/frigate:stable
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 5000
+              protocol: TCP
+            - name: rtsp
+              containerPort: 8554
+              protocol: TCP
+            - name: webrtc-tcp
+              containerPort: 8555
+              protocol: TCP
+          readinessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 15
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+            limits:
+              # CPU detection is expensive - this is a starting point for one
+              # low-fps camera. Watch actual usage and adjust.
+              cpu: "3"
+              memory: 4Gi
+          volumeMounts:
+            - name: frigate-config
+              mountPath: /config/config.yml
+              subPath: config.yml
+            - name: frigate-media
+              mountPath: /media/frigate
+            - name: shm
+              mountPath: /dev/shm
+      volumes:
+        - name: frigate-config
+          configMap:
+            name: frigate-config
+        - name: frigate-media
+          persistentVolumeClaim:
+            claimName: frigate-media
+        - name: shm
+          # Frigate needs a larger /dev/shm than the container default for
+          # frame buffers - there is no k8s equivalent of `--shm-size`, so
+          # this is the standard workaround.
+          emptyDir:
+            medium: Memory
+            sizeLimit: 256Mi

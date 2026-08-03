@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pterodactyl-panel
+  namespace: pterodactyl
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: pterodactyl-panel
+  template:
+    metadata:
+      labels:
+        app: pterodactyl-panel
+    spec:
+      containers:
+        - name: panel
+          image: ghcr.io/pterodactyl/panel:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: APP_URL
+              value: https://panel.apps.lab.sirnotethan.uk
+            - name: APP_TIMEZONE
+              value: Etc/UTC
+            - name: APP_ENVIRONMENT_ONLY
+              value: "false"
+            - name: TRUSTED_PROXIES
+              value: "*"
+            - name: CACHE_DRIVER
+              value: redis
+            - name: SESSION_DRIVER
+              value: redis
+            - name: QUEUE_DRIVER
+              value: redis
+            - name: REDIS_HOST
+              value: pterodactyl-redis.pterodactyl.svc.cluster.local
+            - name: REDIS_PORT
+              value: "6379"
+            - name: DB_HOST
+              value: pterodactyl-mariadb.pterodactyl.svc.cluster.local
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_DATABASE
+              value: panel
+            - name: DB_USERNAME
+              value: pterodactyl
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pterodactyl-secrets
+                  key: DB_PASSWORD
+            - name: APP_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: pterodactyl-secrets
+                  key: APP_KEY
+            # No mail server wired up yet - log mail instead of failing.
+            - name: MAIL_DRIVER
+              value: log
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          readinessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 45
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          volumeMounts:
+            - name: pterodactyl-panel-var
+              mountPath: /app/var
+            - name: pterodactyl-panel-storage
+              mountPath: /app/storage
+      volumes:
+        - name: pterodactyl-panel-var
+          persistentVolumeClaim:
+            claimName: pterodactyl-panel-var
+        - name: pterodactyl-panel-storage
+          persistentVolumeClaim:
+            claimName: pterodactyl-panel-storage

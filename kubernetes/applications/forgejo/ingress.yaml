@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: forgejo
+  namespace: forgejo
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - git.apps.lab.sirnotethan.uk
+      secretName: apps-prod-wildcard-tls
+  rules:
+    - host: git.apps.lab.sirnotethan.uk
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: forgejo
+                port:
+                  number: 80

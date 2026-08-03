@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pterodactyl-mariadb
+  namespace: pterodactyl
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: pterodactyl-mariadb
+  template:
+    metadata:
+      labels:
+        app: pterodactyl-mariadb
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb:11
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MARIADB_DATABASE
+              value: panel
+            - name: MARIADB_USER
+              value: pterodactyl
+            - name: MARIADB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pterodactyl-secrets
+                  key: DB_PASSWORD
+            - name: MARIADB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pterodactyl-secrets
+                  key: DB_ROOT_PASSWORD
+          ports:
+            - name: mysql
+              containerPort: 3306
+              protocol: TCP
+          readinessProbe:
+            tcpSocket:
+              port: mysql
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: mysql
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          volumeMounts:
+            - name: pterodactyl-mariadb-data
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: pterodactyl-mariadb-data
+          persistentVolumeClaim:
+            claimName: pterodactyl-mariadb-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pterodactyl-mariadb
+  namespace: pterodactyl
+spec:
+  type: ClusterIP
+  selector:
+    app: pterodactyl-mariadb
+  ports:
+    - name: mysql
+      port: 3306
+      targetPort: mysql

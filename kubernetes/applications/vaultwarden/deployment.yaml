@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vaultwarden
+  namespace: vaultwarden
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: vaultwarden
+  template:
+    metadata:
+      labels:
+        app: vaultwarden
+    spec:
+      containers:
+        - name: vaultwarden
+          image: vaultwarden/server:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: DOMAIN
+              value: https://vault.apps.lab.sirnotethan.uk
+            - name: WEBSOCKET_ENABLED
+              value: "true"
+            # Off by default - see README to enable it just long enough to
+            # create your own account, then turn it back off.
+            - name: SIGNUPS_ALLOWED
+              value: "false"
+            - name: ADMIN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-secrets
+                  key: ADMIN_TOKEN
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          readinessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - name: vaultwarden-data
+              mountPath: /data
+      volumes:
+        - name: vaultwarden-data
+          persistentVolumeClaim:
+            claimName: vaultwarden-data

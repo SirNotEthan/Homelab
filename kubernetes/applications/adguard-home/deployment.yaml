@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adguard-home
+  namespace: adguard
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: adguard-home
+  template:
+    metadata:
+      labels:
+        app: adguard-home
+    spec:
+      # DNS on port 53 has no MetalLB LoadBalancer to bind to, so this pod
+      # binds directly to the node's network - point client/router DNS at
+      # whichever node has homelab.sirnotethan.uk/role=dns.
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      nodeSelector:
+        homelab.sirnotethan.uk/role: dns
+      containers:
+        - name: adguard-home
+          image: adguard/adguardhome:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: dns-udp
+              containerPort: 53
+              protocol: UDP
+            - name: dns-tcp
+              containerPort: 53
+              protocol: TCP
+            - name: setup
+              containerPort: 3000
+              protocol: TCP
+          readinessProbe:
+            tcpSocket:
+              port: setup
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: setup
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - name: adguard-conf
+              mountPath: /opt/adguardhome/conf
+            - name: adguard-work
+              mountPath: /opt/adguardhome/work
+      volumes:
+        - name: adguard-conf
+          persistentVolumeClaim:
+            claimName: adguard-conf
+        - name: adguard-work
+          persistentVolumeClaim:
+            claimName: adguard-work

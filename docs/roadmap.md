@@ -108,9 +108,47 @@ complete only when its documentation and recovery path match the implementation.
 - [ ] Build the custom home AI foundation
   - [x] Add initial AI model, persona, skill, memory, and tool registry files
   - [ ] Define skill-learning workflow and operating boundaries
+  - [ ] Evaluate a PAULA/ALERM-inspired Steward cognition lab
+    - [ ] Review `SPOOKEXE/neuron-model` as conceptual reference material
+    - [ ] Design Steward memory nodes with activation, confidence, stability,
+          energy, and source metadata
+    - [ ] Prototype a React Three Fiber cognition graph before considering any
+          Python research-service integration
   - [ ] Define tool/API access between the assistant, homelab services, and
         future home automation
   - [ ] Document privacy, logging, and retention rules for AI interactions
+
+## v0.7 - Application services
+
+- [ ] Deploy Jellyfin
+  - [x] Add GitOps manifests for Jellyfin
+  - [ ] Point the media PVC at a real library and complete setup
+- [ ] Deploy Frigate
+  - [x] Add GitOps manifests for Frigate (CPU detection, one Tapo camera)
+  - [ ] Set real camera RTSP credentials and validate the live feed
+  - [ ] Evaluate a Coral TPU or GPU for detection once usage is known
+- [ ] Deploy Pterodactyl Panel
+  - [x] Add GitOps manifests for the Panel, MariaDB, and Redis
+  - [ ] Run initial migration and create the admin account
+  - [ ] Stand up a Wings host outside the cluster and register a Node
+- [ ] Deploy Stirling PDF
+  - [x] Add GitOps manifests for Stirling PDF
+- [ ] Deploy AdGuard Home
+  - [x] Add GitOps manifests for AdGuard Home (`hostNetwork`, no MetalLB yet)
+  - [ ] Label a node `homelab.sirnotethan.uk/role=dns` and complete setup
+  - [ ] Decide whether AdGuard replaces or coexists with the dnsmasq role
+- [ ] Deploy ntfy and Uptime Kuma
+  - [x] Add GitOps manifests for ntfy (self-hosted push)
+  - [x] Add GitOps manifests for Uptime Kuma
+  - [ ] Subscribe a phone to an ntfy topic and wire it into Uptime Kuma
+  - [ ] Add monitors for the other application services in this milestone
+- [ ] Deploy Vaultwarden
+  - [x] Add GitOps manifests for Vaultwarden
+  - [ ] Create the admin account and disable open signups
+  - [ ] Confirm vault data is covered by the backup process
+- [ ] Deploy Forgejo
+  - [x] Add GitOps manifests for Forgejo (HTTPS-only, SQLite)
+  - [ ] Create the admin account and migrate/mirror first repositories
 
 ## v1.0 - Reliable personal cloud
 

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ntfy-config
+  namespace: ntfy
+data:
+  server.yml: |
+    base-url: "https://ntfy.apps.lab.sirnotethan.uk"
+    cache-file: "/var/cache/ntfy/cache.db"
+    auth-file: "/var/cache/ntfy/auth.db"
+    # Public by default, same trust model as the rest of this cluster
+    # (reachable only if *.apps.lab.sirnotethan.uk resolves for you).
+    # Anyone who knows/guesses a topic name can publish or subscribe to it -
+    # use a long random topic name for anything sensitive (see README).
+    auth-default-access: "read-write"
+    behind-proxy: true
+    attachment-cache-dir: "/var/cache/ntfy/attachments"

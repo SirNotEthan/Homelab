@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jellyfin-config
+  namespace: jellyfin
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn-2replica
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jellyfin-media
+  namespace: jellyfin
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn-2replica
+  resources:
+    # Starting size only - resize this PVC (or switch to an existing NFS/SMB
+    # media share) once you know how large your library actually is.
+    # Longhorn 2-replica storage doubles disk usage, which gets expensive
+    # fast for a media library - consider a 1-replica storage class if one
+    # exists in the cluster, since media is already backed by its source.
+    storage: 500Gi
