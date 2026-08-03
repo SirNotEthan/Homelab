@@ -31,9 +31,12 @@ once you've completed AdGuard's setup wizard and are happy with it.
 
 ## Access
 
-- Setup wizard / web UI: `http://<node-ip>:3000` on first boot, then also
-  reachable at `https://adguard.apps.lab.sirnotethan.uk` (routed through
-  Traefik to the same port).
+- Setup wizard: `http://<node-ip>:3000` - **only exists during first boot**,
+  before you complete the install wizard.
+- Ongoing web UI (after setup completes): `http://<node-ip>` (port 80) or
+  `https://adguard.apps.lab.sirnotethan.uk` (routed through Traefik to the
+  same port). AdGuard stops listening on 3000 once installed - don't expect
+  it to keep working after first run.
 - DNS: `<node-ip>:53` (UDP + TCP).
 - Namespace: `adguard`
 
@@ -47,6 +50,8 @@ once you've completed AdGuard's setup wizard and are happy with it.
    `dig @<node-ip> example.com` before changing anything network-wide.
 4. Only after that works, update your router/DHCP DNS setting to
    `<node-ip>` to actually start using it.
+5. From then on, manage AdGuard at `http://<node-ip>` (port 80) or the
+   `adguard.apps.lab.sirnotethan.uk` ingress, not port 3000.
 
 ## Storage
 

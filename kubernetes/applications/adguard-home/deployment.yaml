@@ -33,17 +33,21 @@ spec:
             - name: dns-tcp
               containerPort: 53
               protocol: TCP
-            - name: setup
-              containerPort: 3000
+            # Port 3000 only exists during the initial install wizard.
+            # Once setup completes, AdGuard serves the real web UI on 80 -
+            # probes must target that, not 3000, or kubelet will kill a
+            # perfectly healthy container every ~90s.
+            - name: http
+              containerPort: 80
               protocol: TCP
           readinessProbe:
             tcpSocket:
-              port: setup
+              port: http
             initialDelaySeconds: 10
             periodSeconds: 10
           livenessProbe:
             tcpSocket:
-              port: setup
+              port: http
             initialDelaySeconds: 30
             periodSeconds: 30
           resources:
