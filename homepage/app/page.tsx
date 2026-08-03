@@ -722,6 +722,8 @@ function SettingsScreen() {
   const [dirty, setDirty] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [testing, setTesting] = useState(false);
+  const [testResult, setTestResult] = useState<"ok" | "error" | null>(null);
 
   useEffect(() => {
     if (settings.data && !dirty) setTopic(settings.data.ntfyTopic);
@@ -741,6 +743,19 @@ function SettingsScreen() {
       setSaved(true);
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function onTest() {
+    setTesting(true);
+    setTestResult(null);
+    try {
+      const response = await fetch("/api/settings", { method: "POST" });
+      setTestResult(response.ok ? "ok" : "error");
+    } catch {
+      setTestResult("error");
+    } finally {
+      setTesting(false);
     }
   }
 
@@ -771,8 +786,21 @@ function SettingsScreen() {
           <button type="button" className="btn btn-primary" onClick={onSave} disabled={saving || !dirty}>
             {saving ? "Saving..." : "Save"}
           </button>
+          <button type="button" className="btn" onClick={onTest} disabled={testing || !topic || dirty}>
+            {testing ? "Sending..." : "Send test"}
+          </button>
         </div>
         {saved && <p className="subtle" style={{ marginTop: 8, color: "var(--good)" }}>Saved.</p>}
+        {testResult === "ok" && (
+          <p className="subtle" style={{ marginTop: 8, color: "var(--good)" }}>
+            Test push sent - check your phone.
+          </p>
+        )}
+        {testResult === "error" && (
+          <p className="subtle" style={{ marginTop: 8, color: "var(--bad)" }}>
+            Test push failed - is ntfy reachable and the topic correct?
+          </p>
+        )}
         <DataStatusLine status={settings} label="settings" />
       </div>
       <div className="panel panel-pad">

@@ -107,13 +107,12 @@ complete only when its documentation and recovery path match the implementation.
   - [ ] Evaluate Whisper for local speech-to-text
 - [ ] Build the custom home AI foundation
   - [x] Add initial AI model, persona, skill, memory, and tool registry files
+  - [x] Rename the assistant persona from Steward to Rick (dashboard, API
+        routes, data files)
+  - [x] Redesign the dashboard as a calm, flat SaaS-style interface; drop the
+        3D cognition-graph visualization in favor of progressive-disclosure
+        summary lists
   - [ ] Define skill-learning workflow and operating boundaries
-  - [ ] Evaluate a PAULA/ALERM-inspired Steward cognition lab
-    - [ ] Review `SPOOKEXE/neuron-model` as conceptual reference material
-    - [ ] Design Steward memory nodes with activation, confidence, stability,
-          energy, and source metadata
-    - [ ] Prototype a React Three Fiber cognition graph before considering any
-          Python research-service integration
   - [ ] Define tool/API access between the assistant, homelab services, and
         future home automation
   - [ ] Document privacy, logging, and retention rules for AI interactions
@@ -133,9 +132,9 @@ complete only when its documentation and recovery path match the implementation.
   - [ ] Stand up a Wings host outside the cluster and register a Node
 - [ ] Deploy Stirling PDF
   - [x] Add GitOps manifests for Stirling PDF
-- [ ] Deploy AdGuard Home
+- [x] Deploy AdGuard Home
   - [x] Add GitOps manifests for AdGuard Home (`hostNetwork`, no MetalLB yet)
-  - [ ] Label a node `homelab.sirnotethan.uk/role=dns` and complete setup
+  - [x] Label a node `homelab.sirnotethan.uk/role=dns` and complete setup
   - [ ] Decide whether AdGuard replaces or coexists with the dnsmasq role
 - [ ] Deploy ntfy and Uptime Kuma
   - [x] Add GitOps manifests for ntfy (self-hosted push)
@@ -144,11 +143,12 @@ complete only when its documentation and recovery path match the implementation.
   - [ ] Add monitors for the other application services in this milestone
 - [ ] Deploy Vaultwarden
   - [x] Add GitOps manifests for Vaultwarden
-  - [ ] Create the admin account and disable open signups
+  - [x] Create the admin account and disable open signups
   - [ ] Confirm vault data is covered by the backup process
 - [ ] Deploy Forgejo
   - [x] Add GitOps manifests for Forgejo (HTTPS-only, SQLite)
-  - [ ] Create the admin account and migrate/mirror first repositories
+  - [x] Create the admin account
+  - [ ] Migrate/mirror first repositories
 
 ## v1.0 - Reliable personal cloud
 

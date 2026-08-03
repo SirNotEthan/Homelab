@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { ApiEnvelope, SettingsPayload } from "../../lib/api-types";
 import { SETTINGS_STORE } from "../../data/settings";
+import { sendNtfy } from "../../lib/ntfy";
 
 export async function GET() {
   const body: ApiEnvelope<SettingsPayload> = {
@@ -24,4 +25,16 @@ export async function PATCH(request: Request) {
   };
 
   return NextResponse.json(body);
+}
+
+export async function POST() {
+  try {
+    await sendNtfy(SETTINGS_STORE.ntfyTopic, "Test push from Homelab Core settings.", {
+      title: "Homelab Core",
+      priority: "default"
+    });
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    return NextResponse.json({ ok: false, error: (error as Error).message }, { status: 502 });
+  }
 }
