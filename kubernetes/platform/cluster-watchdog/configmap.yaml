@@ -13,11 +13,14 @@ data:
     EXCLUDE_NAMESPACES="kube-system argocd cert-manager longhorn-system monitoring sealed-secrets cluster-watchdog"
 
     NTFY_URL="${NTFY_BASE_URL:-http://ntfy.ntfy.svc.cluster.local}/${NTFY_TOPIC:-}"
+    echo "NTFY_TOPIC is $([ -n "${NTFY_TOPIC:-}" ] && echo "set (len=${#NTFY_TOPIC})" || echo "UNSET"), NTFY_URL=$NTFY_URL"
 
     notify() {
       title="$1"; msg="$2"; prio="${3:-default}"
       [ -n "${NTFY_TOPIC:-}" ] || { echo "[notify skipped, no NTFY_TOPIC] $title: $msg"; return 0; }
-      curl -fsS -m 5 -X POST "$NTFY_URL" -H "Title: $title" -H "Priority: $prio" -d "$msg" >/dev/null || true
+      out=$(curl -sS -m 5 -w " [http_status=%{http_code}]" -X POST "$NTFY_URL" -H "Title: $title" -H "Priority: $prio" -d "$msg" 2>&1)
+      rc=$?
+      echo "[notify] $title -> curl_exit=$rc $out"
     }
 
     is_excluded() {
