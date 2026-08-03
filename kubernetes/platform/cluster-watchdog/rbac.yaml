@@ -1,0 +1,32 @@
+# Deliberately narrow: read pods/PVCs/events everywhere, but the only write
+# verbs granted are "delete" on Pods (to kick a crash-looping one so its
+# Deployment recreates it) and "patch" on Argo CD Applications (to request a
+# hard refresh). No Secrets access, no verbs on Deployments/Services/config,
+# nothing that could rewrite what's actually running.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cluster-watchdog
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "persistentvolumeclaims", "events"]
+    verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["delete"]
+  - apiGroups: ["argoproj.io"]
+    resources: ["applications"]
+    verbs: ["get", "list", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cluster-watchdog
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-watchdog
+subjects:
+  - kind: ServiceAccount
+    name: cluster-watchdog
+    namespace: cluster-watchdog

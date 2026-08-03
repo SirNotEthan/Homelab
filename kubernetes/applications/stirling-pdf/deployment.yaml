@@ -33,20 +33,25 @@ spec:
           readinessProbe:
             tcpSocket:
               port: http
-            initialDelaySeconds: 20
+            initialDelaySeconds: 40
             periodSeconds: 10
           livenessProbe:
             tcpSocket:
               port: http
-            initialDelaySeconds: 45
+            initialDelaySeconds: 90
             periodSeconds: 30
           resources:
+            # Stirling's "full" image starts a JVM, LibreOffice, Xvfb, and
+            # OCR tooling all at once - 1Gi isn't enough headroom for that
+            # combined startup burst and trips its own internal resource
+            # monitor, which aborts Spring Boot init before it ever binds
+            # port 8080 (exits cleanly, so it just looks like a hung probe).
             requests:
-              cpu: 250m
-              memory: 512Mi
-            limits:
-              cpu: "1"
+              cpu: 500m
               memory: 1Gi
+            limits:
+              cpu: "2"
+              memory: 2Gi
           volumeMounts:
             - name: stirling-pdf-config
               mountPath: /configs
