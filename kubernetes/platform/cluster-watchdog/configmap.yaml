@@ -29,52 +29,76 @@ data:
     }
 
     echo "=== cluster-watchdog run: $(date -u +%FT%TZ) ==="
+    echo "kubectl client: $(kubectl version --client -o json 2>&1 | tr -d '\n')"
 
     # 1. Argo CD apps that are Degraded or OutOfSync: request a hard refresh
     #    so Argo re-evaluates rather than sitting on a stale status, then
     #    alert either way - a manifest bug needs a human regardless.
-    kubectl get applications.argoproj.io -n argocd -o json 2>/dev/null |
-      jq -c '.items[] | {name: .metadata.name, sync: .status.sync.status, health: .status.health.status}' |
-      while read -r line; do
-        name=$(echo "$line" | jq -r .name)
-        sync=$(echo "$line" | jq -r .sync)
-        health=$(echo "$line" | jq -r .health)
-        if [ "$health" = "Degraded" ] || [ "$sync" = "OutOfSync" ]; then
-          kubectl annotate applications.argoproj.io "$name" -n argocd \
-            argocd.argoproj.io/refresh=hard --overwrite >/dev/null 2>&1
-          notify "Argo CD: $name" "sync=$sync health=$health - requested a hard refresh" high
-        fi
-      done
+    apps_json=$(kubectl get applications.argoproj.io -n argocd -o json)
+    apps_rc=$?
+    if [ "$apps_rc" -ne 0 ]; then
+      echo "ERROR: kubectl get applications.argoproj.io failed (exit $apps_rc)"
+    else
+      app_count=$(echo "$apps_json" | jq '.items | length')
+      echo "argo apps seen: $app_count"
+      echo "$apps_json" |
+        jq -c '.items[] | {name: .metadata.name, sync: .status.sync.status, health: .status.health.status}' |
+        while read -r line; do
+          name=$(echo "$line" | jq -r .name)
+          sync=$(echo "$line" | jq -r .sync)
+          health=$(echo "$line" | jq -r .health)
+          echo "  argo app: $name sync=$sync health=$health"
+          if [ "$health" = "Degraded" ] || [ "$sync" = "OutOfSync" ]; then
+            kubectl annotate applications.argoproj.io "$name" -n argocd \
+              argocd.argoproj.io/refresh=hard --overwrite >/dev/null 2>&1
+            notify "Argo CD: $name" "sync=$sync health=$health - requested a hard refresh" high
+          fi
+        done
+    fi
 
     # 2. Pods stuck CrashLoopBackOff for 5+ restarts, outside the excluded
     #    namespaces: delete so the owning Deployment/ReplicaSet recreates a
     #    clean pod. Restart count resets on the new pod, so this naturally
     #    only fires again after another 5 real crashes - no tight loop.
-    kubectl get pods -A -o json 2>/dev/null |
-      jq -c '.items[] | select(.status.containerStatuses != null) |
-        {ns: .metadata.namespace, name: .metadata.name,
-         reason: (.status.containerStatuses[0].state.waiting.reason // ""),
-         restarts: (.status.containerStatuses[0].restartCount // 0)}' |
-      while read -r line; do
-        ns=$(echo "$line" | jq -r .ns)
-        name=$(echo "$line" | jq -r .name)
-        reason=$(echo "$line" | jq -r .reason)
-        restarts=$(echo "$line" | jq -r .restarts)
-        if [ "$reason" = "CrashLoopBackOff" ] && [ "$restarts" -ge 5 ] && ! is_excluded "$ns"; then
-          kubectl delete pod "$name" -n "$ns" >/dev/null 2>&1
-          notify "Pod kicked: $ns/$name" "CrashLoopBackOff after $restarts restarts - deleted for a clean recreate" high
-        fi
-      done
+    pods_json=$(kubectl get pods -A -o json)
+    pods_rc=$?
+    if [ "$pods_rc" -ne 0 ]; then
+      echo "ERROR: kubectl get pods -A failed (exit $pods_rc)"
+    else
+      echo "$pods_json" |
+        jq -c '.items[] | select(.status.containerStatuses != null) |
+          {ns: .metadata.namespace, name: .metadata.name,
+           reason: (.status.containerStatuses[0].state.waiting.reason // ""),
+           restarts: (.status.containerStatuses[0].restartCount // 0)}' |
+        while read -r line; do
+          ns=$(echo "$line" | jq -r .ns)
+          name=$(echo "$line" | jq -r .name)
+          reason=$(echo "$line" | jq -r .reason)
+          restarts=$(echo "$line" | jq -r .restarts)
+          if [ "$reason" = "CrashLoopBackOff" ] && [ "$restarts" -ge 5 ] && ! is_excluded "$ns"; then
+            echo "  kicking pod: $ns/$name (restarts=$restarts)"
+            kubectl delete pod "$name" -n "$ns" >/dev/null 2>&1
+            notify "Pod kicked: $ns/$name" "CrashLoopBackOff after $restarts restarts - deleted for a clean recreate" high
+          fi
+        done
+    fi
 
     # 3. PVCs stuck Pending: almost always a manifest bug (see jellyfin's
     #    missing "requests:" wrapper) - can't be auto-fixed, just surfaced
     #    fast instead of silently blocking a pod for hours.
-    kubectl get pvc -A -o json 2>/dev/null |
-      jq -c '.items[] | select(.status.phase=="Pending") | {ns: .metadata.namespace, name: .metadata.name}' |
-      while read -r line; do
-        ns=$(echo "$line" | jq -r .ns)
-        name=$(echo "$line" | jq -r .name)
-        notify "PVC pending: $ns/$name" "Still Pending - likely a manifest or storage-class issue, needs a human" urgent
-      done
+    pvc_json=$(kubectl get pvc -A -o json)
+    pvc_rc=$?
+    if [ "$pvc_rc" -ne 0 ]; then
+      echo "ERROR: kubectl get pvc -A failed (exit $pvc_rc)"
+    else
+      echo "$pvc_json" |
+        jq -c '.items[] | select(.status.phase=="Pending") | {ns: .metadata.namespace, name: .metadata.name}' |
+        while read -r line; do
+          ns=$(echo "$line" | jq -r .ns)
+          name=$(echo "$line" | jq -r .name)
+          echo "  pvc pending: $ns/$name"
+          notify "PVC pending: $ns/$name" "Still Pending - likely a manifest or storage-class issue, needs a human" urgent
+        done
+    fi
 
     echo "=== cluster-watchdog run complete ==="
