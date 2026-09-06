@@ -24,5 +24,6 @@ resources:
   - applications/searxng.yaml
   - applications/sealed-secrets.yaml
   - applications/stirling-pdf.yaml
+  - applications/studentlens.yaml
   - applications/uptime-kuma.yaml
   - applications/vaultwarden.yaml

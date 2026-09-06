@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: studentlens
+  labels:
+    app.kubernetes.io/name: studentlens
+    homelab.sirnotethan.uk/workload: public-app

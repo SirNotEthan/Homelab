@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: studentlens-postgres
+  namespace: studentlens
+spec:
+  type: ClusterIP
+  selector:
+    app: studentlens-postgres
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: postgres
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: studentlens-postgres
+  namespace: studentlens
+spec:
+  serviceName: studentlens-postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app: studentlens-postgres
+  template:
+    metadata:
+      labels:
+        app: studentlens-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:17-alpine
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: POSTGRES_DB
+              value: studentlens
+            - name: POSTGRES_USER
+              value: studentlens
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: studentlens-postgres
+                  key: POSTGRES_PASSWORD
+          ports:
+            - name: postgres
+              containerPort: 5432
+          readinessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - studentlens
+                - -d
+                - studentlens
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - studentlens
+                - -d
+                - studentlens
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: longhorn-2replica
+        resources:
+          requests:
+            storage: 10Gi

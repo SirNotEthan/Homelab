@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: studentlens
+  namespace: studentlens
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - studentlens.net
+        - www.studentlens.net
+      secretName: studentlens-public-tls
+  rules:
+    - host: studentlens.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: studentlens
+                port:
+                  number: 80
+    - host: www.studentlens.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: studentlens
+                port:
+                  number: 80
