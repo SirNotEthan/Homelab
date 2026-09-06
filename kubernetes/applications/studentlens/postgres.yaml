@@ -37,6 +37,8 @@ spec:
               value: studentlens
             - name: POSTGRES_USER
               value: studentlens
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
