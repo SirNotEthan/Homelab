@@ -119,6 +119,12 @@ complete only when its documentation and recovery path match the implementation.
 
 ## v0.7 - Application services
 
+- [ ] Host StudentLens as a public application
+  - [x] Deploy StudentLens with PostgreSQL, Redis, and persistent uploads
+  - [x] Publish `studentlens.sirnotethan.uk` through Cloudflare Tunnel
+  - [x] Replace the Appwrite runtime with local PostgreSQL and storage
+  - [ ] Import and verify the legacy Appwrite dataset
+  - [ ] Verify migrated account recovery and application workflows
 - [ ] Deploy Jellyfin
   - [x] Add GitOps manifests for Jellyfin
   - [ ] Point the media PVC at a real library and complete setup

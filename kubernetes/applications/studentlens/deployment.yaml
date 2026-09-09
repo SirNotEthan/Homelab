@@ -15,6 +15,9 @@ spec:
       labels:
         app: studentlens
     spec:
+      securityContext:
+        fsGroup: 1001
+        fsGroupChangePolicy: OnRootMismatch
       initContainers:
         - name: database-schema
           image: ghcr.io/sirnotethan/studentlens:latest
