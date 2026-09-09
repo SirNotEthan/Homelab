@@ -1,7 +1,7 @@
 # StudentLens
 
 StudentLens is hosted as a public-facing Homelab application with its own
-namespace, PostgreSQL database, Redis instance, upload volume, certificate, and
+namespace, PostgreSQL database, Redis instance, persistent upload volume, and
 Traefik ingress.
 
 ## URLs
@@ -16,27 +16,21 @@ Traefik ingress.
 - Database: PostgreSQL on Longhorn
 - Cache/session store: Redis on Longhorn
 - Upload storage: Longhorn PVC mounted at `/app/uploads`
+- Public TLS for `studentlens.net`: Cloudflare Tunnel edge certificate
+- Private TLS for `studentlens.sirnotethan.uk`: cert-manager certificate
 
 ## Migration status
 
-The StudentLens backend has a local PostgreSQL schema and Appwrite export/import
-foundation. Runtime remains in Appwrite-backed mode until the model layer is
-migrated collection-by-collection.
+The StudentLens runtime and legacy Appwrite dataset are migrated to local
+PostgreSQL and persistent storage. The verified import contains 45 users, 42
+posts, 13 writer applications, one site-settings record, and five stored files.
+Twelve bookmarks whose source posts no longer exist were preserved in the
+private raw export and intentionally skipped.
 
-Current safe migration order:
-
-1. Users and profiles
-2. Posts
-3. Comments
-4. Bookmarks
-5. Writer applications
-6. Site settings
-7. Analytics and contact submissions
-8. Appwrite Storage files
-
-Passwords from Appwrite Auth should be treated as non-portable. Existing users
-should reset passwords after final cutover unless Google OAuth remains the only
-login path.
+All 45 imported Appwrite Argon2id password hashes are retained. A successful
+email/password login transparently upgrades the account to the application's
+native bcrypt format. Google OAuth accounts continue through the configured
+local callback.
 
 ## Reconcile
 

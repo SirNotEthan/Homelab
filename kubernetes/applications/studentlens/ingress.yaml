@@ -5,11 +5,6 @@ metadata:
   namespace: studentlens
 spec:
   ingressClassName: traefik
-  tls:
-    - hosts:
-        - studentlens.net
-        - www.studentlens.net
-      secretName: studentlens-public-tls
   rules:
     - host: studentlens.net
       http:
