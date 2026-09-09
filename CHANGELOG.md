@@ -10,6 +10,17 @@ follow [Semantic Versioning](https://semver.org/).
 
 - Argo CD GitOps bootstrap for Argo CD access, Homepage, and cert-manager
   issuer configuration.
+- Public StudentLens hosting with PostgreSQL, Redis, persistent uploads, and a
+  Cloudflare Tunnel route.
+- Appwrite export/import tooling for users, posts, writer applications, site
+  settings, and stored files.
+
+### Changed
+
+- Migrated the StudentLens runtime and legacy dataset from Appwrite to local
+  PostgreSQL and persistent storage.
+- Retained imported Appwrite Argon2id password hashes with transparent bcrypt
+  upgrades after successful local sign-in.
 
 ## [0.2.0] - 2026-07-11
 
