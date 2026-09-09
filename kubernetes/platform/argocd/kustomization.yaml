@@ -6,6 +6,7 @@ resources:
   - applications/ai-namespace.yaml
   - applications/cert-manager-config.yaml
   - applications/cert-manager-secrets.yaml
+  - applications/cloudflare-tunnel.yaml
   - applications/cluster-watchdog.yaml
   - applications/forgejo.yaml
   - applications/frigate.yaml
