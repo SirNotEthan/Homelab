@@ -8,6 +8,7 @@ Traefik ingress.
 
 - `https://studentlens.net`
 - `https://www.studentlens.net`
+- `https://studentlens.sirnotethan.uk`
 
 ## Runtime
 

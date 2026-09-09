@@ -10,8 +10,21 @@ spec:
         - studentlens.net
         - www.studentlens.net
       secretName: studentlens-public-tls
+    - hosts:
+        - studentlens.sirnotethan.uk
+      secretName: studentlens-sirnotethan-tls
   rules:
     - host: studentlens.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: studentlens
+                port:
+                  number: 80
+    - host: studentlens.sirnotethan.uk
       http:
         paths:
           - path: /
