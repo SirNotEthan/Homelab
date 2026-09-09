@@ -42,7 +42,9 @@ spec:
             - name: SECURE_COOKIES
               value: "true"
             - name: DATABASE_PROVIDER
-              value: appwrite
+              value: postgres
+            - name: UPLOAD_DIR
+              value: /app/uploads
             - name: REDIS_URL
               value: redis://studentlens-redis.studentlens.svc.cluster.local:6379
             - name: GOOGLE_CALLBACK_URL
