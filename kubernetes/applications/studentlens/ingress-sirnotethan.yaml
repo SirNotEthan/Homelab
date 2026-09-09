@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: studentlens-sirnotethan
+  namespace: studentlens
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - studentlens.sirnotethan.uk
+      secretName: studentlens-sirnotethan-tls
+  rules:
+    - host: studentlens.sirnotethan.uk
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: studentlens
+                port:
+                  number: 80
