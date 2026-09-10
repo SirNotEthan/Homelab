@@ -41,7 +41,7 @@ spec:
             - name: LOG_LEVEL
               value: info
             - name: CLIENT_URL
-              value: https://studentlens.net
+              value: https://studentlens.sirnotethan.uk
             - name: SECURE_COOKIES
               value: "true"
             - name: DATABASE_PROVIDER
@@ -51,7 +51,7 @@ spec:
             - name: REDIS_URL
               value: redis://studentlens-redis.studentlens.svc.cluster.local:6379
             - name: GOOGLE_CALLBACK_URL
-              value: https://studentlens.net/api/auth/google/callback
+              value: https://studentlens.sirnotethan.uk/api/auth/google/callback
             - name: SMTP_PORT
               value: "587"
             - name: SMTP_SECURE
