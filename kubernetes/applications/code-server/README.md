@@ -8,7 +8,7 @@ code-server provides a private VS Code-compatible development environment at
 - The service is intentionally absent from the Cloudflare Tunnel and public DNS.
 - Traefik terminates HTTPS using the private application wildcard certificate.
 - Native code-server password authentication remains enabled as a second layer.
-- A 20 GiB Longhorn volume persists the complete `/home/coder` directory,
+- A 20 GiB node-local volume persists the complete `/home/coder` directory,
   including repositories, editor settings, extensions, and terminal history.
 - The workload is placed on `m910q-01`, which has the most memory headroom.
 - The container is unprivileged and has no host filesystem, Kubernetes API, or
@@ -38,8 +38,9 @@ kubectl logs -n development deployment/code-server --tail=100
 ## Backup and recovery
 
 The `code-server-home` PVC contains all persistent editor state and working
-copies. Git remains the source of truth for committed work. Back up any
-uncommitted material before deleting the PVC.
+copies on `m910q-01`. It is deliberately not replicated. Git remains the source
+of truth for committed work, so push or separately back up any uncommitted
+material before deleting the PVC or rebuilding the node.
 
 To recover, restore the PVC or allow Argo CD to create an empty replacement,
 then clone the required repositories again. The SealedSecret recreates the

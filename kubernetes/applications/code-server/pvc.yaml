@@ -8,7 +8,9 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: longhorn-2replica
+  # Source code belongs in Git; using node-local storage avoids consuming two
+  # scarce Longhorn replicas for disposable working copies and editor caches.
+  storageClassName: local-path
   resources:
     requests:
       storage: 20Gi
