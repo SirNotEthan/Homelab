@@ -119,6 +119,10 @@ complete only when its documentation and recovery path match the implementation.
 
 ## v0.7 - Application services
 
+- [ ] Deploy a private browser-based development environment
+  - [x] Add code-server GitOps manifests with persistent workspace storage
+  - [x] Restrict exposure to private LAN and Tailscale DNS/ingress
+  - [ ] Validate iPad access and install the code-server PWA
 - [ ] Host StudentLens as a public application
   - [x] Deploy StudentLens with PostgreSQL, Redis, and persistent uploads
   - [x] Publish `studentlens.sirnotethan.uk` through Cloudflare Tunnel

@@ -8,6 +8,8 @@ follow [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Private code-server development environment with persistent Longhorn storage,
+  SealedSecret-managed login, HTTPS ingress, and iPad PWA documentation.
 - Argo CD GitOps bootstrap for Argo CD access, Homepage, and cert-manager
   issuer configuration.
 - Public StudentLens hosting with PostgreSQL, Redis, persistent uploads, and a
