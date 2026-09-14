@@ -122,6 +122,7 @@ complete only when its documentation and recovery path match the implementation.
 - [ ] Deploy a private browser-based development environment
   - [x] Add code-server GitOps manifests with persistent workspace storage
   - [x] Restrict exposure to private LAN and Tailscale DNS/ingress
+  - [x] Add a reproducible development image and iPad-oriented editor defaults
   - [ ] Validate iPad access and install the code-server PWA
 - [ ] Host StudentLens as a public application
   - [x] Deploy StudentLens with PostgreSQL, Redis, and persistent uploads

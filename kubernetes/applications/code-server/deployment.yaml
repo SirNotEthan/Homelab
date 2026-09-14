@@ -7,6 +7,7 @@ metadata:
     app.kubernetes.io/name: code-server
 spec:
   replicas: 1
+  revisionHistoryLimit: 2
   strategy:
     type: Recreate
   selector:
@@ -17,33 +18,66 @@ spec:
       labels:
         app.kubernetes.io/name: code-server
     spec:
+      automountServiceAccountToken: false
       nodeSelector:
         kubernetes.io/hostname: m910q-01
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
         - name: prepare-home
-          image: docker.io/library/busybox:1.38.0
+          image: ghcr.io/sirnotethan/homelab-code-server:0.1.0
+          imagePullPolicy: IfNotPresent
           command:
             - sh
             - -c
-            - install -d -m 0750 -o 1000 -g 1000 /home/coder/workspace /home/coder/.config /home/coder/.local
+            - |
+              install -d -m 0750 -o 1000 -g 1000 \
+                /home/coder/workspace \
+                /home/coder/.config \
+                /home/coder/.local/share/code-server/User
+              if [ -f /home/coder/.local/share/code-server/User/settings.json ]; then
+                jq -s '.[0] * .[1]' \
+                  /defaults/settings.json \
+                  /home/coder/.local/share/code-server/User/settings.json \
+                  > /tmp/settings.json
+                install -m 0644 -o 1000 -g 1000 \
+                  /tmp/settings.json \
+                  /home/coder/.local/share/code-server/User/settings.json
+              else
+                install -m 0644 -o 1000 -g 1000 \
+                  /defaults/settings.json \
+                  /home/coder/.local/share/code-server/User/settings.json
+              fi
+              if [ ! -f /home/coder/.local/share/code-server/User/keybindings.json ]; then
+                install -m 0644 -o 1000 -g 1000 \
+                  /defaults/keybindings.json \
+                  /home/coder/.local/share/code-server/User/keybindings.json
+              fi
           securityContext:
             runAsUser: 0
           volumeMounts:
             - name: home
               mountPath: /home/coder
+            - name: defaults
+              mountPath: /defaults
+              readOnly: true
       containers:
         - name: code-server
-          image: ghcr.io/coder/code-server:4.136.2
+          image: ghcr.io/sirnotethan/homelab-code-server:0.1.0
           imagePullPolicy: IfNotPresent
+          command:
+            - /usr/bin/code-server
           args:
             - --bind-addr
             - 0.0.0.0:8080
             - --auth
             - password
             - --disable-telemetry
+            - --reconnection-grace-time
+            - "21600"
             - /home/coder/workspace
           env:
             - name: PASSWORD
@@ -62,6 +96,11 @@ spec:
               port: http
             initialDelaySeconds: 10
             periodSeconds: 10
+          startupProbe:
+            tcpSocket:
+              port: http
+            failureThreshold: 30
+            periodSeconds: 5
           livenessProbe:
             tcpSocket:
               port: http
@@ -76,6 +115,9 @@ spec:
               memory: 4Gi
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
             runAsNonRoot: true
             runAsUser: 1000
             runAsGroup: 1000
@@ -86,3 +128,6 @@ spec:
         - name: home
           persistentVolumeClaim:
             claimName: code-server-home
+        - name: defaults
+          configMap:
+            name: code-server-defaults

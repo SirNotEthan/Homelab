@@ -10,6 +10,9 @@ follow [Semantic Versioning](https://semver.org/).
 
 - Private code-server development environment with persistent node-local storage,
   SealedSecret-managed login, HTTPS ingress, and iPad PWA documentation.
+- Reproducible code-server development image with Node.js, Python, Kubernetes
+  tooling, iPad-oriented defaults, longer reconnection grace, and ingress
+  isolation.
 - Argo CD GitOps bootstrap for Argo CD access, Homepage, and cert-manager
   issuer configuration.
 - Public StudentLens hosting with PostgreSQL, Redis, persistent uploads, and a
